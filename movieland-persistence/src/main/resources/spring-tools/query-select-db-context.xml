@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="getAllMoviesSQL" class="java.lang.String">
+              <constructor-arg value=" SELECT q.movie_name_eng
+                                            , q.movie_name_rus
+                                            , q.movie_id
+                                            , q.year
+                                            , q.rating
+                                            , GROUP_CONCAT(q2.description) as genre_description
+                                      FROM movie q
+                                      JOIN genre_movies q1
+                                        ON q.movie_id = q1.movie_id
+                                      JOIN genre q2
+                                        ON q2.genre_id = q1.genre_id
+                                    GROUP BY movie_name_eng"/>
+  </bean>
+
+    <bean id="getMovieById" class="java.lang.String">
+        <constructor-arg value=" SELECT q.movie_name_rus
+                                      , q.movie_name_eng
+                                      , q.movie_id
+                                      , q.year
+                                      , q.rating
+                                      , GROUP_CONCAT(DISTINCT q2.description) as genre_description
+                                      , GROUP_CONCAT(DISTINCT q4.country_name) as country_names
+                                FROM movie q
+                                LEFT JOIN genre_movies q1
+                                    ON q.movie_id = q1.movie_id
+                                LEFT JOIN genre q2
+                                    ON q2.genre_id = q1.genre_id
+                                LEFT JOIN countries_movie_mapper q3
+                                    ON q3.movie_id = q.movie_id
+                                LEFT JOIN countries q4
+                                    ON q4.country_id = q3.country_id
+                                LEFT JOIN review q5
+                                  ON q5.movie_id = q1.movie_id
+                                  WHERE q1.movie_id = ?
+                                  GROUP BY q5.review_id
+                                  LIMIT 1"/>
+    </bean>
+
+
+    <bean id="getReviewById" class="java.lang.String">
+        <constructor-arg value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r where r.movie_id = ? LIMIT 2"/>
+    </bean>
+
+    <bean id="getAllGenresSQL" class="java.lang.String">
+        <constructor-arg value="select g.genre_id, g.description from genre g"/>
+    </bean>
+
+</beans>

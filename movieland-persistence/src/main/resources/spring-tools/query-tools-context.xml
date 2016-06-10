@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="insertUserSQL" class="java.lang.String">
+              <constructor-arg value="INSERT INTO user (user_id,user_name, user_email, user_login) VALUES (?, ?, ?, ?);"/>
+       </bean>
+
+       <bean id="insertReviewSQL" class="java.lang.String">
+              <constructor-arg value="INSERT INTO review (review_id, user_id, movie_id, review_text) VALUES (?, ?, ?, ?);"/>
+       </bean>
+
+       <bean id="insertMovieSQL" class="java.lang.String">
+              <constructor-arg value="INSERT INTO movie (movie_id, movie_name_rus, movie_name_eng, year, description, rating, price) VALUES (?,?,?,?,?,?,?);"/>
+       </bean>
+
+       <bean id="insertGenreMovieSQL" class="java.lang.String">
+              <constructor-arg value="INSERT INTO genre_movies (genre_id,movie_id) VALUES (?,?);"/>
+       </bean>
+
+       <bean id="insertGenreSQL" class="java.lang.String">
+              <constructor-arg value="INSERT INTO genre(genre_id,description) VALUES (?,?);"/>
+       </bean>
+
+       <bean id="insertCountryMovieSQL" class="java.lang.String">
+              <constructor-arg value="INSERT INTO countries_movie_mapper(country_id, movie_id) VALUES (?, ?);"/>
+       </bean>
+
+       <bean id="insertCountrySQL" class="java.lang.String">
+              <constructor-arg value="INSERT INTO countries(country_id, country_name) VALUES (?, ?);"/>
+       </bean>
+
+</beans>
