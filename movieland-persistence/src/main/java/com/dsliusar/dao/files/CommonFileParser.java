@@ -1,18 +1,34 @@
 package com.dsliusar.dao.files;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-@Configuration
-public class CommonFileParser {
+@Component
+public class CommonFileParser implements ResourceLoaderAware {
+
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     private static final String PROJECT_ENCODING = "UTF-8";
 
-    public BufferedReader readFromFile(String inFilePath) throws FileNotFoundException, UnsupportedEncodingException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(inFilePath).getFile());
-        return new BufferedReader(new InputStreamReader(new FileInputStream(file), PROJECT_ENCODING));
+    public BufferedReader readFromFile(String inFilePath) throws IOException {
+        Resource resourceFilePath = resourceLoader.getResource(inFilePath);
+        System.out.println(resourceFilePath);
+        InputStream in = resourceFilePath.getInputStream();
+        return new BufferedReader(new InputStreamReader(in, PROJECT_ENCODING));
     }
 
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+
+    }
 }

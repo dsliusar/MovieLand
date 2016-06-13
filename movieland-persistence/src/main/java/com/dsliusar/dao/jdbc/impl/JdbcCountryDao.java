@@ -2,7 +2,7 @@ package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.CountryDao;
 import com.dsliusar.entity.Country;
-import com.dsliusar.dao.files.CountryParser;
+import com.dsliusar.dao.files.impl.CountryParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +30,11 @@ public class JdbcCountryDao implements CountryDao {
 
     @Override
     public void insert() {
-        truncateCommon(jdbcTemplate, "countries");
         LOGGER.info("Start populating Countries Table");
         Map<String,Country> countryMap = countriesParser.getCountryMap();
         for (Map.Entry<String, Country> country : countryMap.entrySet()) {
-                jdbcTemplate.update(insertCountrySQL, new Object[]{
-                                                    country.getValue().getCountryId(),
-                                                    country.getValue().getCountryName()});
+                jdbcTemplate.update(insertCountrySQL,country.getValue().getCountryId(),
+                                                     country.getValue().getCountryName());
           LOGGER.info("Next rows were inserted into counties" + country);
         }
     }

@@ -1,8 +1,10 @@
-package com.dsliusar.dao.files;
+package com.dsliusar.dao.files.impl;
 
+import com.dsliusar.dao.files.CommonFileParser;
 import com.dsliusar.entity.Genre;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,11 +12,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+@Component
 public class GenreFileParser {
 
     @Value("${users.genrePath}")
     private String filePath;
+
+
+    @Autowired
+    private CommonFileParser commonFileParser;
 
     private Map<String,Genre> genreHashMap = new HashMap<>();
 
@@ -23,7 +29,7 @@ public class GenreFileParser {
         String fileLine;
         int i = 0;
         try {
-            BufferedReader bufReader = new CommonFileParser().readFromFile(filePath);
+            BufferedReader bufReader = commonFileParser.readFromFile(filePath);
             while ((fileLine = bufReader.readLine()) != null) {
                 i++;
                 Genre genre = returnGenre();

@@ -3,8 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+       <bean id = "createTablesSQLPath" class="java.lang.String">
+              <constructor-arg value="${path.sql.create}"/>
+       </bean>
+
+
+
        <bean id="insertUserSQL" class="java.lang.String">
-              <constructor-arg value="INSERT INTO user (user_id,user_name, user_email, user_login) VALUES (?, ?, ?, ?);"/>
+              <constructor-arg value="INSERT INTO user (user_id, user_name, user_email, user_password) VALUES (?, ?, ?, ?);"/>
        </bean>
 
        <bean id="insertReviewSQL" class="java.lang.String">

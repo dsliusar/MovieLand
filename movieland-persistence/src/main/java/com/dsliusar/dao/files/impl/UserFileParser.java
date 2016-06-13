@@ -1,8 +1,10 @@
-package com.dsliusar.dao.files;
+package com.dsliusar.dao.files.impl;
 
+import com.dsliusar.dao.files.CommonFileParser;
 import com.dsliusar.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,21 +12,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+@Component
 public class UserFileParser {
 
     @Value("${users.filePath}")
     private String filePath;
 
+    @Autowired
+    private CommonFileParser commonFileParser;
     private Map<String, User> userMap = new HashMap<>();
 
-    public void ParseUsersIntoList() {
+    public Map<String, User> ParseUsersIntoList() {
         String fileLine;
         int sequenceUser = 0;
         int counter = 0;
         String userName = "";
         try {
-            BufferedReader bufReader = new CommonFileParser().readFromFile(filePath);
+            BufferedReader bufReader = commonFileParser.readFromFile(filePath);
             User user = returnUser();
             while ((fileLine = bufReader.readLine()) != null) {
                 if (counter == 0) {
@@ -38,7 +42,7 @@ public class UserFileParser {
                 } else if (counter == 2) {
                     user.setUserEmail(fileLine);
                 } else if (counter == 3) {
-                    user.setUserLogin(fileLine);
+                    user.setUserPassword(fileLine);
                 }
                 counter++;
 
@@ -54,6 +58,7 @@ public class UserFileParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return userMap;
     }
 
     public  Map<String, User> getParsedUserMap(){

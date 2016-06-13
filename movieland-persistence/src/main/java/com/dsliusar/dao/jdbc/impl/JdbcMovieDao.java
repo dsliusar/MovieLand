@@ -4,7 +4,7 @@ import com.dsliusar.dao.MovieDao;
 import com.dsliusar.dao.jdbc.mapper.AllMovieMapper;
 import com.dsliusar.dao.jdbc.mapper.SingleMovieMapper;
 import com.dsliusar.entity.Movie;
-import com.dsliusar.dao.files.MovieFileParser;
+import com.dsliusar.dao.files.impl.MovieFileParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Red1 on 6/7/2016.
- */
 @Repository
 public class JdbcMovieDao implements MovieDao {
+
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -38,23 +36,18 @@ public class JdbcMovieDao implements MovieDao {
 
     @Override
     public void insert() {
-        truncateCommon(jdbcTemplate,"movie");
-
         LOGGER.info("Start inserting into Movie table ");
-
         movieFileParser.ParseMoviesIntoList();
         Map<String,Movie> moviesMap = movieFileParser.getParsedMovieMap();
 
         for (Map.Entry<String, Movie> arrMovie : moviesMap.entrySet()) {
-                jdbcTemplate.update(insertMovieSQL,new Object[]{
-                                        arrMovie.getValue().getMovieId(),
-                                        arrMovie.getValue().getMovieNameRus(),
-                                        arrMovie.getValue().getMovieNameeEng(),
-                                        arrMovie.getValue().getYear(),
-                                        arrMovie.getValue().getDesciprtion(),
-                                        arrMovie.getValue().getRating(),
-                                        arrMovie.getValue().getPrice()
-                                        });
+                jdbcTemplate.update(insertMovieSQL, arrMovie.getValue().getMovieId(),
+                                                    arrMovie.getValue().getMovieNameRus(),
+                                                    arrMovie.getValue().getMovieNameeEng(),
+                                                    arrMovie.getValue().getYear(),
+                                                    arrMovie.getValue().getDesciprtion(),
+                                                    arrMovie.getValue().getRating(),
+                                                    arrMovie.getValue().getPrice());
               LOGGER.info("Next rows were inserted into Movies " + arrMovie);
                 }
     }

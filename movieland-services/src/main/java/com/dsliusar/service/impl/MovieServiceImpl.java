@@ -46,7 +46,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie getMovieById(int id) {
         Movie movie = movieDao.getById(id);
         List<String> reviewTextList = new ArrayList<>();
-        for (Review review :reviewDao.getReviewsByMovieId(movie.getMovieId()) ){
+        for (Review review : reviewDao.getReviewsByMovieId(movie.getMovieId()) ){
             reviewTextList.add(review.getReviewText());
         }
         movie.setReviewText(reviewTextList);

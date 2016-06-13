@@ -1,5 +1,6 @@
-package com.dsliusar.dao.files;
+package com.dsliusar.dao.files.impl;
 
+import com.dsliusar.dao.files.CommonFileParser;
 import com.dsliusar.entity.Genre;
 import com.dsliusar.entity.GenreMovie;
 import com.dsliusar.entity.Movie;
@@ -21,6 +22,9 @@ public class MovieFileParser {
 
     @Autowired
     private CountryParser countriesParser;
+
+    @Autowired
+    private CommonFileParser commonFileParser;
 
     @Value("${users.moviePath}")
     private String filePath;
@@ -55,7 +59,7 @@ public class MovieFileParser {
         String strLine;
         try {
             Movie movie = getNewMovie();
-            BufferedReader bufReader = new CommonFileParser().readFromFile(filePath);
+            BufferedReader bufReader = commonFileParser.readFromFile(filePath);
             while ((strLine = bufReader.readLine()) != null) {
 
                 if (lineCounter == 0) {

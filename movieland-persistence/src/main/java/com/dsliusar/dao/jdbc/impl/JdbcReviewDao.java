@@ -2,7 +2,7 @@ package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.ReviewDao;
 import com.dsliusar.entity.Review;
-import com.dsliusar.dao.files.ReviewFileParser;
+import com.dsliusar.dao.files.impl.ReviewFileParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,6 @@ public class JdbcReviewDao implements ReviewDao {
     @Override
     public void insert() {
         LOGGER.info("Start populating Review Table");
-        truncateCommon(jdbcTemplate, "review");
-
         reviewFileParser.parseReviewIntoList();
         List<Review> reviewList = reviewFileParser.reviewList();
         for (Review arrReview : reviewList) {

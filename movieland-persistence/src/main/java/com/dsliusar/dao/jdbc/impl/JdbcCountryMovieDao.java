@@ -2,7 +2,7 @@ package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.CountryMovieDao;
 import com.dsliusar.entity.CountriesMovie;
-import com.dsliusar.dao.files.CountryMovieParser;
+import com.dsliusar.dao.files.impl.CountryMovieParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +31,7 @@ public class JdbcCountryMovieDao implements CountryMovieDao {
 
     @Override
     public void insert() {
-        truncateCommon(jdbcTemplate, "countries_movie_mapper");
-
         LOGGER.info("Start populating countries_movie_mapper table");
-
         List<CountriesMovie> countriesMovieList = countryMovieParser.returnMovieCountryList();
         for (CountriesMovie countriesMovie : countriesMovieList) {
                 jdbcTemplate.update(insertCountryMovieSQL, new Object[]{

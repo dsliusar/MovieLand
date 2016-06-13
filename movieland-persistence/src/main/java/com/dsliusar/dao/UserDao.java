@@ -1,6 +1,9 @@
 package com.dsliusar.dao;
 
-public interface UserDao  extends CommonDao {
-     public void insert();
+import com.dsliusar.entity.User;
+import java.util.Map;
+
+public interface UserDao{
+     void insert(Map<String, User> userMap);
 
 }

@@ -5,7 +5,7 @@ public class User {
     private int userId;
     private String userName;
     private String userEmail;
-    private String userLogin;
+    private String userPassword;
 
     @Override
     public String toString() {
@@ -13,7 +13,7 @@ public class User {
                 "userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", userEmail='" + userEmail + '\'' +
-                ", userLogin='" + userLogin + '\'' +
+                ", userPassword='" + userPassword + '\'' +
                 '}';
     }
 
@@ -26,7 +26,7 @@ public class User {
 
         if (userId != user.userId) return false;
         if (userEmail != null ? !userEmail.equals(user.userEmail) : user.userEmail != null) return false;
-        if (userLogin != null ? !userLogin.equals(user.userLogin) : user.userLogin != null) return false;
+        if (userPassword != null ? !userPassword.equals(user.userPassword) : user.userPassword != null) return false;
         if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
 
         return true;
@@ -37,7 +37,7 @@ public class User {
         int result = userId;
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
         result = 31 * result + (userEmail != null ? userEmail.hashCode() : 0);
-        result = 31 * result + (userLogin != null ? userLogin.hashCode() : 0);
+        result = 31 * result + (userPassword != null ? userPassword.hashCode() : 0);
         return result;
     }
 
@@ -65,11 +65,11 @@ public class User {
         this.userEmail = userEmail;
     }
 
-    public String getUserLogin() {
-        return userLogin;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 }

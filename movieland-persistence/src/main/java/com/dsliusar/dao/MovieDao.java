@@ -4,7 +4,7 @@ import com.dsliusar.entity.Movie;
 
 import java.util.List;
 
-public interface MovieDao  extends CommonDao {
+public interface MovieDao{
 
     void insert();
     List<Movie> getAllMovies();

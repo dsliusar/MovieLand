@@ -2,7 +2,7 @@ package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.GenreDao;
 import com.dsliusar.entity.Genre;
-import com.dsliusar.dao.files.GenreFileParser;
+import com.dsliusar.dao.files.impl.GenreFileParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +37,7 @@ public class JdbcGenreDao implements GenreDao {
 
     @Override
     public void insert() {
-        truncateCommon(jdbcTemplate, "genre");
-
         LOGGER.info("Start inserting into Genre table");
-
         genreFileParser.ParseGenreIntoList();
         Map<String, Genre> genres = genreFileParser.getParsedGenresMap();
         for (Map.Entry<String, Genre> arrGenre : genres.entrySet()) {

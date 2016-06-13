@@ -1,6 +1,6 @@
 package com.dsliusar.dao;
 
-public interface CountryMovieDao extends CommonDao {
+public interface CountryMovieDao{
 
-    public void insert();
+    void insert();
 }

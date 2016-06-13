@@ -1,14 +1,14 @@
-package com.dsliusar.dao.files;
+package com.dsliusar.dao.files.impl;
 
 import com.dsliusar.entity.CountriesMovie;
 import com.dsliusar.entity.Country;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Configuration
+@Component
 public class CountryMovieParser {
 
     private List<CountriesMovie> countyMoviesList = new ArrayList<>();

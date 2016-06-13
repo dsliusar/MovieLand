@@ -1,11 +1,12 @@
-package com.dsliusar.dao.files;
+package com.dsliusar.dao.files.impl;
 
+import com.dsliusar.dao.files.CommonFileParser;
 import com.dsliusar.entity.Movie;
 import com.dsliusar.entity.Review;
 import com.dsliusar.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Configuration
+@Component
 public class ReviewFileParser {
 
     @Value("${users.reviewPath}")
@@ -26,7 +27,10 @@ public class ReviewFileParser {
     @Autowired
     private UserFileParser userFileParser;
 
-    private static final int NOT_FOUND_VALUE = -1;
+    @Autowired
+    private CommonFileParser commonFileParser;
+
+    private static int NOT_FOUND_VALUE = -1;
     private List<Review> reviewList = new ArrayList<Review>();
     private Map<String,Movie> movieMap;
     private Map<String,User> userMap;
@@ -39,7 +43,7 @@ public class ReviewFileParser {
         userMap = userFileParser.getParsedUserMap(); // get users list
         Review review = returnNewReview();
         try {
-            BufferedReader bufReader = new CommonFileParser().readFromFile(filePath);
+            BufferedReader bufReader = commonFileParser.readFromFile(filePath);
             while ((fileLine = bufReader.readLine()) != null) {
                 if (counter == 0) {
                     sequenceReview++;
@@ -73,14 +77,14 @@ public class ReviewFileParser {
         if (userMap.containsKey(userName)){
                 return userMap.get(userName).getUserId();
             }
-        return NOT_FOUND_VALUE;
+        return NOT_FOUND_VALUE++;
     }
 
     private int getMovieIdByName(String movieName) {
         if (movieMap.containsKey(movieName)){
                 return movieMap.get(movieName).getMovieId();
             }
-        return NOT_FOUND_VALUE;
+        return NOT_FOUND_VALUE++;
     }
 
     public List<Review> reviewList() {

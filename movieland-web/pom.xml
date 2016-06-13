@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>movieland-tools</artifactId>
+    <artifactId>movieland-web</artifactId>
 
     <properties>
         <spring.version>4.0.1.RELEASE</spring.version>
@@ -18,6 +18,18 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.dsliusar</groupId>
+            <artifactId>movieland-services</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- JSON -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
+        </dependency>
 
     </dependencies>
 

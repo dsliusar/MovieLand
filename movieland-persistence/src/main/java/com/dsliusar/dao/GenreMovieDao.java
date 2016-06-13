@@ -1,5 +1,5 @@
 package com.dsliusar.dao;
 
-public interface GenreMovieDao extends CommonDao{
+public interface GenreMovieDao {
      void insert();
 }

@@ -1,12 +1,15 @@
-package com.dsliusar.dao.files;
+package com.dsliusar.dao.files.impl;
 
 import com.dsliusar.entity.Country;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-@Configuration
+@Component
 public class CountryParser {
 
     @Autowired
