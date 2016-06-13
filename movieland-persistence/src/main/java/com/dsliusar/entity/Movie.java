@@ -1,18 +1,17 @@
 package com.dsliusar.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Serializable{
+
     private int movieId;
     private String movieNameRus;
-    private String movieNameeEng;
+    private String movieNameOrigin;
     private int year;
-    private String country;
-    private int genre_movie_id;
     private String desciprtion;
     private double rating;
     private double price;
-
     private List<Genre> genreList;
     private List<Country> countryList;
     private List<String> reviewText;
@@ -22,10 +21,8 @@ public class Movie {
         return "Movie{" +
                 "movieId=" + movieId +
                 ", movieNameRus='" + movieNameRus + '\'' +
-                ", movieNameeEng='" + movieNameeEng + '\'' +
+                ", movieNameOrigin='" + movieNameOrigin + '\'' +
                 ", year=" + year +
-                ", country='" + country + '\'' +
-                ", genre_movie_id=" + genre_movie_id +
                 ", desciprtion='" + desciprtion + '\'' +
                 ", rating=" + rating +
                 ", price=" + price +
@@ -40,14 +37,12 @@ public class Movie {
         Movie movieDao = (Movie) o;
 
         if (movieId != movieDao.movieId) return false;
-        if (genre_movie_id != movieDao.genre_movie_id) return false;
         if (Double.compare(movieDao.rating, rating) != 0) return false;
         if (Double.compare(movieDao.price, price) != 0) return false;
         if (movieNameRus != null ? !movieNameRus.equals(movieDao.movieNameRus) : movieDao.movieNameRus != null)
             return false;
-        if (movieNameeEng != null ? !movieNameeEng.equals(movieDao.movieNameeEng) : movieDao.movieNameeEng != null)
+        if (movieNameOrigin != null ? !movieNameOrigin.equals(movieDao.movieNameOrigin) : movieDao.movieNameOrigin != null)
             return false;
-        if (country != null ? !country.equals(movieDao.country) : movieDao.country != null) return false;
         return !(desciprtion != null ? !desciprtion.equals(movieDao.desciprtion) : movieDao.desciprtion != null);
 
     }
@@ -59,9 +54,7 @@ public class Movie {
         long temp;
         result = movieId;
         result = 31 * result + (movieNameRus != null ? movieNameRus.hashCode() : 0);
-        result = 31 * result + (movieNameeEng != null ? movieNameeEng.hashCode() : 0);
-        result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + genre_movie_id;
+        result = 31 * result + (movieNameOrigin != null ? movieNameOrigin.hashCode() : 0);
         result = 31 * result + (desciprtion != null ? desciprtion.hashCode() : 0);
         temp = Double.doubleToLongBits(rating);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -86,12 +79,12 @@ public class Movie {
         this.movieNameRus = movieNameRus;
     }
 
-    public String getMovieNameeEng() {
-        return movieNameeEng;
+    public String getMovieNameOrigin() {
+        return movieNameOrigin;
     }
 
-    public void setMovieNameeEng(String movieNameeEng) {
-        this.movieNameeEng = movieNameeEng;
+    public void setMovieNameOrigin(String movieNameOrigin) {
+        this.movieNameOrigin = movieNameOrigin;
     }
 
     public int getYear() {
@@ -100,22 +93,6 @@ public class Movie {
 
     public void setYear(int year) {
         this.year = year;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public int getGenre_movie_id() {
-        return genre_movie_id;
-    }
-
-    public void setGenre_movie_id(int genre_movie_id) {
-        this.genre_movie_id = genre_movie_id;
     }
 
     public String getDesciprtion() {

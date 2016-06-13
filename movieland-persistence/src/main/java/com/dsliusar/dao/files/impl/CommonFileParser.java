@@ -1,4 +1,4 @@
-package com.dsliusar.dao.files;
+package com.dsliusar.dao.files.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;

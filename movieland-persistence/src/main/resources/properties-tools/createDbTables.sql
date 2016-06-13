@@ -14,13 +14,12 @@ CREATE TABLE genre_movies (
 );
 
 DROP TABLE IF EXISTS movie;
+
 CREATE table movie(
    movie_id INT NOT NULL AUTO_INCREMENT
   ,movie_name_rus VARCHAR(100)
   ,movie_name_eng VARCHAR(100)
   ,year INT
-  ,country VARCHAR(50)
-  ,genre_movie_id INT
   ,description VARCHAR(5000)
   ,rating DOUBLE
   ,price DOUBLE

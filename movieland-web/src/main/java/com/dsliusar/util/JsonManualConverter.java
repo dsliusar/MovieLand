@@ -40,7 +40,7 @@ public class JsonManualConverter {
         long startTime = System.currentTimeMillis();
         Gson gson = gsonMovieByIdBuilder.create();
         String jSonMovieById = gson.toJson(movie);
-        LOGGER.info("Movie by name {} , we converted to JSON, it took {}", movie.getMovieNameeEng(), System.currentTimeMillis() - startTime);
+        LOGGER.info("Movie by name {} , we converted to JSON, it took {}", movie.getMovieNameOrigin(), System.currentTimeMillis() - startTime);
         return jSonMovieById;
     }
 

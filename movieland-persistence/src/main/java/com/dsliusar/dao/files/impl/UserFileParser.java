@@ -1,6 +1,5 @@
 package com.dsliusar.dao.files.impl;
 
-import com.dsliusar.dao.files.CommonFileParser;
 import com.dsliusar.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +19,7 @@ public class UserFileParser {
 
     @Autowired
     private CommonFileParser commonFileParser;
+
     private Map<String, User> userMap = new HashMap<>();
 
     public Map<String, User> ParseUsersIntoList() {
@@ -29,7 +29,7 @@ public class UserFileParser {
         String userName = "";
         try {
             BufferedReader bufReader = commonFileParser.readFromFile(filePath);
-            User user = returnUser();
+            User user = new User();
             while ((fileLine = bufReader.readLine()) != null) {
                 if (counter == 0) {
                     sequenceUser++;
@@ -48,7 +48,7 @@ public class UserFileParser {
 
                 if (fileLine.isEmpty() == true) {
                     userMap.put(userName,user);
-                    user = returnUser();
+                    user = new User();
                     counter = 0;
                     continue;
                 }
@@ -63,10 +63,6 @@ public class UserFileParser {
 
     public  Map<String, User> getParsedUserMap(){
         return userMap;
-    }
-
-    private static User returnUser() {
-        return new User();
     }
 
 }

@@ -9,12 +9,12 @@ import com.dsliusar.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
-public class MovieServiceImpl implements MovieService {
+public class SimpleMovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieDao movieDao;
@@ -45,10 +45,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getMovieById(int id) {
         Movie movie = movieDao.getById(id);
-        List<String> reviewTextList = new ArrayList<>();
-        for (Review review : reviewDao.getReviewsByMovieId(movie.getMovieId()) ){
-            reviewTextList.add(review.getReviewText());
-        }
+        List<String> reviewTextList = reviewDao.getReviewsByMovieId(movie.getMovieId()).stream().map(Review::getReviewText).collect(Collectors.toList());
         movie.setReviewText(reviewTextList);
         return movie;
 

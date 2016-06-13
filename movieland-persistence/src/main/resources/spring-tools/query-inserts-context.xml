@@ -22,7 +22,7 @@
        </bean>
 
        <bean id="insertGenreMovieSQL" class="java.lang.String">
-              <constructor-arg value="INSERT INTO genre_movies (genre_id,movie_id) VALUES (?,?);"/>
+              <constructor-arg value="INSERT INTO genre_movies (genre_id,movie_id) VALUES (:genre_id, :movie_id);"/>
        </bean>
 
        <bean id="insertGenreSQL" class="java.lang.String">
@@ -30,7 +30,7 @@
        </bean>
 
        <bean id="insertCountryMovieSQL" class="java.lang.String">
-              <constructor-arg value="INSERT INTO countries_movie_mapper(country_id, movie_id) VALUES (?, ?);"/>
+              <constructor-arg value="INSERT INTO countries_movie_mapper(country_id, movie_id) VALUES (:country_id, :movie_id);"/>
        </bean>
 
        <bean id="insertCountrySQL" class="java.lang.String">

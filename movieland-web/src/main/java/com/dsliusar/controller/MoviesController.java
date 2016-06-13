@@ -15,12 +15,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/v1")
-public class MovieLandController {
+public class MoviesController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-   private MovieService movieService;
+    private MovieService movieService;
 
     @Autowired
     private JsonManualConverter jsonManualConverter;

@@ -1,9 +1,10 @@
 package com.dsliusar.dao.files.impl;
 
-import com.dsliusar.dao.files.CommonFileParser;
+import com.dsliusar.entity.Country;
 import com.dsliusar.entity.Genre;
-import com.dsliusar.entity.GenreMovie;
 import com.dsliusar.entity.Movie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,11 @@ import java.util.*;
 @Component
 public class MovieFileParser {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+
+    @Value("${users.moviePath}")
+    private String filePath;
+
     @Autowired
     private GenreFileParser genreFileParser;
 
@@ -26,33 +32,10 @@ public class MovieFileParser {
     @Autowired
     private CommonFileParser commonFileParser;
 
-    @Value("${users.moviePath}")
-    private String filePath;
-
-    private List<GenreMovie> genreMoviesList = new ArrayList<GenreMovie>();
-
     private Map<String,Movie> movieHashMap = new HashMap<>();
 
-    private  void fillGenreMovie(String genreName, int movieId) {
-        ArrayList<String> genreNamesList = new ArrayList<>(Arrays.asList(genreName.split(",")));
-        Map<String,Genre> genresParsedMap = genreFileParser.getParsedGenresMap();
-        for (String str : genreNamesList) {
-             str = str.trim();
-             if (genresParsedMap.containsKey(str)) {
-                    genreMoviesList.add(populateGenreMovieId(genresParsedMap.get(str).getGenreId(), movieId));
-
-            }
-        }
-    }
-
-    private GenreMovie populateGenreMovieId(int inGenreId, int movieId) {
-        GenreMovie genreMovie = new GenreMovie();
-        genreMovie.setMovieId(movieId);
-        genreMovie.setGenreId(inGenreId);
-        return genreMovie;
-    }
-
-    public void ParseMoviesIntoList() {
+    public Map<String,Movie> parseMoviesIntoList() {
+        LOGGER.info("Start parsing file with next file path = {}", filePath);
         int lineCounter = 0;
         int sequenceMovieId = 0;
         String movieName = "";
@@ -69,14 +52,36 @@ public class MovieFileParser {
                 }
                 if (lineCounter == 1) {
                     movie.setMovieNameRus(strLine.substring(0, strLine.indexOf("/")));
-                    movie.setMovieNameeEng(strLine.substring(strLine.indexOf("/") + 1));
+                    movie.setMovieNameOrigin(strLine.substring(strLine.indexOf("/") + 1));
                     movieName = movie.getMovieNameRus();
+
                 } else if (lineCounter == 2) {
                     movie.setYear(Integer.parseInt(strLine));
+
                 } else if (lineCounter == 3) {
-                    countriesParser.saveCountriesIntoList(strLine, sequenceMovieId);
+                    List<Country> countryList = new ArrayList<>();
+                    ArrayList<String> countriesListNames = new ArrayList<>(Arrays.asList(strLine.split(",")));
+                    for (String countryName : countriesListNames) {
+                        countryName = countryName.trim();
+                        countriesParser.saveCountriesIntoList(countryName, sequenceMovieId);
+                        Country country = new Country();
+                        country.setCountryName(countryName);
+                        countryList.add(country);
+                    }
+                    movie.setCountryList(countryList);
+
                 } else if (lineCounter == 4) {
-                    fillGenreMovie(strLine, sequenceMovieId);
+                   // genreFileParser.fillGenreMovie(strLine, sequenceMovieId);
+                    List<Genre> genreList = new ArrayList<>();
+                    ArrayList<String> genreOriginNames = new ArrayList<>(Arrays.asList(strLine.split(",")));
+                    for (String genreName : genreOriginNames) {
+                        genreName = genreName.trim();
+                        Genre genre = new Genre();
+                        genre.setName(genreName);
+                        genreList.add(genre);
+                    }
+                    movie.setGenreList(genreList);
+
                 } else if (lineCounter == 5) {
                     movie.setDesciprtion(strLine);
                 } else if (lineCounter == 6) {
@@ -93,16 +98,14 @@ public class MovieFileParser {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LOGGER.error("Parsing failed with next error {}",String.valueOf(e));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.error("Parsing failed with next error {}",String.valueOf(e));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Parsing failed with next error {}",String.valueOf(e));
         }
-    }
-
-    public List<GenreMovie> getGenreMoviesList(){
-        return genreMoviesList;
+        LOGGER.info("Parsing file from {} finished successfully", filePath);
+        return movieHashMap;
     }
 
     public void setGenreFileParser(GenreFileParser genreFileParser) {

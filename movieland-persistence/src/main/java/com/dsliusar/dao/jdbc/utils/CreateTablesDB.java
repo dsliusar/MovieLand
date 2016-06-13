@@ -52,15 +52,16 @@ public class CreateTablesDB implements ResourceLoaderAware {
         } catch (IOException e) {
             LOGGER.error(String.valueOf(e));
         }
-
         LOGGER.info("Tables were successfully created, it took {}", System.currentTimeMillis() - startTime);
-
-
     }
 
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }
 

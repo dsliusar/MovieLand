@@ -29,13 +29,13 @@ public class JdbcCountryDao implements CountryDao {
     private String insertCountrySQL;
 
     @Override
-    public void insert() {
+    public void insert( Map<String,Country> countryMap) {
+        long startTime = System.currentTimeMillis();
         LOGGER.info("Start populating Countries Table");
-        Map<String,Country> countryMap = countriesParser.getCountryMap();
         for (Map.Entry<String, Country> country : countryMap.entrySet()) {
                 jdbcTemplate.update(insertCountrySQL,country.getValue().getCountryId(),
                                                      country.getValue().getCountryName());
-          LOGGER.info("Next rows were inserted into counties" + country);
+          LOGGER.info("Next rows {} were inserted into counties, it took {} ",country, System.currentTimeMillis() - startTime);
         }
     }
 

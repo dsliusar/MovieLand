@@ -34,10 +34,8 @@ public class JdbcReviewDao implements ReviewDao {
     private String getReviewById;
 
     @Override
-    public void insert() {
+    public void insert(List<Review> reviewList) {
         LOGGER.info("Start populating Review Table");
-        reviewFileParser.parseReviewIntoList();
-        List<Review> reviewList = reviewFileParser.reviewList();
         for (Review arrReview : reviewList) {
                 jdbcTemplate.update(insertReviewSQL, new Object[]{
                         arrReview.getReviewId(),

@@ -1,9 +1,10 @@
 package com.dsliusar.dao.files.impl;
 
-import com.dsliusar.dao.files.CommonFileParser;
 import com.dsliusar.entity.Movie;
 import com.dsliusar.entity.Review;
 import com.dsliusar.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ import java.util.Map;
 
 @Component
 public class ReviewFileParser {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Value("${users.reviewPath}")
     private String filePath;
@@ -35,13 +38,14 @@ public class ReviewFileParser {
     private Map<String,Movie> movieMap;
     private Map<String,User> userMap;
 
-    public void parseReviewIntoList() {
+    public List<Review> parseReviewIntoList() {
+        LOGGER.info("Start parsing file with next file path = {}", filePath);
         String fileLine;
         int counter = 0;
         int sequenceReview = 0;
         movieMap = movieFileParser.getParsedMovieMap();// get movie List
         userMap = userFileParser.getParsedUserMap(); // get users list
-        Review review = returnNewReview();
+        Review review = new Review();
         try {
             BufferedReader bufReader = commonFileParser.readFromFile(filePath);
             while ((fileLine = bufReader.readLine()) != null) {
@@ -61,16 +65,18 @@ public class ReviewFileParser {
 
                 if (fileLine.isEmpty() == true) {
                     reviewList.add(review);
-                    review = returnNewReview();
+                    review = new Review();
                     counter = 0;
                     continue;
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.error("Parsing failed with next error {}", String.valueOf(e));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Parsing failed with next error {}", String.valueOf(e));
         }
+        LOGGER.info("Parsing file from {} finished successfully", filePath);
+        return reviewList;
     }
 
     private int getUserIdByName(String userName) {
@@ -89,10 +95,6 @@ public class ReviewFileParser {
 
     public List<Review> reviewList() {
         return reviewList;
-    }
-
-    private static Review returnNewReview() {
-        return new Review();
     }
 
     public void setMovieFileParser(MovieFileParser movieFileParser) {

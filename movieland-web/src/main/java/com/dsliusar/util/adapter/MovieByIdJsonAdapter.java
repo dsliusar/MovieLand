@@ -15,14 +15,14 @@ public class MovieByIdJsonAdapter extends TypeAdapter<Movie> {
         out.beginObject();
         //out.beginArray();
         out.name("movieNameRus").value(movie.getMovieNameRus());
-        out.name("movieNameEng").value(movie.getMovieNameeEng());
+        out.name("movieNameEng").value(movie.getMovieNameOrigin());
         out.name("year").value(movie.getYear());
         out.name("rating").value(movie.getRating());
 
         out.name("genres");
         out.beginArray();
         for (Genre genre : movie.getGenreList()) {
-            out.value(genre.getDescprtion());
+            out.value(genre.getName());
         }
         out.endArray();
         out.name("countries");

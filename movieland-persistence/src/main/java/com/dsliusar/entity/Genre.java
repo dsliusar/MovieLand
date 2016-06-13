@@ -2,13 +2,13 @@ package com.dsliusar.entity;
 
 public class Genre {
     private int genreId;
-    private String descprtion;
+    private String name;
 
     @Override
     public String toString() {
         return "Genre{" +
                 "genreId=" + genreId +
-                ", descprtion='" + descprtion + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 
@@ -20,7 +20,7 @@ public class Genre {
         Genre genre = (Genre) o;
 
         if (genreId != genre.genreId) return false;
-        if (descprtion != null ? !descprtion.equals(genre.descprtion) : genre.descprtion != null) return false;
+        if (name != null ? !name.equals(genre.name) : genre.name != null) return false;
 
         return true;
     }
@@ -28,7 +28,7 @@ public class Genre {
     @Override
     public int hashCode() {
         int result = genreId;
-        result = 31 * result + (descprtion != null ? descprtion.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 
@@ -40,11 +40,11 @@ public class Genre {
         this.genreId = genreId;
     }
 
-    public String getDescprtion() {
-        return descprtion;
+    public String getName() {
+        return name;
     }
 
-    public void setDescprtion(String descprtion) {
-        this.descprtion = descprtion;
+    public void setName(String name) {
+        this.name = name;
     }
 }
