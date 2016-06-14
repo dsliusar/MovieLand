@@ -1,6 +1,7 @@
 package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.GenreDao;
+import com.dsliusar.dao.jdbc.mapper.GenresMapper;
 import com.dsliusar.entity.Genre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +32,9 @@ public class JdbcGenreDao implements GenreDao {
 
     @Autowired
     private String getAllGenresSQL;
+
+    @Autowired
+    private String getAllGenresByMovieIdSQL;
 
     @Override
     public void insert(Map<String,Genre> genreMap) {
@@ -61,11 +66,12 @@ public class JdbcGenreDao implements GenreDao {
         return genresMap;
     }
 
-   public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public void setInsertGenreSQL(String insertGenreSQL) {
-        this.insertGenreSQL = insertGenreSQL;
+    @Override
+    public List<Genre> getGenresByMovieId(int movieId) {
+        LOGGER.info("Get All Genres by Movie Id");
+        long startTime = System.currentTimeMillis();
+        List<Genre> genreList = jdbcTemplate.query(getAllGenresByMovieIdSQL, new Object[]{movieId}, new GenresMapper());
+        LOGGER.info("All genres by movie ID was received, it took {}", System.currentTimeMillis() - startTime );
+        return genreList;
     }
 }

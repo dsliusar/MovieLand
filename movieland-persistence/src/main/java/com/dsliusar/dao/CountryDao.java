@@ -2,6 +2,7 @@ package com.dsliusar.dao;
 
 import com.dsliusar.entity.Country;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,4 +11,5 @@ import java.util.Map;
 public interface CountryDao{
 
     void insert( Map<String,Country> countryMap);
+    List<Country> getAllCountriesByMovieId(int movieId);
 }

@@ -45,12 +45,10 @@ public class CreateTablesDB implements ResourceLoaderAware {
                     new InputStreamReader(in));
 
             scriptRunner.runScript(reader);
-        } catch (SQLException e) {
-            LOGGER.error(String.valueOf(e));
-        } catch (FileNotFoundException e) {
-            LOGGER.error(String.valueOf(e));
-        } catch (IOException e) {
-            LOGGER.error(String.valueOf(e));
+        } catch (Exception e) {
+            LOGGER.error("Error happened", e);
+            throw new RuntimeException(e);
+
         }
         LOGGER.info("Tables were successfully created, it took {}", System.currentTimeMillis() - startTime);
     }

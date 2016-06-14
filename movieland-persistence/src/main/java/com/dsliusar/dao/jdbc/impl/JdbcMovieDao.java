@@ -24,9 +24,6 @@ public class JdbcMovieDao implements MovieDao {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private MovieFileParser movieFileParser;
-
-    @Autowired
     private NamedParameterJdbcTemplate namedJdbcTemplate;
 
     @Autowired
@@ -49,20 +46,17 @@ public class JdbcMovieDao implements MovieDao {
 
 
     @Override
-    public void insert(Map<String, Movie> movieMap, Map<String,Country> countryMap, Map<String, Genre> mapGenre) {
+    public void insert(Map<String, Movie> movieMap, Map<String, Country> countryMap, Map<String, Genre> mapGenre) {
         LOGGER.info("Start inserting into Movie table ");
-        movieFileParser.parseMoviesIntoList();
-        Map<String, Movie> moviesMap = movieFileParser.getParsedMovieMap();
-
-        for (Map.Entry<String, Movie> arrMovie : moviesMap.entrySet()) {
+        for (Map.Entry<String, Movie> arrMovie : movieMap.entrySet()) {
             jdbcTemplate.update(insertMovieSQL, arrMovie.getValue().getMovieId(),
                     arrMovie.getValue().getMovieNameRus(),
                     arrMovie.getValue().getMovieNameOrigin(),
                     arrMovie.getValue().getYear(),
-                    arrMovie.getValue().getDesciprtion(),
+                    arrMovie.getValue().getDescription(),
                     arrMovie.getValue().getRating(),
                     arrMovie.getValue().getPrice());
-            insertCountryMovie(countryMap, arrMovie.getValue().getCountryList(),arrMovie.getValue().getMovieId());
+            insertCountryMovie(countryMap, arrMovie.getValue().getCountryList(), arrMovie.getValue().getMovieId());
             insertGenreMovie(mapGenre, arrMovie.getValue().getGenreList(), arrMovie.getValue().getMovieId());
             LOGGER.info("Next row was inserted into Movies " + arrMovie);
         }
@@ -70,15 +64,15 @@ public class JdbcMovieDao implements MovieDao {
 
     }
 
-    private void insertCountryMovie(Map<String,Country> countryMap, List<Country> countryList, int movieId) {
+    private void insertCountryMovie(Map<String, Country> countryMap, List<Country> countryList, int movieId) {
         LOGGER.info("Start populating countries_movie_mapper table");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
 
         for (Country country : countryList) {
-        //    jdbcTemplate.update(insertCountryMovieSQL,new Object[] { countryMap.get(country.getCountryName()), movieId});
+            //    jdbcTemplate.update(insertCountryMovieSQL,new Object[] { countryMap.get(country.getCountryName()), movieId});
             parameterSource.addValue("country_id", countryMap.get(country.getCountryName()).getCountryId());
             parameterSource.addValue("movie_id", movieId);
-            namedJdbcTemplate.update(insertCountryMovieSQL,parameterSource);
+            namedJdbcTemplate.update(insertCountryMovieSQL, parameterSource);
             LOGGER.info("Next rows were inserted, country = {} , movie_id =  {} ", countryMap.get(country.getCountryName()).getCountryId(), movieId);
         }
     }
@@ -89,7 +83,7 @@ public class JdbcMovieDao implements MovieDao {
 
         for (Genre genre : movieGenreList) {
             //namedJdbcTemplate.update(insertGenreMovieSQL, mapGenre.get(genre).getGenreId(), movieId);
-            parameterSource.addValue("genre_id",mapGenre.get(genre.getName()).getGenreId());
+            parameterSource.addValue("genre_id", mapGenre.get(genre.getName()).getGenreId());
             parameterSource.addValue("movie_id", movieId);
             namedJdbcTemplate.update(insertGenreMovieSQL, parameterSource);
             LOGGER.info("Next rows were inserted, genreId = {}, movieId = {} ", mapGenre.get(genre.getName()).getGenreId(), movieId);
@@ -112,21 +106,5 @@ public class JdbcMovieDao implements MovieDao {
         Movie movie = jdbcTemplate.queryForObject(getMovieById, new Object[]{id}, new SingleMovieMapper());
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return movie;
-    }
-
-    public void setGetAllMoviesSQL(String getAllMoviesSQL) {
-        this.getAllMoviesSQL = getAllMoviesSQL;
-    }
-
-    public void setInsertMovieSQL(String insertMovieSQL) {
-        this.insertMovieSQL = insertMovieSQL;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public void setMovieFileParser(MovieFileParser movieFileParser) {
-        this.movieFileParser = movieFileParser;
     }
 }

@@ -1,6 +1,7 @@
 package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.ReviewDao;
+import com.dsliusar.dao.jdbc.mapper.ReviewMapper;
 import com.dsliusar.entity.Review;
 import com.dsliusar.dao.files.impl.ReviewFileParser;
 import org.slf4j.Logger;
@@ -25,9 +26,6 @@ public class JdbcReviewDao implements ReviewDao {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private ReviewFileParser reviewFileParser;
-
-    @Autowired
     private String insertReviewSQL;
 
     @Autowired
@@ -48,31 +46,11 @@ public class JdbcReviewDao implements ReviewDao {
     }
 
     @Override
-    public List<Review> getReviewsByMovieId(int reviewId) {
+    public List<Review> getReviewsByMovieId(int movieId) {
         LOGGER.info("Start getting Review by Id");
-        List<Review> allReviewList = jdbcTemplate.query(getReviewById, new Object[]{reviewId}, new RowMapper<Review>(){
-            public Review mapRow(ResultSet rs, int rowNum) throws SQLException
-            {
-                Review review = new Review();
-                review.setMovieId(rs.getInt("movie_id"));
-                review.setReviewId(rs.getInt("review_id"));
-                review.setUserId(rs.getInt("user_id"));
-                review.setReviewText(rs.getString("review_text"));
-                return review;
-            }
-        })  ;
+        long startTime = System.currentTimeMillis();
+        List<Review> allReviewList = jdbcTemplate.query(getReviewById, new Object[]{movieId},new ReviewMapper())  ;
+        LOGGER.info("Reviews by Movie Id was received, it took {}", System.currentTimeMillis() - startTime);
         return allReviewList;
-    }
-
-    public void setReviewFileParser(ReviewFileParser reviewFileParser) {
-        this.reviewFileParser = reviewFileParser;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public void setInsertReviewSQL(String insertReviewSQL) {
-        this.insertReviewSQL = insertReviewSQL;
     }
 }

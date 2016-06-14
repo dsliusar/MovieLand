@@ -83,7 +83,7 @@ public class MovieFileParser {
                     movie.setGenreList(genreList);
 
                 } else if (lineCounter == 5) {
-                    movie.setDesciprtion(strLine);
+                    movie.setDescription(strLine);
                 } else if (lineCounter == 6) {
                     movie.setRating(Double.parseDouble(strLine.substring(strLine.indexOf(':') + 1)));
                 } else if (lineCounter == 7) {

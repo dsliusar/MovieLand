@@ -3,6 +3,7 @@ package com.dsliusar.util.adapter;
 import com.dsliusar.entity.Country;
 import com.dsliusar.entity.Genre;
 import com.dsliusar.entity.Movie;
+import com.dsliusar.entity.Review;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -34,8 +35,8 @@ public class MovieByIdJsonAdapter extends TypeAdapter<Movie> {
 
         out.name("reviews");
         out.beginArray();
-        for (String str : movie.getReviewText()) {
-            out.value(str);
+        for (Review review : movie.getReviewText()) {
+            out.value(review.getReviewText());
         }
         out.endArray();
 

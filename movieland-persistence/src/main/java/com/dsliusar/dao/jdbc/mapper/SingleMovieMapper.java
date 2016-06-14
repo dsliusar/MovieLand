@@ -15,25 +15,15 @@ import java.util.List;
  */
 public class SingleMovieMapper implements RowMapper<Movie> {
 
-@Override
-public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
+    @Override
+    public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
         Movie movie = new Movie();
         movie.setMovieNameOrigin(resultSet.getString("movie_name_eng"));
         movie.setMovieNameRus(resultSet.getString("movie_name_rus"));
         movie.setMovieId(resultSet.getInt("movie_id"));
         movie.setYear(resultSet.getInt("year"));
         movie.setRating(resultSet.getDouble("rating"));
-        //Add genres list
-        Genre genre = new Genre();
-        genre.setName(resultSet.getString("genre_description"));
-        List<Genre> genresList = new ArrayList<>();
-        genresList.add(genre);
-        movie.setGenreList(genresList);
-        Country country = new Country();
-        country.setCountryName(resultSet.getString("country_names"));
-        List<Country> countryList = new ArrayList<>();
-        countryList.add(country);
-        movie.setCountryList(countryList);
         return movie;
-        }
+    }
+
 }

@@ -37,15 +37,4 @@ public class JdbcUserDao implements UserDao {
         }
         LOGGER.info("Start populating User table ");
     }
-
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public void setInsertUserSQL(String insertUserSQL) {
-        this.insertUserSQL = insertUserSQL;
-    }
-
-
 }

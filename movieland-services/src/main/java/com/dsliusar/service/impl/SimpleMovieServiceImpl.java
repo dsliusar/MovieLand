@@ -5,8 +5,12 @@ import com.dsliusar.dao.MovieDao;
 import com.dsliusar.dao.ReviewDao;
 import com.dsliusar.entity.Movie;
 import com.dsliusar.entity.Review;
+import com.dsliusar.service.CountryService;
+import com.dsliusar.service.GenreService;
 import com.dsliusar.service.MovieService;
+import com.dsliusar.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,33 +24,33 @@ public class SimpleMovieServiceImpl implements MovieService {
     private MovieDao movieDao;
 
     @Autowired
-    private ReviewDao reviewDao;
+    @Qualifier("simpleGenreService")
+    private GenreService simpleGenreService;
 
     @Autowired
-    private GenreDao genreDao;
+    @Qualifier("simpleCountryService")
+    private CountryService simpleCountryService;
+
+    @Autowired
+    @Qualifier("simpleReviewService")
+    private ReviewService simpleReviewService;
 
     @Override
-    public List<Movie> getAllMovies()
-    {   List<Movie> movieList;
+    public List<Movie> getAllMovies() {
+        List<Movie> movieList;
         movieList = movieDao.getAllMovies();
-//        Map<Integer,String> genresHashMap = genreDao.getAllGenres();
-//        for (Movie movie : movieList){
-//            for(Genre genre : movie.getGenreList()){
-//                if (genresHashMap.containsKey(genre.getGenreId())){
-//
-//                }
-//            }
-//
-//        }
-//        if(genresHashMap.)
+        for(Movie movie : movieList){
+            movie.setGenreList(simpleGenreService.getGenresByMovieId(movie.getMovieId()));
+        }
         return movieList;
     }
 
     @Override
     public Movie getMovieById(int id) {
         Movie movie = movieDao.getById(id);
-        List<String> reviewTextList = reviewDao.getReviewsByMovieId(movie.getMovieId()).stream().map(Review::getReviewText).collect(Collectors.toList());
-        movie.setReviewText(reviewTextList);
+        movie.setGenreList(simpleGenreService.getGenresByMovieId(movie.getMovieId()));
+        movie.setCountryList(simpleCountryService.getAllCountriesByMovieId(movie.getMovieId()));
+        movie.setReviewText(simpleReviewService.getAllReviewByMovieId(movie.getMovieId()));
         return movie;
 
 

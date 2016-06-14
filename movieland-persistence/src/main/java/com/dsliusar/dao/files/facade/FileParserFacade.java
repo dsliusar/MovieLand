@@ -11,7 +11,7 @@ import java.util.Map;
 @Component
 public class FileParserFacade {
 
-    private Map<String, Object> mapOfFiles = new HashMap();
+    private Map<String, Object> mapOfFiles = new HashMap<>();
 
     @Autowired
     UserFileParser userFileParser;

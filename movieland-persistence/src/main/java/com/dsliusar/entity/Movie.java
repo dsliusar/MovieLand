@@ -9,12 +9,12 @@ public class Movie implements Serializable{
     private String movieNameRus;
     private String movieNameOrigin;
     private int year;
-    private String desciprtion;
+    private String description;
     private double rating;
     private double price;
     private List<Genre> genreList;
     private List<Country> countryList;
-    private List<String> reviewText;
+    private List<Review> reviewText;
 
     @Override
     public String toString() {
@@ -23,7 +23,7 @@ public class Movie implements Serializable{
                 ", movieNameRus='" + movieNameRus + '\'' +
                 ", movieNameOrigin='" + movieNameOrigin + '\'' +
                 ", year=" + year +
-                ", desciprtion='" + desciprtion + '\'' +
+                ", description='" + description + '\'' +
                 ", rating=" + rating +
                 ", price=" + price +
                 '}';
@@ -43,7 +43,7 @@ public class Movie implements Serializable{
             return false;
         if (movieNameOrigin != null ? !movieNameOrigin.equals(movieDao.movieNameOrigin) : movieDao.movieNameOrigin != null)
             return false;
-        return !(desciprtion != null ? !desciprtion.equals(movieDao.desciprtion) : movieDao.desciprtion != null);
+        return !(description != null ? !description.equals(movieDao.description) : movieDao.description != null);
 
     }
 
@@ -55,7 +55,7 @@ public class Movie implements Serializable{
         result = movieId;
         result = 31 * result + (movieNameRus != null ? movieNameRus.hashCode() : 0);
         result = 31 * result + (movieNameOrigin != null ? movieNameOrigin.hashCode() : 0);
-        result = 31 * result + (desciprtion != null ? desciprtion.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         temp = Double.doubleToLongBits(rating);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(price);
@@ -95,12 +95,12 @@ public class Movie implements Serializable{
         this.year = year;
     }
 
-    public String getDesciprtion() {
-        return desciprtion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesciprtion(String desciprtion) {
-        this.desciprtion = desciprtion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getRating() {
@@ -135,11 +135,11 @@ public class Movie implements Serializable{
         this.countryList = countryList;
     }
 
-    public List<String> getReviewText() {
+    public List<Review> getReviewText() {
         return reviewText;
     }
 
-    public void setReviewText(List<String> reviewText) {
+    public void setReviewText(List<Review> reviewText) {
         this.reviewText = reviewText;
     }
 }
