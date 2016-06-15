@@ -1,7 +1,7 @@
 package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.MovieDao;
-import com.dsliusar.dao.files.impl.MovieFileParser;
+import com.dsliusar.dao.jdbc.builder.QueryBuilder;
 import com.dsliusar.dao.jdbc.mapper.AllMovieMapper;
 import com.dsliusar.dao.jdbc.mapper.SingleMovieMapper;
 import com.dsliusar.entity.Country;
@@ -44,6 +44,8 @@ public class JdbcMovieDao implements MovieDao {
     @Autowired
     private String insertGenreMovieSQL;
 
+    @Autowired
+    private QueryBuilder queryBuilder;
 
     @Override
     public void insert(Map<String, Movie> movieMap, Map<String, Country> countryMap, Map<String, Genre> mapGenre) {
@@ -91,10 +93,11 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getAllMovies() {
+    public List<Movie> getAllMovies(String ratingOrder, String priceOrder) {
         LOGGER.info("Start getting all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> allMovieList = jdbcTemplate.query(getAllMoviesSQL, new AllMovieMapper());
+        List<Movie> allMovieList = jdbcTemplate.query(queryBuilder.movieSortingQueryBuilder(getAllMoviesSQL,ratingOrder,priceOrder)
+                , new AllMovieMapper());
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
     }

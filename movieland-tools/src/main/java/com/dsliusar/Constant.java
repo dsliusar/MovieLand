@@ -11,6 +11,6 @@ public class Constant {
     public final static String MOVIE_MAP_NAME = "movieMap";
     public final static String COUNTRY_MAP_NAME = "countryMap";
     public final static String REVIEW_LIST_NAME = "reviewList";
-    public final static String HTTP_RESPONSE_FORMAT = "XML";
+
 
 }

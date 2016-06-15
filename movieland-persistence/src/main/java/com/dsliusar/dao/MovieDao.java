@@ -10,6 +10,6 @@ import java.util.Map;
 public interface MovieDao{
 
     void insert(Map<String, Movie> movieMap, Map<String,Country> countryMap, Map<String, Genre> mapGenre);
-    List<Movie> getAllMovies();
+    List<Movie> getAllMovies(String ratingOrder,String priceOrder);
     Movie getById(int id);
 }

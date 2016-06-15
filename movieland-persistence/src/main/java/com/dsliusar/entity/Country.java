@@ -1,7 +1,12 @@
 package com.dsliusar.entity;
 
-public class Country {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
+@JsonIgnoreProperties(value = { "countryId" })
+public class Country {
+    @JsonIgnore
     private int countryId;
     private String countryName;
 

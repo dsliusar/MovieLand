@@ -24,5 +24,4 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:/spring/web-context.xml</param-value>
 	</context-param>
-
 </web-app>

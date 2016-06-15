@@ -1,10 +1,16 @@
 package com.dsliusar.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(value = { "reviewId","movieId","userId"})
 public class Review {
 
+    @JsonIgnore
     private int reviewId;
+    @JsonIgnore
     private int movieId;
+    @JsonIgnore
     private int userId;
     private String reviewText;
 
