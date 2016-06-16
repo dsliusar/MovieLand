@@ -18,7 +18,7 @@ public class movieRowMapperTest {
         ResultSet rs = Mockito.mock(ResultSet.class);
      //   Mockito.when(rs.getInt(MovieFieldNamesEnum.MOVIE_ID.toString())).thenReturn(100);
         Mockito.when(rs.getString(MovieFieldNamesEnum.MOVIE_NAME_RUS.toString())).thenReturn("NAME_RU");
-        Mockito.when(rs.getString(MovieFieldNamesEnum.MOVIE_NAME_ENG.toString())).thenReturn("NAME_ENG");
+        Mockito.when(rs.getString(MovieFieldNamesEnum.MOVIE_NAME_ORIGIN.toString())).thenReturn("NAME_ENG");
         Mockito.when(rs.getString(MovieFieldNamesEnum.DESCRIPTION.toString())).thenReturn("DESCRIPTION");
      //   Mockito.when(rs.getDouble(MovieFieldNamesEnum.PRICE.toString())).thenReturn(1.0);
         Mockito.when(rs.getDouble(MovieFieldNamesEnum.RATING.toString())).thenReturn(2.2);

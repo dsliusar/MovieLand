@@ -11,7 +11,7 @@ public class SearchMovieDto implements Serializable{
 
     private String movieNameOrigin;
 
-    private int year;
+    private Integer year;
 
     private String country;
 
@@ -44,7 +44,7 @@ public class SearchMovieDto implements Serializable{
         this.movieNameOrigin = movieNameOrigin;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 

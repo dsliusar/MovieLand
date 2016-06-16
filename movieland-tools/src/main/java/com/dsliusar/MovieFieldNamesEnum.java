@@ -8,7 +8,7 @@ public enum MovieFieldNamesEnum {
         PRICE,
         MOVIE_ID,
         MOVIE_NAME_RUS,
-        MOVIE_NAME_ENG,
+        MOVIE_NAME_ORIGIN,
         YEAR,
         COUNTRY,
         GENRE_MOVIE_ID,

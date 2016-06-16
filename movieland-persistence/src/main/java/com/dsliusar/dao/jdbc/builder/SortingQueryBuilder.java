@@ -14,18 +14,29 @@ import java.util.List;
  */
 
 @Repository
-public class QueryBuilder {
+public class SortingQueryBuilder {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    public final static String ASC_SORTING = "ASC";
+    private String sql;
+    private String ratingOrder;
+    private String priceOrder;
+
+    public SortingQueryBuilder() {}
+
+    public SortingQueryBuilder(String sql, String ratingOrder, String priceOrder) {
+        this.sql = sql;
+        this.ratingOrder = ratingOrder;
+        this.priceOrder = priceOrder;
+    }
+
     public final static String DESC_SORTING = "DESC";
-    public final static String ORDER_CLAUSE = " ORDER BY ";
+    public final static String ORDER_CLAUSE = " ORDER BY 'a' ";
     public final static String SPACE = " ";
     public final static String COMMA = ", ";
 
     List<String> orderArray = new ArrayList<>(Arrays.asList(ASC_SORTING, DESC_SORTING));
 
-    public String movieSortingQueryBuilder(String sql, String ratingOrder, String priceOrder) {
+    public String movieSortingQueryBuilder() {
         StringBuilder sortClause = new StringBuilder(sql);
         if (ratingOrder == null && priceOrder == null) {
             return sql;
@@ -41,8 +52,6 @@ public class QueryBuilder {
             } else {
                 appendWithSortClause(sortClause, MovieFieldNamesEnum.RATING.toString(), DESC_SORTING);
             }
-            if (priceOrder != null) {
-                sortClause.append(COMMA);} // if only rating is sent - do not set COMMA after rating
         }
 
         if (priceOrder != null) {
@@ -58,7 +67,7 @@ public class QueryBuilder {
     }
 
     private void appendWithSortClause(StringBuilder stringBuilder, String fieldName, String sortClause) {
-        stringBuilder.append(fieldName.toLowerCase()).append(SPACE).append(sortClause);
+        stringBuilder.append(COMMA).append(fieldName.toLowerCase()).append(SPACE).append(sortClause);
 
     }
 
@@ -69,5 +78,30 @@ public class QueryBuilder {
         }
 
     }
+
+    public String getSql() {
+        return sql;
+    }
+
+    public void setSql(String sql) {
+        this.sql = sql;
+    }
+
+    public String getRatingOrder() {
+        return ratingOrder;
+    }
+
+    public void setRatingOrder(String ratingOrder) {
+        this.ratingOrder = ratingOrder;
+    }
+
+    public String getPriceOrder() {
+        return priceOrder;
+    }
+
+    public void setPriceOrder(String priceOrder) {
+        this.priceOrder = priceOrder;
+    }
+    public final static String ASC_SORTING = "ASC";
 
 }

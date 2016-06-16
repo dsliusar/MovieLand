@@ -11,5 +11,6 @@ public interface MovieDao{
 
     void insert(Map<String, Movie> movieMap, Map<String,Country> countryMap, Map<String, Genre> mapGenre);
     List<Movie> getAllMovies(String ratingOrder,String priceOrder);
+    List<Movie> getSearchedMovies(String movieNameRus,String movieNameOrigin,Integer year,Integer genreId,Integer movieId);
     Movie getById(int id);
 }

@@ -10,7 +10,7 @@
                                             , q.year
                                             , q.rating
                                       FROM movie q
-                                    GROUP BY movie_name_eng"/>
+                                    "/>
   </bean>
 
     <bean id="getMovieById" class="java.lang.String">
@@ -32,6 +32,10 @@
         <constructor-arg value="select g.genre_id, g.description from genre g"/>
     </bean>
 
+    <bean id="getAllCountiesSQL" class="java.lang.String">
+        <constructor-arg value="select g.country_id, g.country_name from countries g"/>
+    </bean>
+
     <bean id="getAllGenresByMovieIdSQL" class="java.lang.String">
         <constructor-arg value="select g.genre_id
                                       ,g.description
@@ -41,12 +45,18 @@
                                 where gm.movie_id = ?"/>
     </bean>
 
-    <bean id = "getAllCountriesByMovieId" class="java.lang.String">
-        <constructor-arg value="select c.country_id
-                                      ,c.country_name from countries c
-                                join countries_movie_mapper cmm
-                                on cmm.country_id = c.country_id
-                                where cmm.movie_id = ?"/>
+    <bean id="getAllMoviesByGenre" class="java.lang.String">
+        <constructor-arg value="SELECT q.movie_name_rus
+                                      , q.movie_name_eng
+                                      , q.movie_id
+                                      , q.year
+                                      , q.rating
+                                FROM movie q
+                                join genre_movies gm
+                                on gm.movie_id = q.movie_id
+                                where gm.genre_id = ?"/>
     </bean>
+
+
 
 </beans>

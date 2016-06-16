@@ -8,6 +8,11 @@ public interface MovieService {
 
     List<Movie> getAllMovies(String ratingOrder,String priceOrder);
 
+    List<Movie> getAllSearchedMovies(String movieNameRus,String movieNameOrigin
+                                    ,String country,Integer year,String genreName);
+
     Movie getMovieById(int id);
+
+
 
 }

@@ -47,19 +47,16 @@ public class JdbcGenreDao implements GenreDao {
     }
 
     @Override
-    public Map<Integer, String> getAllGenres() {
+    public Map<String,Integer> getAllGenres() {
         LOGGER.info("Getting All Genres from DB ");
         long startTime = System.currentTimeMillis();
 
-        Map<Integer,String> genresMap = jdbcTemplate.query(getAllGenresSQL, new ResultSetExtractor<Map<Integer, String>>() {
-            @Override
-            public Map<Integer, String> extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-                HashMap<Integer, String> mapRet = new HashMap<>();
-                while(resultSet.next()){
-                    mapRet.put(resultSet.getInt("genre_id"), resultSet.getString("description"));
-                }
-                return mapRet;
+        Map<String,Integer> genresMap = jdbcTemplate.query(getAllGenresSQL, resultSet -> {
+            HashMap<String,Integer> mapRet = new HashMap<>();
+            while(resultSet.next()){
+                mapRet.put(resultSet.getString("description"), resultSet.getInt("genre_id") );
             }
+            return mapRet;
         });
 
         LOGGER.info("All Genres were extracted from DB, it took {} ms ", System.currentTimeMillis() - startTime );
@@ -74,4 +71,6 @@ public class JdbcGenreDao implements GenreDao {
         LOGGER.info("All genres by movie ID was received, it took {}", System.currentTimeMillis() - startTime );
         return genreList;
     }
+
+
 }

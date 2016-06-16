@@ -9,7 +9,7 @@ import java.util.Map;
 public interface GenreDao{
 
     void insert(Map<String,Genre> genreMap);
-    Map<Integer,String> getAllGenres();
+    Map<String,Integer> getAllGenres();
     List<Genre> getGenresByMovieId(int movieId);
 
 }

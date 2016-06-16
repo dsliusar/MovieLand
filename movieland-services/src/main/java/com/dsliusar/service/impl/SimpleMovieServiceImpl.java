@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -20,7 +22,6 @@ public class SimpleMovieServiceImpl implements MovieService {
     private MovieDao movieDao;
 
     @Autowired
-    @Qualifier("simpleGenreService")
     private GenreService simpleGenreService;
 
     @Autowired
@@ -32,6 +33,25 @@ public class SimpleMovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getAllMovies(String ratingOrder,String priceOrder) {
         List<Movie> movieList = movieDao.getAllMovies(ratingOrder,priceOrder);
+        for(Movie movie : movieList){
+            movie.setGenreList(simpleGenreService.getGenresByMovieId(movie.getMovieId()));
+        }
+        return movieList;
+    }
+
+    @Override
+    public List<Movie> getAllSearchedMovies(String movieNameRus, String movieNameOrigin
+                                           ,String country, Integer year, String genreName) {
+        Map<String,Integer> allCounties = null;
+        Map<String,Integer> allGenres = null;
+
+        if(country != null){
+            allCounties = simpleCountryService.getAllCountries();
+        }
+        if(genreName != null) {
+            allGenres = simpleGenreService.getAllGenres();
+        }
+        List<Movie> movieList = movieDao.getSearchedMovies(movieNameRus,movieNameOrigin,year,allGenres.get(genreName), allCounties.get(country));
         for(Movie movie : movieList){
             movie.setGenreList(simpleGenreService.getGenresByMovieId(movie.getMovieId()));
         }

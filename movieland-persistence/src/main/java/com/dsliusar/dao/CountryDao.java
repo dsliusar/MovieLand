@@ -12,4 +12,5 @@ public interface CountryDao{
 
     void insert( Map<String,Country> countryMap);
     List<Country> getAllCountriesByMovieId(int movieId);
+    Map<String,Integer> getAllCountries();
 }
