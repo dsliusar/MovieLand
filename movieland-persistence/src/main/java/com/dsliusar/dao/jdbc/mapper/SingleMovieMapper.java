@@ -1,14 +1,10 @@
 package com.dsliusar.dao.jdbc.mapper;
 
-import com.dsliusar.entity.Country;
-import com.dsliusar.entity.Genre;
 import com.dsliusar.entity.Movie;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by DSliusar on 09.06.2016.

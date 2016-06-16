@@ -3,16 +3,12 @@ package com.dsliusar.dao.jdbc.impl;
 import com.dsliusar.dao.ReviewDao;
 import com.dsliusar.dao.jdbc.mapper.ReviewMapper;
 import com.dsliusar.entity.Review;
-import com.dsliusar.dao.files.impl.ReviewFileParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -35,11 +31,10 @@ public class JdbcReviewDao implements ReviewDao {
     public void insert(List<Review> reviewList) {
         LOGGER.info("Start populating Review Table");
         for (Review arrReview : reviewList) {
-                jdbcTemplate.update(insertReviewSQL, new Object[]{
-                        arrReview.getReviewId(),
+                jdbcTemplate.update(insertReviewSQL, arrReview.getReviewId(),
                         arrReview.getUserId(),
                         arrReview.getMovieId(),
-                        arrReview.getReviewText()}) ;
+                        arrReview.getReviewText()) ;
 
           LOGGER.info("Next Rows inserted into Review table : " + arrReview);
         }

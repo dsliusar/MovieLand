@@ -3,9 +3,11 @@ package com.dsliusar.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 
 @JsonIgnoreProperties(value = { "countryId" })
-public class Country {
+public class Country implements Serializable {
     @JsonIgnore
     private int countryId;
     private String countryName;

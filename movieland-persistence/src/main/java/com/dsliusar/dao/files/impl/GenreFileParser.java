@@ -27,7 +27,7 @@ public class GenreFileParser {
     @Autowired
     private CommonFileParser commonFileParser;
 
-    public Map<String,Genre> ParseGenreIntoMap() {
+    public Map<String,Genre> parseGenreIntoMap() {
         LOGGER.info("Start parsing file with next file path = {}", filePath);
         String fileLine;
         int i = 0;
@@ -48,23 +48,6 @@ public class GenreFileParser {
         LOGGER.info("Parsing file from {} finished successfully", filePath);
         return genreHashMap;
     }
-
-//    public  void fillGenreMovie(String genreName, int movieId) {
-//        ArrayList<String> genreNamesList = new ArrayList<>(Arrays.asList(genreName.split(",")));
-//        for (String str : genreNamesList) {
-//            str = str.trim();
-//            if (genreHashMap.containsKey(str)) {
-//                genreMoviesList.add(populateGenreMovieId(genreHashMap.get(str).getGenreId(), movieId));
-//            }
-//        }
-//    }
-//
-//    private GenreMovie populateGenreMovieId(int inGenreId, int movieId) {
-//        GenreMovie genreMovie = new GenreMovie();
-//        genreMovie.setMovieId(movieId);
-//        genreMovie.setGenreId(inGenreId);
-//        return genreMovie;
-//    }
 
 
     public Map<String,Genre> getParsedGenresMap() {

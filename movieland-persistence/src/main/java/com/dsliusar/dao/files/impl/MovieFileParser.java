@@ -24,9 +24,6 @@ public class MovieFileParser {
     private String filePath;
 
     @Autowired
-    private GenreFileParser genreFileParser;
-
-    @Autowired
     private CountryParser countriesParser;
 
     @Autowired
@@ -41,7 +38,7 @@ public class MovieFileParser {
         String movieName = "";
         String strLine;
         try {
-            Movie movie = getNewMovie();
+            Movie movie = new Movie();
             BufferedReader bufReader = commonFileParser.readFromFile(filePath);
             while ((strLine = bufReader.readLine()) != null) {
 
@@ -92,7 +89,7 @@ public class MovieFileParser {
                 lineCounter++;
                 if (strLine.isEmpty() == true) {
                     movieHashMap.put(movieName,movie);
-                    movie = getNewMovie();
+                    movie = new Movie();
                     lineCounter = 0;
                     continue;
                 }
@@ -108,20 +105,8 @@ public class MovieFileParser {
         return movieHashMap;
     }
 
-    public void setGenreFileParser(GenreFileParser genreFileParser) {
-        this.genreFileParser = genreFileParser;
-    }
-
     public Map<String,Movie> getParsedMovieMap(){
         return movieHashMap;
-    }
-
-    private Map<String,Genre>  returnGenreList(){
-        return genreFileParser.getParsedGenresMap();
-    }
-
-    private static Movie getNewMovie() {
-        return new Movie();
     }
 
     public void setCountriesParser(CountryParser countriesParser) { this.countriesParser = countriesParser; }

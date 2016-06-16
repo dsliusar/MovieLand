@@ -9,12 +9,11 @@ import java.sql.SQLException;
 /**
  * Created by DSliusar on 09.06.2016.
  */
-public class AllMovieMapper implements RowMapper<Movie> {
+public class MovieMapper implements RowMapper<Movie> {
 
     @Override
     public Movie mapRow(ResultSet resultSet, int i) throws SQLException {
         Movie movie = new Movie();
-
         movie.setMovieNameOrigin(resultSet.getString("movie_name_eng"));
         movie.setMovieNameRus(resultSet.getString("movie_name_rus"));
         movie.setMovieId(resultSet.getInt("movie_id"));

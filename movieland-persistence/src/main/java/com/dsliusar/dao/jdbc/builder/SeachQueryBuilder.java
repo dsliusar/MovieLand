@@ -1,9 +1,6 @@
 package com.dsliusar.dao.jdbc.builder;
 
-import com.dsliusar.GenreFieldNamesEnum;
 import com.dsliusar.MovieFieldNamesEnum;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by Red1 on 6/16/2016.
@@ -38,7 +35,6 @@ public class SeachQueryBuilder {
                 '}';
     }
 
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private static final String DEFAULT_WHERE_CLAUSE = " WHERE 1 = 1 ";
     private static final String AND_CLAUSE = " AND ";
 
@@ -48,17 +44,17 @@ public class SeachQueryBuilder {
             return sql;
         }
         if (genreId != null) {
-            returnSql.append(" JOIN genre q1 on q1.movie_id = q.movie_id AND q1.genre_id = ").append(genreId);
+            returnSql.append(" JOIN genre_movies q1 on q1.movie_id = q.movie_id AND q1.genre_id = ").append(genreId);
         }
         if (countryId != null){
-            returnSql.append(" JOIN country q2 on q2.movie_id = q.movie_id AND q2.country_id = ").append(countryId);
+            returnSql.append(" JOIN countries_movie_mapper q2 on q2.movie_id = q.movie_id AND q2.country_id = ").append(countryId);
         }
         returnSql.append(DEFAULT_WHERE_CLAUSE);
         if (movieNameRus != null ) {
                 appendWhereClause(returnSql, MovieFieldNamesEnum.MOVIE_NAME_RUS.toString(),movieNameRus);
           }
         if (movieNameOrigin != null) {
-            appendWhereClause(returnSql, MovieFieldNamesEnum.MOVIE_NAME_ORIGIN.toString(),movieNameOrigin);
+            appendWhereClause(returnSql, MovieFieldNamesEnum.MOVIE_NAME_ENG.toString(),movieNameOrigin);
         }
         if (year != null) {
             appendWhereClause(returnSql, MovieFieldNamesEnum.YEAR.toString(),year);

@@ -2,21 +2,14 @@ package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.CountryDao;
 import com.dsliusar.dao.jdbc.mapper.CountryMapper;
-import com.dsliusar.dao.jdbc.mapper.ReviewMapper;
 import com.dsliusar.entity.Country;
-import com.dsliusar.dao.files.impl.CountryParser;
-import com.dsliusar.entity.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

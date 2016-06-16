@@ -1,5 +1,7 @@
 package com.dsliusar.util.dto;
 
+import org.springframework.http.ResponseEntity;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +20,10 @@ public class AllMovieListDto implements Serializable {
     }
 
     public AllMovieListDto(List<AllMovieDto> movies) {
+        this.movies = movies;
+    }
+
+    public AllMovieListDto(ResponseEntity<List<AllMovieDto>> listResponseEntity) {
         this.movies = movies;
     }
 

@@ -3,8 +3,7 @@ package com.dsliusar.dao.jdbc.impl;
 import com.dsliusar.dao.MovieDao;
 import com.dsliusar.dao.jdbc.builder.SeachQueryBuilder;
 import com.dsliusar.dao.jdbc.builder.SortingQueryBuilder;
-import com.dsliusar.dao.jdbc.mapper.AllMovieMapper;
-import com.dsliusar.dao.jdbc.mapper.SingleMovieMapper;
+import com.dsliusar.dao.jdbc.mapper.MovieMapper;
 import com.dsliusar.entity.Country;
 import com.dsliusar.entity.Genre;
 import com.dsliusar.entity.Movie;
@@ -93,17 +92,18 @@ public class JdbcMovieDao implements MovieDao {
     public List<Movie> getAllMovies(String ratingOrder, String priceOrder) {
         LOGGER.info("Start getting all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> allMovieList = jdbcTemplate.query(new SortingQueryBuilder(getAllMoviesSQL, ratingOrder, priceOrder).movieSortingQueryBuilder(),new AllMovieMapper());
+        List<Movie> allMovieList = jdbcTemplate.query(new SortingQueryBuilder(getAllMoviesSQL, ratingOrder, priceOrder).movieSortingQueryBuilder(),new MovieMapper());
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
     }
 
     @Override
     public List<Movie> getSearchedMovies(String movieNameRus, String movieNameOrigin,  Integer year, Integer genreId, Integer countryId) {
-        LOGGER.info("Start getting all movies from by next search Criteria, movieNameRus = {}, OriginName = {}, Year = ", movieNameRus,movieNameOrigin,year);
+        LOGGER.info("Start getting all movies from by next search Criteria, movieNameRus = {}, OriginName = {}, Year = {}, genreId = {}, countryId = {}"
+                   ,movieNameRus ,movieNameOrigin ,year ,genreId ,countryId);
         long startTime = System.currentTimeMillis();
         List<Movie> allMovieList = jdbcTemplate.query(new SeachQueryBuilder(getAllMoviesSQL, movieNameRus,movieNameOrigin,year,genreId,countryId).movieSearchQueryBuilder()
-                , new AllMovieMapper());
+                , new MovieMapper());
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
     }
@@ -112,7 +112,7 @@ public class JdbcMovieDao implements MovieDao {
     public Movie getById(int id) {
         LOGGER.info("Start getting all movies from DB");
         long startTime = System.currentTimeMillis();
-        Movie movie = jdbcTemplate.queryForObject(getMovieById, new Object[]{id}, new SingleMovieMapper());
+        Movie movie = jdbcTemplate.queryForObject(getMovieById, new Object[]{id}, new MovieMapper());
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return movie;
     }

@@ -3,8 +3,10 @@ package com.dsliusar.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 @JsonIgnoreProperties(value = { "reviewId","movieId","userId"})
-public class Review {
+public class Review implements Serializable{
 
     @JsonIgnore
     private int reviewId;

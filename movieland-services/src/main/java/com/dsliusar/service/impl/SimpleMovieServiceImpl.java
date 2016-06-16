@@ -7,10 +7,8 @@ import com.dsliusar.service.GenreService;
 import com.dsliusar.service.MovieService;
 import com.dsliusar.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +28,17 @@ public class SimpleMovieServiceImpl implements MovieService {
     @Autowired
     private ReviewService simpleReviewService;
 
+    @Autowired
+    private GenreService cacheableGenreService;
+
+
     @Override
     public List<Movie> getAllMovies(String ratingOrder,String priceOrder) {
         List<Movie> movieList = movieDao.getAllMovies(ratingOrder,priceOrder);
         for(Movie movie : movieList){
             movie.setGenreList(simpleGenreService.getGenresByMovieId(movie.getMovieId()));
         }
+        cacheableGenreService.getAllGenres();
         return movieList;
     }
 

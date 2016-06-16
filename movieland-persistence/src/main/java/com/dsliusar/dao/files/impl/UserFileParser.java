@@ -22,7 +22,7 @@ public class UserFileParser {
 
     private Map<String, User> userMap = new HashMap<>();
 
-    public Map<String, User> ParseUsersIntoList() {
+    public Map<String, User> parseUsersIntoList() {
         String fileLine;
         int sequenceUser = 0;
         int counter = 0;

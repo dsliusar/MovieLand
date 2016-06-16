@@ -3,7 +3,6 @@ package com.dsliusar.service.impl;
 import com.dsliusar.dao.CountryDao;
 import com.dsliusar.entity.Country;
 import com.dsliusar.service.CountryService;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

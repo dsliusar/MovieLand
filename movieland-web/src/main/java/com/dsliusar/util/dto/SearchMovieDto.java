@@ -1,10 +1,12 @@
 package com.dsliusar.util.dto;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  * Created by DSliusar on 15.06.2016.
  */
+@XmlRootElement(name = "Movie")
 public class SearchMovieDto implements Serializable{
 
     private String movieNameRus;

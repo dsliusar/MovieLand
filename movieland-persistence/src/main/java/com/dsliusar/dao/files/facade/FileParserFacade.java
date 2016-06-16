@@ -30,8 +30,8 @@ public class FileParserFacade {
 
 
     public void fillMapOfFiles(){
-        mapOfFiles.put(Constant.USER_MAP_NAME, userFileParser.ParseUsersIntoList());
-        mapOfFiles.put(Constant.GENRE_MAP_NAME, genreFileParser.ParseGenreIntoMap());
+        mapOfFiles.put(Constant.USER_MAP_NAME, userFileParser.parseUsersIntoList());
+        mapOfFiles.put(Constant.GENRE_MAP_NAME, genreFileParser.parseGenreIntoMap());
         mapOfFiles.put(Constant.MOVIE_MAP_NAME, movieFileParser.parseMoviesIntoList());
         mapOfFiles.put(Constant.COUNTRY_MAP_NAME, countryParser.getCountryMap());
         mapOfFiles.put(Constant.REVIEW_LIST_NAME, reviewFileParser.parseReviewIntoList());

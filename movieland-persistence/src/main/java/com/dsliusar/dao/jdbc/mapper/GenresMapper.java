@@ -1,7 +1,6 @@
 package com.dsliusar.dao.jdbc.mapper;
 
 import com.dsliusar.entity.Genre;
-import com.dsliusar.entity.Movie;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

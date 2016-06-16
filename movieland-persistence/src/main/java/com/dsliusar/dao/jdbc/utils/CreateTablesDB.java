@@ -10,9 +10,11 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * Created by Red1 on 6/13/2016.
@@ -42,7 +44,7 @@ public class CreateTablesDB implements ResourceLoaderAware {
             ScriptRunner scriptRunner = new ScriptRunner(conn, false, false);
             InputStream in = sqlCreateFilePath.getInputStream();
             Reader reader = new BufferedReader(
-                    new InputStreamReader(in));
+                    new InputStreamReader(in,"UTF-8"));
 
             scriptRunner.runScript(reader);
         } catch (Exception e) {
