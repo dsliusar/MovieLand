@@ -1,6 +1,6 @@
 package com.dsliusar.dao.jdbc.utils;
 
-import com.dsliusar.Constant;
+import com.dsliusar.constants.Constant;
 import com.dsliusar.dao.*;
 import com.dsliusar.dao.files.facade.FileParserFacade;
 import com.dsliusar.entity.*;

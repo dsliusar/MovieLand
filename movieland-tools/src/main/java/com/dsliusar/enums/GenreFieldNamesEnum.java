@@ -1,4 +1,4 @@
-package com.dsliusar;
+package com.dsliusar.enums;
 
 /**
  * Created by Red1 on 6/16/2016.

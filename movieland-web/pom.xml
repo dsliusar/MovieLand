@@ -32,41 +32,24 @@
         </dependency>
 
 
-         <!-- Spring -->
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
-
-        <!-- Servlets-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.1</version>
-            <scope>provided</scope>
-        </dependency>
-
-    </dependencies>
-
+  </dependencies>
 
 
     <build>
         <finalName>movieland</finalName>
-          <plugins>
+        <plugins>
             <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<executable>true</executable>-->
-                <!--</configuration>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--<configuration>-->
+            <!--<executable>true</executable>-->
+            <!--</configuration>-->
             <!--</plugin>-->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -76,12 +59,12 @@
                 </configuration>
             </plugin>
             <!--<plugin>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<includes>-->
-                        <!--<include>**/*Tests.java</include>-->
-                    <!--</includes>-->
-                <!--</configuration>-->
+            <!--<artifactId>maven-surefire-plugin</artifactId>-->
+            <!--<configuration>-->
+            <!--<includes>-->
+            <!--<include>**/*Tests.java</include>-->
+            <!--</includes>-->
+            <!--</configuration>-->
             <!--</plugin>-->
         </plugins>
     </build>

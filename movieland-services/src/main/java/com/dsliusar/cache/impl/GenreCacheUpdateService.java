@@ -47,7 +47,7 @@ public class GenreCacheUpdateService implements CacheService{
     private final class IntervalUpdateCache implements Runnable {
         @Override
         public void run() {
-            System.out.println("beep !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("cacheeeeee !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             genreDao.getAllGenres();
         }
     }
@@ -57,6 +57,9 @@ public class GenreCacheUpdateService implements CacheService{
         fScheduler.scheduleAtFixedRate(periodicalCacheUpdate, 0, 20, TimeUnit.SECONDS);
     }
 
+    public static void main(String[] args) throws Exception {
+        new GenreCacheUpdateService().afterPropertiesSet();
+    }
 }
 
 

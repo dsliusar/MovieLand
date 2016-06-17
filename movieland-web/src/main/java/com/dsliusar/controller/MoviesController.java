@@ -1,5 +1,6 @@
 package com.dsliusar.controller;
 
+import com.dsliusar.enums.SorterValidatorEnum;
 import com.dsliusar.service.MovieService;
 import com.dsliusar.util.dto.AllMovieDto;
 import com.dsliusar.util.dto.AllMovieListDto;
@@ -47,7 +48,7 @@ public class MoviesController {
     private List<AllMovieDto> getAllMovies(String ratingOrder, String priceOrder) {
         LOGGER.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
-        List<AllMovieDto> movieDtoList = movieDtoConverter.convertAllMovieToDto(simpleMovieService.getAllMovies(ratingOrder, priceOrder));
+        List<AllMovieDto> movieDtoList = movieDtoConverter.convertAllMovieToDto(simpleMovieService.getAllMovies(SorterValidatorEnum.vaidateOrderClause(ratingOrder), SorterValidatorEnum.vaidateOrderClause(priceOrder)));
         LOGGER.info("All {} movies received, it took {} ms", movieDtoList, System.currentTimeMillis() - startTime);
         return movieDtoList;
     }

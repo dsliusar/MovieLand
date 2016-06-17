@@ -7,9 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by DSliusar on 15.06.2016.
- */
 @XmlRootElement(name = "Movies")
 public class AllMovieListDto implements Serializable {
 

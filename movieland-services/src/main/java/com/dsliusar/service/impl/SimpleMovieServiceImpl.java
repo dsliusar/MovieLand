@@ -2,6 +2,7 @@ package com.dsliusar.service.impl;
 
 import com.dsliusar.dao.MovieDao;
 import com.dsliusar.entity.Movie;
+import com.dsliusar.dto.MovieSearchRequestDto;
 import com.dsliusar.service.CountryService;
 import com.dsliusar.service.GenreService;
 import com.dsliusar.service.MovieService;
@@ -43,18 +44,19 @@ public class SimpleMovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAllSearchedMovies(String movieNameRus, String movieNameOrigin
-                                           ,String country, Integer year, String genreName) {
+    public List<Movie> getAllSearchedMovies(MovieSearchRequestDto movieSearchRequest) {
         Map<String,Integer> allCounties = null;
         Map<String,Integer> allGenres = null;
 
-        if(country != null){
+        if(movieSearchRequest.getCountry() != null){
             allCounties = simpleCountryService.getAllCountries();
+            movieSearchRequest.setCountryId(allCounties.get(movieSearchRequest.getCountry()));
         }
-        if(genreName != null) {
+        if(movieSearchRequest.getGenreName() != null) {
             allGenres = simpleGenreService.getAllGenres();
+            movieSearchRequest.setGenreId(allGenres.get(movieSearchRequest.getGenreName()));
         }
-        List<Movie> movieList = movieDao.getSearchedMovies(movieNameRus,movieNameOrigin,year,allGenres.get(genreName), allCounties.get(country));
+        List<Movie> movieList = movieDao.getSearchedMovies(movieSearchRequest);
         for(Movie movie : movieList){
             movie.setGenreList(simpleGenreService.getGenresByMovieId(movie.getMovieId()));
         }

@@ -2,13 +2,12 @@ package com.dsliusar.dao.jdbc.mapper;
 
 import com.dsliusar.entity.Movie;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by DSliusar on 09.06.2016.
- */
+@Repository
 public class MovieMapper implements RowMapper<Movie> {
 
     @Override

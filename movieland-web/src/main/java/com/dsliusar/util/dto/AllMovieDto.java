@@ -1,14 +1,14 @@
 package com.dsliusar.util.dto;
 
 import com.dsliusar.entity.Genre;
+import com.dsliusar.util.dto.converter.GenreListSerialize;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by DSliusar on 15.06.2016.
- */
 @XmlRootElement(name = "Movie")
 public class AllMovieDto implements Serializable{
 
@@ -21,6 +21,7 @@ public class AllMovieDto implements Serializable{
 
     private double rating;
 
+    //@JsonSerialize(using = GenreListSerialize.class)
     private List<Genre> genreList;
 
     @Override

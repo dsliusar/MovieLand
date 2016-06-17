@@ -1,6 +1,7 @@
 package com.dsliusar.dao.jdbc.builder;
 
-import com.dsliusar.MovieFieldNamesEnum;
+import com.dsliusar.enums.MovieFieldNamesEnum;
+import com.dsliusar.dto.MovieSearchRequestDto;
 
 /**
  * Created by Red1 on 6/16/2016.
@@ -14,13 +15,14 @@ public class SeachQueryBuilder {
     private Integer countryId;
 
     public SeachQueryBuilder() {}
-    public SeachQueryBuilder(String sql, String movieNameRus, String movieNameOrigin, Integer year, Integer genreId, Integer countryId) {
+
+    public SeachQueryBuilder(String sql, MovieSearchRequestDto movieSearchRequest) {
         this.sql = sql;
-        this.movieNameRus = movieNameRus;
-        this.movieNameOrigin = movieNameOrigin;
-        this.year = year;
-        this.genreId = genreId;
-        this.countryId = countryId;
+        this.movieNameRus = movieSearchRequest.getMovieNameRus();
+        this.movieNameOrigin = movieSearchRequest.getMovieNameOrigin();
+        this.year = movieSearchRequest.getYear();
+        this.genreId = movieSearchRequest.getGenreId();
+        this.countryId = movieSearchRequest.getCountryId();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.dsliusar.dao.files.facade;
 
-import com.dsliusar.Constant;
+import com.dsliusar.constants.Constant;
 import com.dsliusar.dao.files.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,5 @@
 package com.dsliusar.service.impl;
 
-import com.dsliusar.Constant;
 import com.dsliusar.cache.CacheService;
 import com.dsliusar.entity.Genre;
 import com.dsliusar.service.GenreService;
@@ -30,8 +29,9 @@ public class CacheableGenreService implements GenreService {
 
     @Override
     public Map<String, Integer> getAllGenres() {
-        System.out.println("In Cacheable");
-        return (Map<String, Integer>) concurrentHashMapService.getCacheById(Constant.GENRE_CONCURRENT_CACHE_MAP);
+    //    System.out.println("In Cacheable");
+      //  return (Map<String, Integer>) concurrentHashMapService.getCacheById(Constant.GENRE_CONCURRENT_CACHE_MAP);
+return null;
 
     }
 

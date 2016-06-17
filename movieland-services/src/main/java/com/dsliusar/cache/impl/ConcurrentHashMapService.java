@@ -1,6 +1,6 @@
 package com.dsliusar.cache.impl;
 
-import com.dsliusar.Constant;
+import com.dsliusar.constants.Constant;
 import com.dsliusar.cache.CacheService;
 import org.springframework.stereotype.Service;
 
