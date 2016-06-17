@@ -10,8 +10,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
-public class SetUpDataBaseFacade {
-
+public class SetUpDataBaseFacade{
 
     @Autowired
     private CreateTablesDB createTablesDB;
@@ -46,8 +45,8 @@ public class SetUpDataBaseFacade {
         jdbcGenreDao.insert((Map<String, Genre>) mapOfFiles.get(Constant.GENRE_MAP_NAME));
 
         jdbcMovieDao.insert((Map<String, Movie>)mapOfFiles.get(Constant.MOVIE_MAP_NAME)
-                           ,(Map<String, Country>)mapOfFiles.get(Constant.COUNTRY_MAP_NAME)
-                           ,(Map<String, Genre>)mapOfFiles.get(Constant.GENRE_MAP_NAME));
+                ,(Map<String, Country>)mapOfFiles.get(Constant.COUNTRY_MAP_NAME)
+                ,(Map<String, Genre>)mapOfFiles.get(Constant.GENRE_MAP_NAME));
 
         jdbcCountryDao.insert((Map<String, Country>) mapOfFiles.get(Constant.COUNTRY_MAP_NAME));
         jdbcReviewDao.insert((List<Review>) mapOfFiles.get(Constant.REVIEW_LIST_NAME));

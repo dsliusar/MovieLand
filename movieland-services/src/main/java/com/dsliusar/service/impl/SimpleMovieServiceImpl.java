@@ -2,7 +2,7 @@ package com.dsliusar.service.impl;
 
 import com.dsliusar.dao.MovieDao;
 import com.dsliusar.entity.Movie;
-import com.dsliusar.dto.MovieSearchRequestDto;
+import com.dsliusar.httpEntities.MovieSearchRequestDto;
 import com.dsliusar.service.CountryService;
 import com.dsliusar.service.GenreService;
 import com.dsliusar.service.MovieService;

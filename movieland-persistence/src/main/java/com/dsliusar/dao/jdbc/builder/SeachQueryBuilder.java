@@ -1,7 +1,7 @@
 package com.dsliusar.dao.jdbc.builder;
 
 import com.dsliusar.enums.MovieFieldNamesEnum;
-import com.dsliusar.dto.MovieSearchRequestDto;
+import com.dsliusar.httpEntities.MovieSearchRequestDto;
 
 /**
  * Created by Red1 on 6/16/2016.

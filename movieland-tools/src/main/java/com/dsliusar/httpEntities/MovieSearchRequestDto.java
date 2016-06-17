@@ -1,4 +1,4 @@
-package com.dsliusar.dto;
+package com.dsliusar.httpEntities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -1,10 +1,10 @@
 package com.dsliusar.controller;
 
-import com.dsliusar.dto.MovieSearchRequestDto;
+import com.dsliusar.httpEntities.MovieSearchRequestDto;
 import com.dsliusar.service.MovieService;
-import com.dsliusar.util.dto.AllMovieDto;
-import com.dsliusar.util.dto.AllMovieListDto;
-import com.dsliusar.util.dto.converter.MovieDaoToDto;
+import com.dsliusar.dto.AllMovieDto;
+import com.dsliusar.dto.AllMovieListDto;
+import com.dsliusar.dto.converter.MovieDaoToDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

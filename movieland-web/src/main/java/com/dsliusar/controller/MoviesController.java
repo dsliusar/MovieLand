@@ -2,10 +2,10 @@ package com.dsliusar.controller;
 
 import com.dsliusar.enums.SorterValidatorEnum;
 import com.dsliusar.service.MovieService;
-import com.dsliusar.util.dto.AllMovieDto;
-import com.dsliusar.util.dto.AllMovieListDto;
-import com.dsliusar.util.dto.MovieByIdDto;
-import com.dsliusar.util.dto.converter.MovieDaoToDto;
+import com.dsliusar.dto.AllMovieDto;
+import com.dsliusar.dto.AllMovieListDto;
+import com.dsliusar.dto.MovieByIdDto;
+import com.dsliusar.dto.converter.MovieDaoToDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,8 @@ public class MoviesController {
     private List<AllMovieDto> getAllMovies(String ratingOrder, String priceOrder) {
         LOGGER.info("Sending request to get all movies");
         long startTime = System.currentTimeMillis();
-        List<AllMovieDto> movieDtoList = movieDtoConverter.convertAllMovieToDto(simpleMovieService.getAllMovies(SorterValidatorEnum.vaidateOrderClause(ratingOrder), SorterValidatorEnum.vaidateOrderClause(priceOrder)));
+        List<AllMovieDto> movieDtoList = movieDtoConverter.convertAllMovieToDto(simpleMovieService.getAllMovies(SorterValidatorEnum.vaidateOrderClause(ratingOrder)
+                                                                                                               ,SorterValidatorEnum.vaidateOrderClause(priceOrder)));
         LOGGER.info("All {} movies received, it took {} ms", movieDtoList, System.currentTimeMillis() - startTime);
         return movieDtoList;
     }

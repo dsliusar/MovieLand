@@ -1,9 +1,10 @@
 package com.dsliusar.cache.impl;
 
-import com.dsliusar.constants.Constant;
 import com.dsliusar.cache.CacheService;
+import com.dsliusar.constants.Constant;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -12,14 +13,15 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class ConcurrentHashMapService implements CacheService {
 
-    private ConcurrentHashMap<String, ConcurrentHashMap<?, ?>> mapOfCacheMaps;
+    private Map<String, Map<?, ?>> mapOfCacheMaps = new ConcurrentHashMap<>();
+
     @Override
-    public ConcurrentHashMap<?,?> getCacheById(String cacheId) {
+    public Map<?,?> getCacheById(String cacheId) {
         return mapOfCacheMaps.get(cacheId);
     }
 
     @Override
-    public void addCache(ConcurrentHashMap<?, ?> cacheMap) {
+    public void addCache(Map<?, ?> cacheMap) {
         mapOfCacheMaps.put(Constant.GENRE_CONCURRENT_CACHE_MAP, cacheMap);
     }
 }

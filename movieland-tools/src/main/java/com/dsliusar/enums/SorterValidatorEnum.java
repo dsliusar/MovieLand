@@ -15,7 +15,8 @@ public enum SorterValidatorEnum {
 
     public static String vaidateOrderClause(String sortId) throws IllegalArgumentException {
         for (SorterValidatorEnum sortValues : SorterValidatorEnum.values()) {
-            if (!sortValues.equals(sortId)) {
+            if(sortId == null){return sortId;}
+            if (sortId.equalsIgnoreCase(sortValues.toString())) {
                 throw new IllegalArgumentException("Illegal arguments received");
             }
         }

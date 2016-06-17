@@ -45,7 +45,7 @@ public class JdbcGenreDao implements GenreDao {
     }
 
     @Override
-    public ConcurrentHashMap<String,Integer> getAllGenres() {
+    public Map<String,Integer> getAllGenres() {
         LOGGER.info("Getting All Genres from DB ");
         long startTime = System.currentTimeMillis();
 

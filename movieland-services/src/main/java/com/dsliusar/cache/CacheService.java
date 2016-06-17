@@ -1,12 +1,12 @@
 package com.dsliusar.cache;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 /**
  * Created by DSliusar on 16.06.2016.
  */
 public interface CacheService {
 
-      ConcurrentHashMap<?, ?> getCacheById(String cacheId);
-      void addCache(ConcurrentHashMap<?,?> cacheMap);
+      Map<?, ?> getCacheById(String cacheId);
+      void addCache(Map<?,?> cacheMap);
 }

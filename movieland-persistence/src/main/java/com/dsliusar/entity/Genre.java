@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(value = { "genreId" })
 @XmlRootElement(name = "Genre")
 public class Genre implements Serializable {
 
+    @XmlTransient
     @JsonIgnore
     private int genreId;
 

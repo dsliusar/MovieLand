@@ -1,8 +1,8 @@
-package com.dsliusar.util.dto.converter;
+package com.dsliusar.dto.converter;
 
+import com.dsliusar.dto.AllMovieDto;
+import com.dsliusar.dto.MovieByIdDto;
 import com.dsliusar.entity.Movie;
-import com.dsliusar.util.dto.AllMovieDto;
-import com.dsliusar.util.dto.MovieByIdDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class MovieDaoToDto {
         List<AllMovieDto> allMovieDtoList = new ArrayList<>();
         for (Movie movie : movieList) {
             AllMovieDto allMovieDto = new AllMovieDto();
-            allMovieDto.setGenreList(movie.getGenreList());
+            allMovieDto.setGenres(movie.getGenreList());
             allMovieDto.setMovieNameRus(movie.getMovieNameRus());
             allMovieDto.setMovieNameOrigin(movie.getMovieNameOrigin());
             allMovieDto.setRating(movie.getRating());

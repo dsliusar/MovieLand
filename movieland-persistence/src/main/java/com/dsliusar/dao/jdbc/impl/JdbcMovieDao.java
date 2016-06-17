@@ -7,7 +7,7 @@ import com.dsliusar.dao.jdbc.mapper.MovieMapper;
 import com.dsliusar.entity.Country;
 import com.dsliusar.entity.Genre;
 import com.dsliusar.entity.Movie;
-import com.dsliusar.dto.MovieSearchRequestDto;
+import com.dsliusar.httpEntities.MovieSearchRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.dsliusar.service;
 
 import com.dsliusar.entity.Movie;
-import com.dsliusar.dto.MovieSearchRequestDto;
+import com.dsliusar.httpEntities.MovieSearchRequestDto;
 
 import java.util.List;
 

@@ -1,34 +1,37 @@
-package com.dsliusar.util.dto;
+package com.dsliusar.dto;
 
-import com.dsliusar.entity.Country;
+import com.dsliusar.dto.converter.GenreListSerializer;
 import com.dsliusar.entity.Genre;
-import com.dsliusar.entity.Review;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlRootElement(name = "Movie")
-public class MovieByIdDto implements Serializable{
+@XmlRootElement(name = "movie")
+@XmlType (propOrder = {"movieNameRus","movieNameOrigin","year","rating", "genres"} )
+public class AllMovieDto{
+
 
     private String movieNameRus;
+
     private String movieNameOrigin;
+
     private int year;
+
     private double rating;
-    private List<Genre> genreList;
-    private List<Country> countryList;
-    private List<Review> reviewText;
+
+    @JsonSerialize(using = GenreListSerializer.class)
+    private List<Genre> genres;
 
     @Override
     public String toString() {
-        return "MovieByIdDto{" +
+        return "AllMovieDto{" +
                 "movieNameRus='" + movieNameRus + '\'' +
                 ", movieNameOrigin='" + movieNameOrigin + '\'' +
                 ", year=" + year +
                 ", rating=" + rating +
-                ", genreList=" + genreList +
-                ", countryList=" + countryList +
-                ", reviewText=" + reviewText +
+                ", genres=" + genres +
                 '}';
     }
 
@@ -64,28 +67,11 @@ public class MovieByIdDto implements Serializable{
         this.rating = rating;
     }
 
-    public List<Genre> getGenreList() {
-        return genreList;
+    public List<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenreList(List<Genre> genreList) {
-        this.genreList = genreList;
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
-
-    public List<Country> getCountryList() {
-        return countryList;
-    }
-
-    public void setCountryList(List<Country> countryList) {
-        this.countryList = countryList;
-    }
-
-    public List<Review> getReviewText() {
-        return reviewText;
-    }
-
-    public void setReviewText(List<Review> reviewText) {
-        this.reviewText = reviewText;
-    }
-
 }

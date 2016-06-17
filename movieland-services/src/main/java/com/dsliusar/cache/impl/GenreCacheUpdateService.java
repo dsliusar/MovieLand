@@ -2,64 +2,51 @@ package com.dsliusar.cache.impl;
 
 import com.dsliusar.cache.CacheService;
 import com.dsliusar.dao.GenreDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by DSliusar on 16.06.2016.
  */
 
-public class GenreCacheUpdateService implements CacheService{
+public class GenreCacheUpdateService implements CacheService {
 
-
-    private static final int NUM_THREADS = 1;
-    private final ScheduledExecutorService fScheduler;
-    @Autowired
-    GenreDao genreDao;
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private Map<String, Integer> genreNameWithIdCache = new ConcurrentHashMap<>();
 
     @Autowired
-    CacheService concurrentHashMapService;
+    private GenreDao jdbcGenreDao;
 
-    GenreCacheUpdateService() {
-        fScheduler = Executors.newScheduledThreadPool(NUM_THREADS);
-    }
+    @Autowired
+    private CacheService concurrentHashMapService;
 
     @Override
-    public ConcurrentHashMap<?, ?> getCacheById(String cacheId) {
+    public Map<?, ?> getCacheById(String cacheId) {
         return null;
     }
 
     @Override
-    public void addCache(ConcurrentHashMap<?, ?> cacheMap) {
-        concurrentHashMapService.addCache(cacheMap);
+    public void addCache(Map<?, ?> cacheMap) { concurrentHashMapService.addCache(cacheMap); }
+
+    @Scheduled(fixedDelay = 5000)
+    private void addCache() {
+        LOGGER.info("Updating the cache of genres");
+        genreNameWithIdCache = jdbcGenreDao.getAllGenres();
+        addCache(genreNameWithIdCache);
+
     }
 
-    public void afterPropertiesSet() throws Exception {
-        GenreCacheUpdateService updateCache = new GenreCacheUpdateService();
-        updateCache.runCacheUpdate();
+    public void setJdbcGenreDao(GenreDao jdbcGenreDao) {
+        this.jdbcGenreDao = jdbcGenreDao;
     }
 
 
-    private final class IntervalUpdateCache implements Runnable {
-        @Override
-        public void run() {
-            System.out.println("cacheeeeee !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            genreDao.getAllGenres();
-        }
-    }
 
-    void runCacheUpdate() {
-        Runnable periodicalCacheUpdate = new IntervalUpdateCache();
-        fScheduler.scheduleAtFixedRate(periodicalCacheUpdate, 0, 20, TimeUnit.SECONDS);
-    }
-
-    public static void main(String[] args) throws Exception {
-        new GenreCacheUpdateService().afterPropertiesSet();
-    }
 }
 
 
