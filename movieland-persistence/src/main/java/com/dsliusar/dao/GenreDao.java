@@ -10,6 +10,6 @@ public interface GenreDao{
     void insert(Map<String,Genre> genreMap);
     Map<String,Integer> getAllGenres();
     List<Genre> getGenresByMovieId(int movieId);
-    Map<String,Integer>  getGenreMovieCache();
+    Map<Integer,List<Genre>> getGenreWithMovieId();
 
 }

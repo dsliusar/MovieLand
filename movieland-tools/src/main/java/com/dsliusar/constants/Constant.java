@@ -12,7 +12,11 @@ public class Constant {
     public final static String COUNTRY_MAP_NAME = "countryMap";
     public final static String REVIEW_LIST_NAME = "reviewList";
 
-    public final static String GENRE_CONCURRENT_CACHE_MAP = "genreConcurrentMap";
+    public final static String ALL_GENRE_CACHE = "genreConcurrentMap";
+    public final static String ALL_MOVIES_GENRE_CACHE = "genreMovieIdCache";
+    public final static String ALL_COUNTRIES_CACHE = "allCountriesCache";
+    public final static String ALL_MOVIES_COUNTRIES_CACHE = "allMoviesCountriesCache";
+    public final static String ALL_MOVIES_REVIEWS_CACHE = "allMoviesReviewsCache";
 
 
 }

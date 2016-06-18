@@ -8,5 +8,5 @@ import java.util.Map;
 public interface CacheService {
 
       Map<?, ?> getCacheById(String cacheId);
-      void addCache(Map<?,?> cacheMap);
+      void addCache(String cacheId, Map<?,?> cacheMap);
 }

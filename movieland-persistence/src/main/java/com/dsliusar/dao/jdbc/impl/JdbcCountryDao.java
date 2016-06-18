@@ -1,12 +1,12 @@
 package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.CountryDao;
+import com.dsliusar.dao.jdbc.mapper.CountryMapRowMapper;
 import com.dsliusar.dao.jdbc.mapper.CountryMapper;
 import com.dsliusar.entity.Country;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -32,8 +32,13 @@ public class JdbcCountryDao implements CountryDao {
     private String getAllCountriesByMovieId;
 
     @Autowired
-    @Qualifier("getAllCountiesSQL")
     private String getAllCountiesSQL;
+
+    @Autowired
+    private String getAllMoviesCountries;
+
+    @Autowired
+    private CountryMapRowMapper countryMapRowMapper;
 
     @Override
     public void insert( Map<String,Country> countryMap) {
@@ -42,7 +47,10 @@ public class JdbcCountryDao implements CountryDao {
         for (Map.Entry<String, Country> country : countryMap.entrySet()) {
                 jdbcTemplate.update(insertCountrySQL,country.getValue().getCountryId(),
                                                      country.getValue().getCountryName());
-          LOGGER.info("Next rows {} were inserted into counties, it took {} ",country, System.currentTimeMillis() - startTime);
+            if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Next rows {} were inserted into counties, it took {} ", country, System.currentTimeMillis() - startTime);
+            }
+            LOGGER.info("All rows were inserted to counties table");
         }
     }
 
@@ -71,4 +79,15 @@ public class JdbcCountryDao implements CountryDao {
         return countiesMap;
     }
 
+    @Override
+    public Map<Integer, List<Country>> getAllMoviesCounties() {
+        LOGGER.info("Get All Countries Map with Movie Id");
+        long startTime = System.currentTimeMillis();
+        Map<Integer, List<Country>> countriesMap = jdbcTemplate.query(getAllMoviesCountries, countryMapRowMapper);
+        LOGGER.info("Finished getting all countries with movie id, it took {}", System.currentTimeMillis() - startTime);
+        return countriesMap;
+    }
+
 }
+
+

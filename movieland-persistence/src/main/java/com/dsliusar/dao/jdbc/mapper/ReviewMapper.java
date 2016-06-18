@@ -2,11 +2,13 @@ package com.dsliusar.dao.jdbc.mapper;
 
 import com.dsliusar.entity.Review;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+@Repository
 public class ReviewMapper implements RowMapper<Review> {
     @Override
     public Review mapRow(ResultSet resultSet, int i) throws SQLException {

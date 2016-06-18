@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class SimpleCountryService implements CountryService {
+public class GenericCountryService implements CountryService {
 
     @Autowired
     CountryDao jdbcCountryDao;
@@ -23,5 +23,10 @@ public class SimpleCountryService implements CountryService {
     @Override
     public Map<String, Integer> getAllCountries() {
         return jdbcCountryDao.getAllCountries();
+    }
+
+    @Override
+    public Map<Integer, List<Country>> getAllMoviesCountries() {
+        return jdbcCountryDao.getAllMoviesCounties();
     }
 }

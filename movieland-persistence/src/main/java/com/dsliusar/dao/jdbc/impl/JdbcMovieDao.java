@@ -1,7 +1,7 @@
 package com.dsliusar.dao.jdbc.impl;
 
 import com.dsliusar.dao.MovieDao;
-import com.dsliusar.dao.jdbc.builder.SeachQueryBuilder;
+import com.dsliusar.dao.jdbc.builder.SearchQueryBuilder;
 import com.dsliusar.dao.jdbc.builder.SortingQueryBuilder;
 import com.dsliusar.dao.jdbc.mapper.MovieMapper;
 import com.dsliusar.entity.Country;
@@ -61,9 +61,12 @@ public class JdbcMovieDao implements MovieDao {
                     arrMovie.getValue().getPrice());
             insertCountryMovie(countryMap, arrMovie.getValue().getCountryList(), arrMovie.getValue().getMovieId());
             insertGenreMovie(mapGenre, arrMovie.getValue().getGenreList(), arrMovie.getValue().getMovieId());
-            LOGGER.info("Next row was inserted into Movies " + arrMovie);
+            if (LOGGER.isDebugEnabled()){
+                LOGGER.info("Next rows were inserted to movie " + arrMovie);
+            }
         }
 
+        LOGGER.info("All rows to movie were inserted");
 
     }
 
@@ -75,8 +78,12 @@ public class JdbcMovieDao implements MovieDao {
             parameterSource.addValue("country_id", countryMap.get(country.getCountryName()).getCountryId());
             parameterSource.addValue("movie_id", movieId);
             namedJdbcTemplate.update(insertCountryMovieSQL, parameterSource);
-            LOGGER.info("Next rows were inserted, country = {} , movie_id =  {} ", countryMap.get(country.getCountryName()).getCountryId(), movieId);
+            if (LOGGER.isDebugEnabled()){
+                LOGGER.info("Next rows were inserted to country_movie " + country);
+            }
         }
+
+        LOGGER.info("All rows to country_movie were inserted");
     }
 
     private void insertGenreMovie(Map<String, Genre> mapGenre, List<Genre> movieGenreList, int movieId) {
@@ -87,8 +94,12 @@ public class JdbcMovieDao implements MovieDao {
             parameterSource.addValue("genre_id", mapGenre.get(genre.getName()).getGenreId());
             parameterSource.addValue("movie_id", movieId);
             namedJdbcTemplate.update(insertGenreMovieSQL, parameterSource);
-            LOGGER.info("Next rows were inserted, genreId = {}, movieId = {} ", mapGenre.get(genre.getName()).getGenreId(), movieId);
+            if (LOGGER.isDebugEnabled()){
+                LOGGER.debug("Next rows were inserted to genre_movie " + genre);
+            }
         }
+
+        LOGGER.info("All rows to genre_movie were inserted");
     }
 
     @Override
@@ -104,7 +115,7 @@ public class JdbcMovieDao implements MovieDao {
     public List<Movie> getSearchedMovies(MovieSearchRequestDto movieSearchRequest) {
         LOGGER.info("Start getting all movies from by next search criteria {}", movieSearchRequest);
         long startTime = System.currentTimeMillis();
-        List<Movie> allMovieList = jdbcTemplate.query(new SeachQueryBuilder(getAllMoviesSQL, movieSearchRequest).movieSearchQueryBuilder(), movieMapper);
+        List<Movie> allMovieList = jdbcTemplate.query(new SearchQueryBuilder(getAllMoviesSQL, movieSearchRequest).movieSearchQueryBuilder(), movieMapper);
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
     }

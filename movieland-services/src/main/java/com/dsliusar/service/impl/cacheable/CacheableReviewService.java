@@ -1,4 +1,4 @@
-package com.dsliusar.service.impl;
+package com.dsliusar.service.impl.cacheable;
 
 import com.dsliusar.dao.ReviewDao;
 import com.dsliusar.entity.Review;
@@ -7,15 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
-@Service("simpleReviewService")
-public class SimpleReviewService implements ReviewService {
+@Service
+public class CacheableReviewService implements ReviewService {
 
     @Autowired
-    ReviewDao jdbcReviewDao;
+    private ReviewDao jdbcReviewDao;
 
     @Override
     public List<Review> getAllReviewByMovieId(int movieId) {
-        return jdbcReviewDao.getReviewsByMovieId(movieId);
+        return null;
+    }
+
+    @Override
+    public Map<Integer, List<Review>> getAllMoviesReviews() {
+        return jdbcReviewDao.getAllMoviesReviews();
     }
 }

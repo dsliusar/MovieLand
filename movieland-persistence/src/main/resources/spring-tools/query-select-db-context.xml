@@ -29,10 +29,24 @@
         <constructor-arg value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r where r.movie_id = ? LIMIT 2"/>
     </bean>
 
+    <bean id="getAllMoviesReviews" class="java.lang.String">
+        <constructor-arg value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r"/>
+    </bean>
+
+
     <!-- Genres -->
 
     <bean id="getAllGenresSQL" class="java.lang.String">
         <constructor-arg value="select g.genre_id, g.description from genre g"/>
+    </bean>
+
+    <bean id="getAllGenresWithMovieIdSQL" class="java.lang.String">
+        <constructor-arg value="select gm.movie_id
+                                      ,g.genre_id
+                                      ,g.description
+                                from genre g
+                                join genre_movies gm
+                                on gm.genre_id = g.genre_id"/>
     </bean>
 
     <bean id="getAllGenresByMovieIdSQL" class="java.lang.String">
@@ -57,20 +71,11 @@
         <constructor-arg value="select g.country_id, g.country_name from countries g"/>
     </bean>
 
-
-
-    <!--<bean id="getAllMoviesByGenre" class="java.lang.String">-->
-        <!--<constructor-arg value="SELECT q.movie_name_rus-->
-                                      <!--, q.movie_name_eng-->
-                                      <!--, q.movie_id-->
-                                      <!--, q.year-->
-                                      <!--, q.rating-->
-                                <!--FROM movie q-->
-                                <!--join genre_movies gm-->
-                                <!--on gm.movie_id = q.movie_id-->
-                                <!--where gm.genre_id = ?"/>-->
-    <!--</bean>-->
-
-
-
+    <bean id = "getAllMoviesCountries" class="java.lang.String">
+        <constructor-arg value="select cmm.movie_id
+                                      ,c.country_id
+                                      ,c.country_name from countries c
+                                join countries_movie_mapper cmm
+                                on cmm.country_id = c.country_id"/>
+    </bean>
 </beans>

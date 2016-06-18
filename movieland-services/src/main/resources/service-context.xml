@@ -5,15 +5,28 @@
        xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-
     <import resource="classpath:/persistence-context.xml"/>
 
+    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+        <!--<property name="location" value="classpath*:properties/application-service.properties"/>-->
+    <!--</bean>-->
+
     <context:component-scan base-package="com.dsliusar"/>
+    <context:annotation-config />
+    <task:annotation-driven />
+    <task:scheduler id="myScheduler"/>
 
-    <task:executor id="executor" pool-size="5"/>
-    <task:scheduler id="scheduler" pool-size="10"/>
+    <bean id="genreCacheUpdateService" class="com.dsliusar.cache.executor.GenreCacheUpdateService" depends-on="initDb"/>
+    <bean id="countryCacheUpdateService" class="com.dsliusar.cache.executor.CountryCacheUpdateService" depends-on="initDb"/>
+    <bean id="reviewCacheUpdateService" class="com.dsliusar.cache.executor.ReviewCacheUpdateService" depends-on="initDb"/>
 
-    <bean id="genreCacheUpdateService" class="com.dsliusar.cache.impl.GenreCacheUpdateService" init-method="addCache" depends-on="initDb"/>
+    <task:scheduled-tasks scheduler="myScheduler">
+        <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresCache" cron="${service.cronGenreCacheUpdateInterval}" />
+        <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresWithMovieIdCache" cron="${service.cronGenreMovieCacheUpdateInterval}" />
+        <task:scheduled ref="countryCacheUpdateService" method="updateAllCountriesCache" cron="${service.cronAllCountriesUpdateInterval}" />
+        <task:scheduled ref="countryCacheUpdateService" method="updateAllMoviesCountriesCache" cron="${service.cronAllMoviesCountriesUpdateInterval}" />
+        <task:scheduled ref="reviewCacheUpdateService" method="updateAllMoviesReviewsCache" cron="${service.cronAllReviewsUpdateInterval}" />
+    </task:scheduled-tasks>
 
 
 </beans>

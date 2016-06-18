@@ -6,5 +6,6 @@ package com.dsliusar.security;
 public interface SecureTokenService {
 
     String generateToken();
-    String checkToken(String token);
+    Boolean checkToken(String token);
+    void deleteToken(String token);
 }

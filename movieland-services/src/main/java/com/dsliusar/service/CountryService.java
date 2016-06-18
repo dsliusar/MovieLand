@@ -9,4 +9,5 @@ public interface CountryService {
 
     List<Country> getAllCountriesByMovieId(int movieId);
     Map<String,Integer> getAllCountries();
+    Map<Integer,List<Country>> getAllMoviesCountries();
 }

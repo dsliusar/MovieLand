@@ -33,8 +33,10 @@ public class JdbcUserDao implements UserDao {
                                                arrUsers.getValue().getUserName(),
                                                arrUsers.getValue().getUserEmail(),
                                                arrUsers.getValue().getUserPassword());
-            LOGGER.info("Inserting Next Rows to DB : " + arrUsers);
+            if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Inserting Next Rows to DB : " + arrUsers);
+            }
         }
-        LOGGER.info("Start populating User table ");
+        LOGGER.info("All users to user table were inserted");
     }
 }
