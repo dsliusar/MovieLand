@@ -19,10 +19,7 @@ import java.util.Map;
 public class CacheableGenreService implements GenreService {
 
     @Autowired
-    GenericGenreService simpleGenreService;
-
-    @Autowired
-    CacheService concurrentHashMapService;
+    private CacheService concurrentHashMapService;
 
     @Override
     public List<Genre> getGenresByMovieId(int movieId) {

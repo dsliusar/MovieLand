@@ -1,6 +1,6 @@
 package com.dsliusar.dao.jdbc.builder;
 
-import com.dsliusar.httpEntities.MovieSearchRequestDto;
+import com.dsliusar.http.entities.MovieSearchRequestDto;
 import org.junit.Assert;
 import org.junit.Test;
 

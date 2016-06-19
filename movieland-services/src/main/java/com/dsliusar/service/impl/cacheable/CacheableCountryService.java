@@ -1,5 +1,7 @@
 package com.dsliusar.service.impl.cacheable;
 
+import com.dsliusar.cache.CacheService;
+import com.dsliusar.constants.Constant;
 import com.dsliusar.dao.CountryDao;
 import com.dsliusar.entity.Country;
 import com.dsliusar.service.CountryService;
@@ -13,7 +15,7 @@ import java.util.Map;
 public class CacheableCountryService implements CountryService {
 
     @Autowired
-    private CountryDao jdbCountryDao;
+    private CacheService concurrentHashMapService;
 
     @Override
     public List<Country> getAllCountriesByMovieId(int movieId) {
@@ -22,11 +24,11 @@ public class CacheableCountryService implements CountryService {
 
     @Override
     public Map<String, Integer> getAllCountries() {
-        return jdbCountryDao.getAllCountries();
+        return (Map<String, Integer>) concurrentHashMapService.getCacheById(Constant.ALL_COUNTRIES_CACHE);
     }
 
     @Override
     public Map<Integer, List<Country>> getAllMoviesCountries() {
-        return jdbCountryDao.getAllMoviesCounties();
+        return (Map<Integer, List<Country>>) concurrentHashMapService.getCacheById(Constant.ALL_MOVIES_COUNTRIES_CACHE);
     }
 }

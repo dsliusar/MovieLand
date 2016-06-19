@@ -1,6 +1,6 @@
 package com.dsliusar.controller;
 
-import com.dsliusar.httpEntities.MovieSearchRequestDto;
+import com.dsliusar.http.entities.MovieSearchRequestDto;
 import com.dsliusar.service.MovieService;
 import com.dsliusar.dto.AllMovieDto;
 import com.dsliusar.dto.AllMovieListDto;

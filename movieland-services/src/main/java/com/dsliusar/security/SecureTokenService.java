@@ -1,11 +1,13 @@
 package com.dsliusar.security;
 
-/**
- * Created by DSliusar on 17.06.2016.
- */
+import com.dsliusar.entity.User;
+
 public interface SecureTokenService {
 
-    String generateToken();
-    Boolean checkToken(String token);
+    String issueToken(User user);
+    Boolean isValidToken(String token);
     void deleteToken(String token);
+    Boolean checkIfExpired(String token);
+    int performHousekeeping();
+
 }

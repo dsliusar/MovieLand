@@ -1,7 +1,7 @@
 package com.dsliusar.dao.jdbc.builder;
 
 import com.dsliusar.enums.MovieFieldNamesEnum;
-import com.dsliusar.httpEntities.MovieSearchRequestDto;
+import com.dsliusar.http.entities.MovieSearchRequestDto;
 
 public class SearchQueryBuilder {
     private static final String DEFAULT_WHERE_CLAUSE = " WHERE 1 = 1 ";

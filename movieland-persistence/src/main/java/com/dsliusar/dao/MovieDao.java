@@ -3,7 +3,7 @@ package com.dsliusar.dao;
 import com.dsliusar.entity.Country;
 import com.dsliusar.entity.Genre;
 import com.dsliusar.entity.Movie;
-import com.dsliusar.httpEntities.MovieSearchRequestDto;
+import com.dsliusar.http.entities.MovieSearchRequestDto;
 
 import java.util.List;
 import java.util.Map;

@@ -1,5 +1,7 @@
 package com.dsliusar.service.impl.cacheable;
 
+import com.dsliusar.cache.CacheService;
+import com.dsliusar.constants.Constant;
 import com.dsliusar.dao.ReviewDao;
 import com.dsliusar.entity.Review;
 import com.dsliusar.service.ReviewService;
@@ -13,7 +15,7 @@ import java.util.Map;
 public class CacheableReviewService implements ReviewService {
 
     @Autowired
-    private ReviewDao jdbcReviewDao;
+    private CacheService concurrentHashMapService;
 
     @Override
     public List<Review> getAllReviewByMovieId(int movieId) {
@@ -22,6 +24,6 @@ public class CacheableReviewService implements ReviewService {
 
     @Override
     public Map<Integer, List<Review>> getAllMoviesReviews() {
-        return jdbcReviewDao.getAllMoviesReviews();
+        return (Map<Integer, List<Review>>) concurrentHashMapService.getCacheById(Constant.ALL_MOVIES_REVIEWS_CACHE);
     }
 }

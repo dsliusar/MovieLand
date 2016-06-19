@@ -17,10 +17,11 @@ public enum SorterValidatorEnum {
         for (SorterValidatorEnum sortValues : SorterValidatorEnum.values()) {
             if(sortId == null){return sortId;}
             if (sortId.equalsIgnoreCase(sortValues.toString())) {
-                throw new IllegalArgumentException("Illegal arguments received");
+                return sortValues.toString();
             }
         }
-        return sortId;
+        throw new IllegalArgumentException("Not valid sort clause");
+
     }
 
 }

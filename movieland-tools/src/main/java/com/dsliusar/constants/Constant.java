@@ -17,6 +17,6 @@ public class Constant {
     public final static String ALL_COUNTRIES_CACHE = "allCountriesCache";
     public final static String ALL_MOVIES_COUNTRIES_CACHE = "allMoviesCountriesCache";
     public final static String ALL_MOVIES_REVIEWS_CACHE = "allMoviesReviewsCache";
-
+    public final static String ALL_USERS_CACHE = "allUsersCache";
 
 }

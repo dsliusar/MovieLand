@@ -78,4 +78,27 @@
                                 join countries_movie_mapper cmm
                                 on cmm.country_id = c.country_id"/>
     </bean>
+
+    <!-- User -->
+     <bean id = "getUserByCredentials" class="java.lang.String">
+        <constructor-arg value="select   user_id,
+                                         user_name,
+                                         user_email,
+                                         user_password
+                                         from user
+                                         where user_email = ?
+                                           amd user_password = ?
+                                          "/>
+    </bean>
+    <!-- User -->
+    <bean id = "getAllUsers" class="java.lang.String">
+        <constructor-arg value="select   user_id,
+                                         user_name,
+                                         user_email,
+                                         user_password
+                                         from user"/>
+    </bean>
+
+
+
 </beans>
