@@ -1,4 +1,4 @@
-package com.dsliusar.controllers.controller.authentication;
+package com.dsliusar.web.controller.authentication;
 
 import com.dsliusar.http.entities.UserCredentialsRequest;
 import com.dsliusar.services.security.AuthenticationService;
@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.*;
 import javax.naming.AuthenticationException;
 
 @RestController
-@RequestMapping(value = "/v1")
+@RequestMapping(value = "/v1/authorize")
 public class AuthenticationController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private AuthenticationService authenticationServiceImpl;
+    private AuthenticationService authenticationService;
 
-    @RequestMapping(value = "/authorize", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> authorizeUser(@RequestBody UserCredentialsRequest userCredentialsRequest){
-        LOGGER.info("Authorizing user by credentials");
+        LOGGER.info("Authorizing user by credentials, user email {}", userCredentialsRequest.getUserEmail());
         String token;
         try {
-            token = authenticationServiceImpl.authenticateUser(userCredentialsRequest);
+            token = authenticationService.authenticateUser(userCredentialsRequest);
         } catch (AuthenticationException e) {
             LOGGER.error("Bad Credentials : ", e);
             return new ResponseEntity<>(e.toString(),HttpStatus.BAD_REQUEST);

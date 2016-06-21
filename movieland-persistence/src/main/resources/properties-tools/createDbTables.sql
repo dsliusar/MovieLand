@@ -64,5 +64,7 @@ CREATE TABLE user(
   user_name VARCHAR(100),
   user_email VARCHAR(100),
   user_password VARCHAR(50),
+  user_role VARCHAR(20) DEFAULT "user",
   PRIMARY KEY (user_id)
 );
+

@@ -1,6 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.builder;
 
-import com.dsliusar.http.entities.MovieSearchRequestDto;
+import com.dsliusar.http.entities.MovieSearchRequest;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class SearchQueryBuilderTest {
 
     @Test
     public void SearchAllMovies(){
-        MovieSearchRequestDto movieSearchRequest = new MovieSearchRequestDto();
+        MovieSearchRequest movieSearchRequest = new MovieSearchRequest();
         movieSearchRequest.setMovieNameOrigin("Escape");
         movieSearchRequest.setMovieNameRus("Побег");
         movieSearchRequest.setGenreId(1);
@@ -21,49 +21,49 @@ public class SearchQueryBuilderTest {
         movieSearchRequest.setYear(2009);
 
         String expectedSql = commonSql + " JOIN genre_movies q1 on q1.movie_id = q.movie_id AND q1.genre_id = 1 JOIN countries_movie_mapper q2 on q2.movie_id = q.movie_id AND q2.country_id = 2 WHERE 1 = 1  AND MOVIE_NAME_RUS = 'Побег' AND MOVIE_NAME_ENG = 'Escape' AND year = 2009";
-        SearchQueryBuilder searchAll = new SearchQueryBuilder(commonSql,movieSearchRequest);
-        String actualSql = searchAll.movieSearchQueryBuilder();
+        SearchQueryBuilder searchAll = new SearchQueryBuilder();
+        String actualSql = searchAll.movieSearchQueryBuilder(commonSql,movieSearchRequest);
 
         Assert.assertEquals(expectedSql.toLowerCase(),actualSql.toLowerCase());
     }
 
     @Test
     public void SearchWithGenresOnly(){
-        MovieSearchRequestDto movieSearchRequest = new MovieSearchRequestDto();
+        MovieSearchRequest movieSearchRequest = new MovieSearchRequest();
         movieSearchRequest.setMovieNameOrigin("Escape");
         movieSearchRequest.setMovieNameRus("Побег");
         movieSearchRequest.setGenreId(1);
         movieSearchRequest.setYear(2009);
 
         String expectedSql = commonSql + " JOIN genre_movies q1 on q1.movie_id = q.movie_id AND q1.genre_id = 1 WHERE 1 = 1  AND MOVIE_NAME_RUS = 'Побег' AND MOVIE_NAME_ENG = 'Escape' AND year = 2009";
-        SearchQueryBuilder searchAll = new SearchQueryBuilder(commonSql,movieSearchRequest);
-        String actualSql = searchAll.movieSearchQueryBuilder();
+        SearchQueryBuilder searchAll = new SearchQueryBuilder();
+        String actualSql = searchAll.movieSearchQueryBuilder(commonSql,movieSearchRequest);
 
         Assert.assertEquals(expectedSql.toLowerCase(),actualSql.toLowerCase());
     }
 
     @Test
     public void SearchWithCountriesOnly(){
-        MovieSearchRequestDto movieSearchRequest = new MovieSearchRequestDto();
+        MovieSearchRequest movieSearchRequest = new MovieSearchRequest();
         movieSearchRequest.setMovieNameOrigin("Escape");
         movieSearchRequest.setMovieNameRus("Побег");
         movieSearchRequest.setCountryId(2);
         movieSearchRequest.setYear(2009);
 
         String expectedSql = commonSql + " JOIN countries_movie_mapper q2 on q2.movie_id = q.movie_id AND q2.country_id = 2 WHERE 1 = 1  AND MOVIE_NAME_RUS = 'Побег' AND MOVIE_NAME_ENG = 'Escape' AND year = 2009";
-        SearchQueryBuilder searchAll = new SearchQueryBuilder(commonSql,movieSearchRequest);
-        String actualSql = searchAll.movieSearchQueryBuilder();
+        SearchQueryBuilder searchAll = new SearchQueryBuilder();
+        String actualSql = searchAll.movieSearchQueryBuilder(commonSql,movieSearchRequest);
 
         Assert.assertEquals(expectedSql.toLowerCase(),actualSql.toLowerCase());
     }
 
     @Test
     public void SearchWithAllNulls(){
-        MovieSearchRequestDto movieSearchRequest = new MovieSearchRequestDto();
+        MovieSearchRequest movieSearchRequest = new MovieSearchRequest();
         String exception = null;
-        SearchQueryBuilder searchAll = new SearchQueryBuilder(commonSql,movieSearchRequest);
+        SearchQueryBuilder searchAll = new SearchQueryBuilder();
         try {
-            searchAll.movieSearchQueryBuilder();
+            searchAll.movieSearchQueryBuilder(commonSql,movieSearchRequest);
         }catch (IllegalArgumentException e){
             exception = e.getMessage();
         }

@@ -10,11 +10,11 @@
 
 
        <bean id="insertUserSQL" class="java.lang.String">
-              <constructor-arg value="INSERT INTO user (user_id, user_name, user_email, user_password) VALUES (?, ?, ?, ?);"/>
+              <constructor-arg value="INSERT INTO user (user_id, user_name, user_email, user_password, user_role) VALUES (?, ?, ?, ?, ?);"/>
        </bean>
 
        <bean id="insertReviewSQL" class="java.lang.String">
-              <constructor-arg value="INSERT INTO review (review_id, user_id, movie_id, review_text) VALUES (?, ?, ?, ?);"/>
+              <constructor-arg value="INSERT INTO review (user_id, movie_id, review_text) VALUES (?, ?, ?);"/>
        </bean>
 
        <bean id="insertMovieSQL" class="java.lang.String">

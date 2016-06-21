@@ -1,6 +1,7 @@
 package com.dsliusar.services.security.impl;
 
 import com.dsliusar.http.entities.UserCredentialsRequest;
+import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.User;
 import com.dsliusar.services.security.AuthenticationService;
 import com.dsliusar.services.security.SecureTokenService;
@@ -13,14 +14,14 @@ import javax.naming.AuthenticationException;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
-    private UserService cacheableUserService;
+    private UserService genericUserService;
 
     @Autowired
     private SecureTokenService secureTokenServiceProvider;
 
     @Override
     public String authenticateUser(UserCredentialsRequest userCredentialsRequest) throws AuthenticationException {
-        User user = cacheableUserService.checkUserByCredentials(userCredentialsRequest);
+        User user = genericUserService.checkUserByCredentials(userCredentialsRequest);
         String token;
         if (user == null) {
             throw new AuthenticationException("Invalid user or Password");
@@ -31,12 +32,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Boolean isValidToken(String token) throws IllegalAccessException {
-        Boolean isValidToken = secureTokenServiceProvider.isValidToken(token);
-        if (!isValidToken) {
-            throw new IllegalAccessException("Token " + token + " is outdated or invalid");
-        } else {
-            return isValidToken;
+    public UserSecureTokenEntity getUserByToken(String token) throws IllegalAccessException {
+        UserSecureTokenEntity userSecureTokenEntity = secureTokenServiceProvider.isValidToken(token);
+        if (userSecureTokenEntity == null) {
+            throw new IllegalAccessException("Token " + token + " is outdated or invalid, please SIGN IN again");
+        } else  {
+            return userSecureTokenEntity;
         }
     }
 }

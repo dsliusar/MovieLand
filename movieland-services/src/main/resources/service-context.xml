@@ -22,18 +22,16 @@
     <bean id="genreCacheUpdateService" class="com.dsliusar.services.cache.executor.GenreCacheUpdateService" depends-on="initDb"/>
     <bean id="countryCacheUpdateService" class="com.dsliusar.services.cache.executor.CountryCacheUpdateService" depends-on="initDb"/>
     <bean id="reviewCacheUpdateService" class="com.dsliusar.services.cache.executor.ReviewCacheUpdateService" depends-on="initDb"/>
-    <bean id="userCacheUpdateService" class="com.dsliusar.services.cache.executor.UserCacheUpdateService" depends-on="initDb"/>
     <bean id="tokensHousekeepingService" class="com.dsliusar.services.security.executor.TokenHouseKeepingExecutor"/>
 
     <task:scheduled-tasks scheduler="myScheduler">
-        <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresCache" cron="${service.cronGenreCacheUpdateInterval}" />
-        <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresWithMovieIdCache" cron="${service.cronGenreMovieCacheUpdateInterval}" />
-        <task:scheduled ref="countryCacheUpdateService" method="updateAllCountriesCache" cron="${service.cronAllCountriesUpdateInterval}" />
-        <task:scheduled ref="countryCacheUpdateService" method="updateAllMoviesCountriesCache" cron="${service.cronAllMoviesCountriesUpdateInterval}" />
-        <task:scheduled ref="reviewCacheUpdateService" method="updateAllMoviesReviewsCache" cron="${service.cronAllReviewsUpdateInterval}" />
-        <task:scheduled ref="userCacheUpdateService" method="updateAllUsersReviewsCache" cron="${service.cronAllUsersUpdateInterval}" />
-        <task:scheduled ref="tokensHousekeepingService" method="performTokenHousekeeping" cron="${service.cronTokensHouseKeepingInterval}" />
-    </task:scheduled-tasks>
+    <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresCache" cron="${service.cronGenreCacheUpdateInterval}" />
+    <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresWithMovieIdCache" cron="${service.cronGenreMovieCacheUpdateInterval}" />
+    <task:scheduled ref="countryCacheUpdateService" method="updateAllCountriesCache" cron="${service.cronAllCountriesUpdateInterval}" />
+    <task:scheduled ref="countryCacheUpdateService" method="updateAllMoviesCountriesCache" cron="${service.cronAllMoviesCountriesUpdateInterval}" />
+    <task:scheduled ref="reviewCacheUpdateService" method="updateAllMoviesReviewsCache" cron="${service.cronAllReviewsUpdateInterval}" />
+    <task:scheduled ref="tokensHousekeepingService" method="performTokenHousekeeping" cron="${service.cronTokensHouseKeepingInterval}" />
+</task:scheduled-tasks>
 
 
 </beans>

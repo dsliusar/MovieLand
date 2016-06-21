@@ -2,7 +2,7 @@ package com.dsliusar.persistence.dao.jdbc.impl;
 
 import com.dsliusar.persistence.dao.UserDao;
 import com.dsliusar.persistence.dao.jdbc.mapper.SingleUserRowMapper;
-import com.dsliusar.persistence.dao.jdbc.mapper.UserMapRowMapper;
+import com.dsliusar.persistence.dao.jdbc.mapper.UsersRowMapper;
 import com.dsliusar.persistence.entity.User;
 import com.dsliusar.http.entities.UserCredentialsRequest;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class JdbcUserDao implements UserDao {
     private String getAllUsers;
 
     @Autowired
-    private UserMapRowMapper userMapRowMapper;
+    private UsersRowMapper usersRowMapper;
 
     @Autowired
     private SingleUserRowMapper singleUserRowMapper;
@@ -48,7 +48,8 @@ public class JdbcUserDao implements UserDao {
             jdbcTemplate.update(insertUserSQL, arrUsers.getValue().getUserId(),
                                                arrUsers.getValue().getUserName(),
                                                arrUsers.getValue().getUserEmail(),
-                                               arrUsers.getValue().getUserPassword());
+                                               arrUsers.getValue().getUserPassword(),
+                                               arrUsers.getValue().getUserRole());
             if(LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Inserting Next Rows to DB : " + arrUsers);
             }
@@ -60,18 +61,30 @@ public class JdbcUserDao implements UserDao {
     public Map<Integer, User> checkUserByCredentials(UserCredentialsRequest userCredentials) {
         LOGGER.info("Get user by credentials");
         long startTime = System.currentTimeMillis();
-        Map<Integer, User> userMap = jdbcTemplate.query(getUserByCredentials, singleUserRowMapper);
+        Map<Integer, User> userMap = jdbcTemplate.query(getUserByCredentials,
+                                     new Object[]{userCredentials.getUserEmail(),userCredentials.getUserPassword()},
+                                     singleUserRowMapper);
         LOGGER.info("Finished getting user by credentials, it took {}", System.currentTimeMillis() - startTime);
         return userMap;
     }
 
     @Override
-    public Map<Integer, List<User>> getAllUsers() {
-        LOGGER.info("Get all users");
+    public Map<Integer, User> getAllUsersMap() {
+        LOGGER.info("Get All Users");
         long startTime = System.currentTimeMillis();
-        Map<Integer, List<User>> userMap = jdbcTemplate.query(getAllUsers, userMapRowMapper);
+        Map<Integer, User> userMap = jdbcTemplate.query(getAllUsers, singleUserRowMapper);
         LOGGER.info("Finished getting all users, it took {}", System.currentTimeMillis() - startTime);
         return userMap;
+    }
+
+
+    @Override
+    public List<User> getAllUsers() {
+        LOGGER.info("Get all users from database");
+        long startTime = System.currentTimeMillis();
+        List<User> usersList = jdbcTemplate.query(getAllUsers, usersRowMapper);
+        LOGGER.info("Finished getting all users, it took {}", System.currentTimeMillis() - startTime);
+        return usersList;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.dsliusar.controllers.dto;
+package com.dsliusar.web.dto;
 
 import org.springframework.http.ResponseEntity;
 

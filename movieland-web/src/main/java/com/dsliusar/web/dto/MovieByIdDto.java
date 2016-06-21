@@ -1,8 +1,8 @@
-package com.dsliusar.controllers.dto;
+package com.dsliusar.web.dto;
 
-import com.dsliusar.controllers.dto.converter.CountryListSerializer;
-import com.dsliusar.controllers.dto.converter.GenreListSerializer;
-import com.dsliusar.controllers.dto.converter.ReviewListSerializer;
+import com.dsliusar.web.dto.converter.CountryListSerializer;
+import com.dsliusar.web.dto.converter.GenreListSerializer;
+import com.dsliusar.web.dto.converter.ReviewListSerializer;
 import com.dsliusar.persistence.entity.Country;
 import com.dsliusar.persistence.entity.Genre;
 import com.dsliusar.persistence.entity.Review;

@@ -1,6 +1,6 @@
-package com.dsliusar.controllers.controller;
+package com.dsliusar.web.controller;
 
-import com.dsliusar.enums.SorterValidatorEnum;
+import com.dsliusar.enums.SortTypeEnum;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -13,11 +13,11 @@ public class MovieControllerTest {
     public void movieSortControllerTest(){
         String asc = "asc";
         String desc = "desc";
-        String expectedSort = SorterValidatorEnum.vaidateOrderClause(asc);
+        String expectedSort = SortTypeEnum.validateSortType(asc).toString();
 
         Assert.assertEquals(asc.toLowerCase(), expectedSort.toLowerCase());
 
-        expectedSort = SorterValidatorEnum.vaidateOrderClause(desc);
+        expectedSort = SortTypeEnum.validateSortType(desc).toString();
         Assert.assertEquals(desc.toLowerCase(), expectedSort.toLowerCase());
 
     }

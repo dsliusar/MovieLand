@@ -43,7 +43,9 @@ public class UserFileParser {
                     user.setUserEmail(fileLine);
                 } else if (counter == 3) {
                     user.setUserPassword(fileLine);
-                }
+                } else if (counter == 4) {
+                   user.setUserRole(fileLine);
+               }
                 counter++;
 
                 if (fileLine.isEmpty() == true) {

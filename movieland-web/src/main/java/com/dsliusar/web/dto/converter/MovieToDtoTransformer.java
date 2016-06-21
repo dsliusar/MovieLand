@@ -1,7 +1,7 @@
-package com.dsliusar.controllers.dto.converter;
+package com.dsliusar.web.dto.converter;
 
-import com.dsliusar.controllers.dto.AllMovieDto;
-import com.dsliusar.controllers.dto.MovieByIdDto;
+import com.dsliusar.web.dto.AllMovieDto;
+import com.dsliusar.web.dto.MovieByIdDto;
 import com.dsliusar.persistence.entity.Movie;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +13,9 @@ import java.util.List;
  */
 
 @Service
-public class MovieDaoToDto {
+public class MovieToDtoTransformer {
 
-    public List<AllMovieDto> convertAllMovieToDto(List<Movie> movieList) {
+    public List<AllMovieDto> transformAllMovieToDto(List<Movie> movieList) {
         List<AllMovieDto> allMovieDtoList = new ArrayList<>();
         for (Movie movie : movieList) {
             AllMovieDto allMovieDto = new AllMovieDto();
@@ -30,7 +30,7 @@ public class MovieDaoToDto {
     }
 
 
-    public MovieByIdDto convertMovieByIdToDto(Movie movie) {
+    public MovieByIdDto transformMovieByIdToDto(Movie movie) {
         MovieByIdDto movieByIdDto = new MovieByIdDto();
         movieByIdDto.setGenreList(movie.getGenreList());
         movieByIdDto.setMovieNameRus(movie.getMovieNameRus());

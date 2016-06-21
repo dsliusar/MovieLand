@@ -3,8 +3,10 @@ package com.dsliusar.services.security.impl;
 import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.User;
 import com.dsliusar.services.security.SecureTokenService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -12,25 +14,25 @@ public class SecureTokenServiceProvider implements SecureTokenService {
 
     private Map<String, UserSecureTokenEntity> tokenHashMap = new HashMap<>();
 
+    @Value("${service.tokenLiveTime}")
+    int tokenLiveTime;
+
     @Override
     public String issueToken(User user) {
         StringBuilder token = new StringBuilder();
-        token.append(UUID.randomUUID().toString() + System.currentTimeMillis());
+        token.append(UUID.randomUUID().toString());
         UserSecureTokenEntity userSecureTokenEntity = fillUserTokenEntity(user);
         tokenHashMap.put(token.toString(), userSecureTokenEntity);
         return token.toString();
     }
 
     @Override
-    public Boolean isValidToken(String token) {
-        if (tokenHashMap.containsKey(token)) {
-            return checkIfExpired(token);
-        } else {
-            return false;
-        }}
+    public UserSecureTokenEntity isValidToken(String token){
+            return tokenHashMap.get(token);
+       }
 
-    public Boolean checkIfExpired(String token) {
-        return tokenHashMap.get(token).getValidFrom().before(tokenHashMap.get(token).getValidTo());
+    public boolean checkIfExpired(String token) {
+        return tokenHashMap.get(token).getValidFrom().isBefore(tokenHashMap.get(token).getValidTo());
     }
 
     @Override
@@ -46,22 +48,21 @@ public class SecureTokenServiceProvider implements SecureTokenService {
     }
 
 
-    private Date getTimeInserted() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.getTime();
+    private LocalDateTime getTimeInserted() {
+        return LocalDateTime.now();
     }
 
 
-    private Date getTimeExpired() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR, 4);
-        return calendar.getTime();
+    private LocalDateTime getTimeExpired() {
+        LocalDateTime nextTime = getTimeInserted().plusHours(tokenLiveTime);
+        return nextTime;
     }
 
     private UserSecureTokenEntity fillUserTokenEntity(User user){
         UserSecureTokenEntity userSecureTokenEntity = new UserSecureTokenEntity();
         userSecureTokenEntity.setUserName(user.getUserName());
         userSecureTokenEntity.setUserId(user.getUserId());
+        userSecureTokenEntity.setUserRole(user.getUserRole());
         userSecureTokenEntity.setValidFrom(getTimeInserted());
         userSecureTokenEntity.setValidTo(getTimeExpired());
         return userSecureTokenEntity;

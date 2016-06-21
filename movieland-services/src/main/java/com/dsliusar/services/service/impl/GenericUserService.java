@@ -1,19 +1,19 @@
 package com.dsliusar.services.service.impl;
 
+import com.dsliusar.http.entities.UserCredentialsRequest;
 import com.dsliusar.persistence.dao.UserDao;
 import com.dsliusar.persistence.entity.User;
-import com.dsliusar.http.entities.UserCredentialsRequest;
 import com.dsliusar.services.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
 public class GenericUserService implements UserService {
+
     @Autowired
-    UserDao jdbcUserDao;
+    private UserDao jdbcUserDao;
 
     @Override
     public User checkUserByCredentials(UserCredentialsRequest userCredentials) {
@@ -26,7 +26,7 @@ public class GenericUserService implements UserService {
     }
 
     @Override
-    public Map<Integer, List<User>> getAllUsers() {
-        return jdbcUserDao.getAllUsers();
+    public Map<Integer,User> getAllUsers() {
+        return jdbcUserDao.getAllUsersMap();
     }
 }

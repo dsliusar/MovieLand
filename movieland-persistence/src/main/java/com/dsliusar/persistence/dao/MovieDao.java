@@ -1,9 +1,10 @@
 package com.dsliusar.persistence.dao;
 
+import com.dsliusar.http.entities.MovieSortRequest;
 import com.dsliusar.persistence.entity.Country;
 import com.dsliusar.persistence.entity.Genre;
 import com.dsliusar.persistence.entity.Movie;
-import com.dsliusar.http.entities.MovieSearchRequestDto;
+import com.dsliusar.http.entities.MovieSearchRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
 public interface MovieDao{
 
     void insert(Map<String, Movie> movieMap, Map<String,Country> countryMap, Map<String, Genre> mapGenre);
-    List<Movie> getAllMovies(String ratingOrder,String priceOrder);
-    List<Movie> getSearchedMovies(MovieSearchRequestDto movieSearchRequest);
+    List<Movie> getAllMovies(MovieSortRequest movieSortRequest);
+    List<Movie> getSearchedMovies(MovieSearchRequest movieSearchRequest);
     Movie getById(int id);
 }

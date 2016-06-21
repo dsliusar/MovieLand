@@ -33,6 +33,10 @@
         <constructor-arg value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r"/>
     </bean>
 
+    <bean id="getReviewByReviewId" class="java.lang.String">
+        <constructor-arg value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r where r.review_id = ? "/>
+    </bean>
+
 
     <!-- Genres -->
 
@@ -84,18 +88,17 @@
         <constructor-arg value="select   user_id,
                                          user_name,
                                          user_email,
-                                         user_password
+                                         user_password,
+                                         user_role
                                          from user
-                                         where user_email = ?
-                                           amd user_password = ?
-                                          "/>
+                                         where user_email = ? and user_password = ?"/>
     </bean>
-    <!-- User -->
     <bean id = "getAllUsers" class="java.lang.String">
         <constructor-arg value="select   user_id,
                                          user_name,
                                          user_email,
-                                         user_password
+                                         user_password,
+                                         user_role
                                          from user"/>
     </bean>
 

@@ -1,17 +1,14 @@
 package com.dsliusar.http.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-/**
- * Created by Оля on 19.06.2016.
- */
 public class UserSecureTokenEntity {
 
     private Integer userId;
     private String userName;
     private String userRole;
-    private Date validFrom;
-    private Date validTo;
+    private LocalDateTime validFrom;
+    private LocalDateTime validTo;
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
@@ -33,19 +30,19 @@ public class UserSecureTokenEntity {
         this.userName = userName;
     }
 
-    public Date getValidFrom() {
+    public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
-    public void setValidFrom(Date validFrom) {
+    public void setValidFrom(LocalDateTime validFrom) {
         this.validFrom = validFrom;
     }
 
-    public Date getValidTo() {
+    public LocalDateTime getValidTo() {
         return validTo;
     }
 
-    public void setValidTo(Date validTo) {
+    public void setValidTo(LocalDateTime validTo) {
         this.validTo = validTo;
     }
 

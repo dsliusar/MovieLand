@@ -1,4 +1,4 @@
-package com.dsliusar.controllers.dto.converter;
+package com.dsliusar.web.dto.converter;
 
 import com.dsliusar.persistence.entity.Review;
 import com.fasterxml.jackson.core.JsonGenerator;

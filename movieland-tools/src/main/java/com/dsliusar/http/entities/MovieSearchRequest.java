@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @JsonIgnoreProperties(value = { "genreId","countryId" })
 @XmlRootElement(name = "Movie")
-public class MovieSearchRequestDto {
+public class MovieSearchRequest {
 
     private String movieNameRus;
 
@@ -25,7 +25,7 @@ public class MovieSearchRequestDto {
     @JsonIgnore
     private Integer countryId;
 
-    public MovieSearchRequestDto() {}
+    public MovieSearchRequest() {}
 
     public String getMovieNameRus() {
         return movieNameRus;

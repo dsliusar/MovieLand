@@ -1,10 +1,10 @@
-package com.dsliusar.controllers.controller;
+package com.dsliusar.web.controller;
 
-import com.dsliusar.http.entities.MovieSearchRequestDto;
+import com.dsliusar.http.entities.MovieSearchRequest;
 import com.dsliusar.services.service.MovieService;
-import com.dsliusar.controllers.dto.AllMovieDto;
-import com.dsliusar.controllers.dto.AllMovieListDto;
-import com.dsliusar.controllers.dto.converter.MovieDaoToDto;
+import com.dsliusar.web.dto.AllMovieDto;
+import com.dsliusar.web.dto.AllMovieListDto;
+import com.dsliusar.web.dto.converter.MovieToDtoTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,13 @@ public class SearchController {
     private MovieService movieService;
 
     @Autowired
-    private MovieDaoToDto movieDtoConverter;
+    private MovieToDtoTransformer movieDtoConverter;
 
-    public ResponseEntity<List<AllMovieDto>> searchMovies(MovieSearchRequestDto searchMovieDto){
+    public ResponseEntity<List<AllMovieDto>> searchMovies(MovieSearchRequest searchMovieDto){
         LOGGER.info(" Send request to search movies by criteria {} ", searchMovieDto);
         List<AllMovieDto> movieDtoList;
         try {
-           movieDtoList = movieDtoConverter.convertAllMovieToDto(movieService.getAllSearchedMovies(searchMovieDto));
+           movieDtoList = movieDtoConverter.transformAllMovieToDto(movieService.getAllSearchedMovies(searchMovieDto));
         } catch (Exception e){
              LOGGER.error("Error happened in search movie controller ", e);
              return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -46,12 +46,12 @@ public class SearchController {
 
     @RequestMapping(value = "/search", method = RequestMethod.POST, produces=MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public AllMovieListDto searchMoviesXML(@RequestBody MovieSearchRequestDto searchMovieDto) {
+    public AllMovieListDto searchMoviesXML(@RequestBody MovieSearchRequest searchMovieDto) {
         return new AllMovieListDto(searchMovies(searchMovieDto));
     }
     @RequestMapping(value = "/search", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<List<AllMovieDto>> searchMoviesJSON(@RequestBody MovieSearchRequestDto searchMovieDto) {
+    public ResponseEntity<List<AllMovieDto>> searchMoviesJSON(@RequestBody MovieSearchRequest searchMovieDto) {
         return searchMovies(searchMovieDto);
     }
 

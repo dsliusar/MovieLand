@@ -1,38 +1,53 @@
 Рональд Рейнольдс
 ronald.reynolds66@example.com
 paco
+user
 
 Дарлин Эдвардс
 darlene.edwards15@example.com
 bricks
+user
 
 Габриэль Джексон
 gabriel.jackson91@example.com
 hjkl
+user
 
 Дэрил Брайант
 daryl.bryant94@example.com
 exodus
+user
 
 Нил Паркер
 neil.parker43@example.com
 878787
+user
 
 Трэвис Райт
 travis.wright36@example.com
 smart
+user
 
 Амелия Кэннеди
 amelia.kennedy58@example.com
 beaker
+user
 
 Айда Дэвис
 ida.davis80@example.com
 pepsi1
+user
 
 Джесси Паттерсон
 jessie.patterson68@example.com
 tommy
+user
+
+Дмитрий
+dmitrii.slyusar@gmail.com
+qwerty
+admin
+
 
 Деннис Крейг
 dennis.craig82@example.com

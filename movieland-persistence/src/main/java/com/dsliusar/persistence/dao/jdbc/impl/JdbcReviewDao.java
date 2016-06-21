@@ -1,5 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
+import com.dsliusar.http.entities.ReviewAddRequestEntity;
 import com.dsliusar.persistence.dao.ReviewDao;
 import com.dsliusar.persistence.dao.jdbc.mapper.ReviewMapRowMapper;
 import com.dsliusar.persistence.dao.jdbc.mapper.ReviewMapper;
@@ -38,19 +39,44 @@ public class JdbcReviewDao implements ReviewDao {
     @Autowired
     private ReviewMapRowMapper reviewMapRowMapper;
 
+    @Autowired
+    private String deleteReviewSQL;
+
+    @Autowired
+    private String getReviewByReviewId;
+
     @Override
     public void insert(List<Review> reviewList) {
         LOGGER.info("Start populating Review Table");
         for (Review arrReview : reviewList) {
-                jdbcTemplate.update(insertReviewSQL, arrReview.getReviewId(),
+                jdbcTemplate.update(insertReviewSQL,
+                      //  arrReview.getReviewId(),
                         arrReview.getUserId(),
                         arrReview.getMovieId(),
                         arrReview.getReviewText()) ;
-           if(LOGGER.isDebugEnabled()) {
-               LOGGER.debug("Next Rows inserted into Review table : " + arrReview);
-           }
+            LOGGER.info("All rows in to Review were inserted");
+
         }
-        LOGGER.info("All rows in to Review were inserted");
+
+    }
+
+    @Override
+    public void insert(ReviewAddRequestEntity reviewAddRequest) {
+        LOGGER.info("Start populating Review Table");
+        jdbcTemplate.update(insertReviewSQL,reviewAddRequest.getUserId(),
+                                            reviewAddRequest.getUserId(),
+                                            reviewAddRequest.getReview());
+        LOGGER.info("All rows were successfully inserted");
+        if(LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Next Rows inserted into Review table : " + reviewAddRequest);
+        }
+    }
+
+    @Override
+    public void remove(int reviewId) {
+        LOGGER.info("Start deleting review by id, {} ", reviewId);
+        jdbcTemplate.update(deleteReviewSQL, new Object[]{reviewId});
+        LOGGER.info("Review was deleted successfully {} ", reviewId);
     }
 
     @Override
@@ -60,6 +86,18 @@ public class JdbcReviewDao implements ReviewDao {
         List<Review> allReviewList = jdbcTemplate.query(getReviewById, new Object[]{movieId},reviewMapper)  ;
         LOGGER.info("Reviews by Movie Id was received, it took {}", System.currentTimeMillis() - startTime);
         return allReviewList;
+    }
+
+    @Override
+    public Review getReviewByReviewId(int reviewId) {
+        LOGGER.info("Start getting Review by Id");
+        long startTime = System.currentTimeMillis();
+        Review review = jdbcTemplate.queryForObject(getReviewByReviewId, new Object[]{reviewId}, reviewMapper);
+        LOGGER.info("Reviews by Movie Id was received, it took {}", System.currentTimeMillis() - startTime);
+        if (LOGGER.isDebugEnabled()){
+            LOGGER.debug("Next review was received {} ", review);
+        }
+        return review;
     }
 
     @Override

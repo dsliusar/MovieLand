@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,17 +56,14 @@ public class SecureTokenServiceProviderTest {
         Assert.assertEquals(expectedTokensDeletion,actualTokensDeleted);
     }
 
-    private Date getTimeInserted() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.getTime();
+    private LocalDateTime getTimeInserted() {
+        return LocalDateTime.now();
     }
 
 
-    private Date getTimeExpired() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, 2);
-        return calendar.getTime();
+    private LocalDateTime getTimeExpired() {
+        LocalDateTime nextTime = getTimeInserted().plusHours(4);
+        return nextTime;
     }
-
 
 }

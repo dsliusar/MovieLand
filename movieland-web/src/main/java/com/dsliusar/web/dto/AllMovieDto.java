@@ -1,6 +1,6 @@
-package com.dsliusar.controllers.dto;
+package com.dsliusar.web.dto;
 
-import com.dsliusar.controllers.dto.converter.GenreListSerializer;
+import com.dsliusar.web.dto.converter.GenreListSerializer;
 import com.dsliusar.persistence.entity.Genre;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

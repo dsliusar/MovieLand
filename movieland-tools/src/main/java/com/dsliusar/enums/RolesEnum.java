@@ -16,17 +16,16 @@ public enum RolesEnum {
 
     private String s;
 
-    public static Boolean isValidRole(String role) throws IllegalRoleException {
-        for (SorterValidatorEnum rolesValues : SorterValidatorEnum.values()) {
-            if(role == null)
-            {
-                throw  new IllegalRoleException("Role was not found");
-            }
+    public static boolean validateRole(String role) throws IllegalRoleException {
+        if (role == null) {
+            throw new IllegalRoleException("Role was not found" + role);
+        }
+        for (RolesEnum rolesValues : RolesEnum.values()) {
             if (role.equalsIgnoreCase(rolesValues.toString())) {
                 return true;
             }
         }
-        throw  new IllegalRoleException("Not a valid role = "+ role);
+        throw new IllegalRoleException("Not a valid role = " + role);
     }
 
 

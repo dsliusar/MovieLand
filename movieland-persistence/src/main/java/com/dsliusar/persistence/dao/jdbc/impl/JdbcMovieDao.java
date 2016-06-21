@@ -1,5 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
+import com.dsliusar.http.entities.MovieSortRequest;
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.dao.jdbc.builder.SearchQueryBuilder;
 import com.dsliusar.persistence.dao.jdbc.builder.SortingQueryBuilder;
@@ -7,7 +8,7 @@ import com.dsliusar.persistence.dao.jdbc.mapper.MovieMapper;
 import com.dsliusar.persistence.entity.Country;
 import com.dsliusar.persistence.entity.Genre;
 import com.dsliusar.persistence.entity.Movie;
-import com.dsliusar.http.entities.MovieSearchRequestDto;
+import com.dsliusar.http.entities.MovieSearchRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,12 @@ public class JdbcMovieDao implements MovieDao {
 
     @Autowired
     private MovieMapper movieMapper;
+
+    @Autowired
+    private SortingQueryBuilder sortingQueryBuilder;
+
+    @Autowired
+    private SearchQueryBuilder searchQueryBuilder;
 
     @Override
     public void insert(Map<String, Movie> movieMap, Map<String, Country> countryMap, Map<String, Genre> mapGenre) {
@@ -103,19 +110,21 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public List<Movie> getAllMovies(String ratingOrder, String priceOrder) {
+    public List<Movie> getAllMovies(MovieSortRequest movieSortRequest) {
         LOGGER.info("Start getting all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> allMovieList = jdbcTemplate.query(new SortingQueryBuilder(getAllMoviesSQL, ratingOrder, priceOrder).movieSortingQueryBuilder(),movieMapper);
+        List<Movie> allMovieList = jdbcTemplate.query(sortingQueryBuilder.movieSortingQueryBuilder
+                (getAllMoviesSQL, movieSortRequest),movieMapper);
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
     }
 
     @Override
-    public List<Movie> getSearchedMovies(MovieSearchRequestDto movieSearchRequest) {
+    public List<Movie> getSearchedMovies(MovieSearchRequest movieSearchRequest) {
         LOGGER.info("Start getting all movies from by next search criteria {}", movieSearchRequest);
         long startTime = System.currentTimeMillis();
-        List<Movie> allMovieList = jdbcTemplate.query(new SearchQueryBuilder(getAllMoviesSQL, movieSearchRequest).movieSearchQueryBuilder(), movieMapper);
+        List<Movie> allMovieList = jdbcTemplate.query(searchQueryBuilder.movieSearchQueryBuilder
+                (getAllMoviesSQL, movieSearchRequest), movieMapper);
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
     }

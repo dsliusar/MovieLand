@@ -18,7 +18,8 @@ public class CacheableCountryService implements CountryService {
 
     @Override
     public List<Country> getAllCountriesByMovieId(int movieId) {
-        return null;
+
+        return getAllMoviesCountries().get(movieId);
     }
 
     @Override

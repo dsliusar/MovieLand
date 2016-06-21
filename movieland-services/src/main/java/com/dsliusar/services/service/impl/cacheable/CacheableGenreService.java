@@ -18,7 +18,7 @@ public class CacheableGenreService implements GenreService {
 
     @Override
     public List<Genre> getGenresByMovieId(int movieId) {
-        return null;
+        return getAllMoviesGenres().get(movieId);
     }
 
     @SuppressWarnings("unchecked")
