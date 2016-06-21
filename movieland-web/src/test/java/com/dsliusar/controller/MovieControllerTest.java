@@ -1,4 +1,4 @@
-package com.dsliusar.controller;
+package com.dsliusar.controllers.controller;
 
 import com.dsliusar.enums.SorterValidatorEnum;
 import junit.framework.Assert;

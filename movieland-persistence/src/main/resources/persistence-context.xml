@@ -6,14 +6,16 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:properties-tools/application-dev.properties"/>
+    </bean>
+
     <import resource="spring-tools/query-inserts-context.xml" />
     <import resource="spring-tools/query-select-db-context.xml" />
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations" value="classpath:properties-tools/application-dev.properties"/>
-    </bean>
 
-    <context:component-scan base-package="com.dsliusar" />
+
+    <context:component-scan base-package="com.dsliusar.persistence" />
     <context:annotation-config />
 
     <bean id="dataSource"
@@ -32,6 +34,6 @@
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id = "initDb" class="com.dsliusar.dao.jdbc.utils.SetUpDataBaseFacade"/>
+    <bean id = "initDb" class="com.dsliusar.persistence.dao.jdbc.utils.SetUpDataBaseFacade"/>
 
 </beans>

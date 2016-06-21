@@ -1,8 +1,8 @@
-package com.dsliusar.security;
+package com.dsliusar.services.security;
 
-import com.dsliusar.entity.User;
+import com.dsliusar.persistence.entity.User;
 import com.dsliusar.http.entities.UserSecureTokenEntity;
-import com.dsliusar.security.impl.SecureTokenServiceProvider;
+import com.dsliusar.services.security.impl.SecureTokenServiceProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

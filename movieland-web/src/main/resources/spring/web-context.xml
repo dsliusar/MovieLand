@@ -8,7 +8,7 @@
 
        <context:annotation-config/>
 
-       <context:component-scan base-package="com.dsliusar">
+       <context:component-scan base-package="com.dsliusar.controllers">
               <context:exclude-filter type="regex" expression="com\.dsliusar\.controller\..*"/>
        </context:component-scan>
 
