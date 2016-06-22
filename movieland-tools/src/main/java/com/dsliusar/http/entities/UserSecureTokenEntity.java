@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class UserSecureTokenEntity {
 
-    private Integer userId;
+    private int userId;
     private String userName;
     private String userRole;
     private LocalDateTime validFrom;
@@ -14,11 +14,11 @@ public class UserSecureTokenEntity {
         this.userRole = userRole;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -63,13 +63,12 @@ public class UserSecureTokenEntity {
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         UserSecureTokenEntity that = (UserSecureTokenEntity) o;
 
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (userId != that.userId) return false;
         if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
         if (userRole != null ? !userRole.equals(that.userRole) : that.userRole != null) return false;
         if (validFrom != null ? !validFrom.equals(that.validFrom) : that.validFrom != null) return false;
@@ -79,7 +78,7 @@ public class UserSecureTokenEntity {
 
     @Override
     public int hashCode() {
-        int result = userId != null ? userId.hashCode() : 0;
+        int result = userId;
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
         result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
         result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);

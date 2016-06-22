@@ -1,11 +1,12 @@
 package com.dsliusar.web.controller;
 
+import com.dsliusar.annotations.SecurityRoles;
 import com.dsliusar.enums.RolesEnum;
-import com.dsliusar.exceptions.IllegalDeleteException;
-import com.dsliusar.exceptions.IllegalRoleException;
+import com.dsliusar.exceptions.MovieLandSecurityException;
 import com.dsliusar.http.entities.ReviewAddRequestEntity;
 import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.services.security.AuthenticationService;
+import com.dsliusar.services.security.handler.SecurityRoleHandlerService;
 import com.dsliusar.services.service.ReviewService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,27 +28,28 @@ public class ReviewController {
     @Autowired
     private ReviewService genericReviewService;
 
+    @Autowired
+    private SecurityRoleHandlerService securityRoleHandlerService;
+
+    @SecurityRoles(roles = {RolesEnum.USER})
     @RequestMapping(value = "/review", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addMovieReview(@RequestBody ReviewAddRequestEntity reviewAddRequest,
-                                                 @RequestHeader(value = "security-token") String token) throws IllegalRoleException {
-        if (reviewAddRequest == null){
+                                                 @RequestHeader(value = "security-token") String token) {
+        if (reviewAddRequest == null) {
             return new ResponseEntity<>("Please enter review to add", HttpStatus.BAD_REQUEST);
         }
         LOGGER.info("Inserting requested review");
-        UserSecureTokenEntity userSecureTokenEntity = null;
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("The request of body is next {} ", reviewAddRequest);
-        }
+        UserSecureTokenEntity userSecureTokenEntity;
         try {
-            userSecureTokenEntity = authenticationService.getUserByToken(token);
-            if (RolesEnum.validateRole(userSecureTokenEntity.getUserRole())) {
-                genericReviewService.addReview(reviewAddRequest);
-            }
-        } catch (IllegalAccessException e) {
+          userSecureTokenEntity = authenticationService.getUserByToken(token);
+                if (securityRoleHandlerService.handle(
+                        new ReviewController(),
+                        Thread.currentThread().getStackTrace()[1].getMethodName(),
+                        userSecureTokenEntity.getUserRole()))
+          genericReviewService.addReview(reviewAddRequest);
+
+        } catch (MovieLandSecurityException e) {
             LOGGER.error(e.getMessage(), token);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
-        } catch (IllegalRoleException e) {
-            LOGGER.error("User Role is prohibited to update reviews, role = {}", userSecureTokenEntity.getUserRole());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
         LOGGER.info("The review {} have been added successfully", reviewAddRequest);
@@ -56,31 +58,31 @@ public class ReviewController {
 
     @RequestMapping(value = "/review/{reviewId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> removeMovieReview(@PathVariable Integer reviewId,
-                                                    @RequestHeader(value = "security-token") String token) throws IllegalRoleException {
-        if (reviewId == null){
+                                                    @RequestHeader(value = "security-token") String token) {
+        if (reviewId == null) {
             return new ResponseEntity<>("Please enter review ID to delete", HttpStatus.BAD_REQUEST);
         }
-        LOGGER.info("Deleting requested review, {}", reviewId);
-        UserSecureTokenEntity userSecureTokenEntity = null;
+      LOGGER.info("Deleting requested review, {}", reviewId);
+        UserSecureTokenEntity userSecureTokenEntity;
         try {
-            userSecureTokenEntity = authenticationService.getUserByToken(token);
-            if (RolesEnum.validateRole(userSecureTokenEntity.getUserRole())) {
-                genericReviewService.removeReview(userSecureTokenEntity, reviewId);
-            }
-        } catch (IllegalAccessException e) {
-            LOGGER.error("Illegal Access with token provided, {};", token);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
-        } catch (IllegalDeleteException e) {
-            LOGGER.error("Deleting review is not created by user, {};", reviewId);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
-        } catch (IllegalRoleException e) {
-            LOGGER.error("User Role is prohibited to update reviews, role = {};", userSecureTokenEntity.getUserRole());
+           userSecureTokenEntity = authenticationService.getUserByToken(token);
+                if (securityRoleHandlerService.handle(
+                        new ReviewController(),
+                        Thread.currentThread().getStackTrace()[1].getMethodName(),
+                        userSecureTokenEntity.getUserRole()))
+
+           genericReviewService.removeReview(userSecureTokenEntity, reviewId);
+        } catch (MovieLandSecurityException e) {
+            LOGGER.error(e.getMessage(), token);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
         LOGGER.info("Review {} was deleted by user {} successfully;",
-                    reviewId,
-                    userSecureTokenEntity.getUserName());
+                reviewId,
+                userSecureTokenEntity.getUserName());
 
         return new ResponseEntity<>("Review = " + reviewId + "were deleted;", HttpStatus.OK);
     }
+
+
+
 }

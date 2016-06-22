@@ -1,5 +1,6 @@
 package com.dsliusar.services.security.impl;
 
+import com.dsliusar.exceptions.MovieLandSecurityException;
 import com.dsliusar.http.entities.UserCredentialsRequest;
 import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.User;
@@ -10,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.naming.AuthenticationException;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -24,11 +23,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private SecureTokenService secureTokenServiceProvider;
 
     @Override
-    public String authenticateUser(UserCredentialsRequest userCredentialsRequest) throws AuthenticationException {
+    public String authenticateUser(UserCredentialsRequest userCredentialsRequest) throws MovieLandSecurityException {
         User user = genericUserService.checkUserByCredentials(userCredentialsRequest);
         String token;
         if (user == null) {
-            throw new AuthenticationException("Invalid user or Password");
+            throw new MovieLandSecurityException("Invalid user or Password");
         } else {
             token = secureTokenServiceProvider.issueToken(user);
         }
@@ -36,18 +35,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserSecureTokenEntity getUserByToken(String token) throws IllegalAccessException {
+    public UserSecureTokenEntity getUserByToken(String token) throws MovieLandSecurityException {
         if (token == null) {
             LOGGER.error("Token was not provided in the request");
-            throw new IllegalAccessException("Token was not provided during request");
+            throw new MovieLandSecurityException("Token was not provided during request" + token);
         }
         UserSecureTokenEntity userSecureTokenEntity;
-        try {
-            userSecureTokenEntity = secureTokenServiceProvider.getUserByToken(token);
-        } catch (IllegalAccessException e){
-            LOGGER.error(e.getMessage());
-            throw e;
-        }
+        userSecureTokenEntity = secureTokenServiceProvider.getUserByToken(token);
         return userSecureTokenEntity;
     }
 }

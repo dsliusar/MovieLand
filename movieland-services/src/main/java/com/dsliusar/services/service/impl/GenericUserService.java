@@ -17,12 +17,7 @@ public class GenericUserService implements UserService {
 
     @Override
     public User checkUserByCredentials(UserCredentialsRequest userCredentials) {
-        Map<Integer, User> userMap = jdbcUserDao.checkUserByCredentials(userCredentials);
-        User user = null;
-        for (Map.Entry<Integer,User> userEntry : userMap.entrySet()){
-            user = userEntry.getValue();
-        }
-        return user;
+        return jdbcUserDao.checkUserByCredentials(userCredentials);
     }
 
     @Override
