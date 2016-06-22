@@ -1,6 +1,8 @@
 package com.dsliusar.services.service.impl.cacheable;
 
+import com.dsliusar.exceptions.IllegalDeleteException;
 import com.dsliusar.http.entities.ReviewAddRequestEntity;
+import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.services.cache.CacheService;
 import com.dsliusar.constants.Constant;
 import com.dsliusar.persistence.entity.Review;
@@ -33,7 +35,8 @@ public class CacheableReviewService implements ReviewService {
     }
 
     @Override
-    public void removeReview(ReviewAddRequestEntity reviewAddRequest) {
+    public void removeReview(UserSecureTokenEntity userSecureTokenEntity, int reviewId) throws IllegalDeleteException {
 
     }
+
 }

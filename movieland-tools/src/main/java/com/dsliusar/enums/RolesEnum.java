@@ -8,7 +8,8 @@ import com.dsliusar.exceptions.IllegalRoleException;
 public enum RolesEnum {
     ADMIN("admin"),
     USER("user"),
-    MODERATOR("moderator");
+    MODERATOR("moderator"),
+    GUEST("guest");
 
     RolesEnum(String s) {
         this.s = s;

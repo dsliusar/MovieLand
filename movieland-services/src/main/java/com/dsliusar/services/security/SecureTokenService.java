@@ -6,9 +6,9 @@ import com.dsliusar.persistence.entity.User;
 public interface SecureTokenService {
 
     String issueToken(User user);
-    UserSecureTokenEntity isValidToken(String token);
+    UserSecureTokenEntity getUserByToken(String token) throws IllegalAccessException;
     void deleteToken(String token);
-    boolean checkIfExpired(String token);
+    boolean checkIfNotExpired(String token);
     int performHousekeeping();
 
 }
