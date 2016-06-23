@@ -2,7 +2,7 @@ package com.dsliusar.services.service.impl.cacheable;
 
 import com.dsliusar.constants.Constant;
 import com.dsliusar.exceptions.MovieLandSecurityException;
-import com.dsliusar.http.entities.ReviewAddRequestEntity;
+import com.dsliusar.http.entities.ReviewAddRequest;
 import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.Review;
 import com.dsliusar.services.cache.CacheService;
@@ -30,7 +30,7 @@ public class CacheableReviewService implements ReviewService {
     }
 
     @Override
-    public void addReview(ReviewAddRequestEntity reviewAddRequest) {
+    public void addReview(ReviewAddRequest reviewAddRequest) {
 
     }
 

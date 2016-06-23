@@ -1,7 +1,8 @@
 package com.dsliusar.services.service.impl;
 
 import com.dsliusar.exceptions.MovieLandSecurityException;
-import com.dsliusar.http.entities.ReviewAddRequestEntity;
+import com.dsliusar.exceptions.NotFoundException;
+import com.dsliusar.http.entities.ReviewAddRequest;
 import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.persistence.dao.ReviewDao;
 import com.dsliusar.persistence.entity.Review;
@@ -33,15 +34,18 @@ public class GenericReviewService implements ReviewService {
     }
 
     @Override
-    public void addReview(ReviewAddRequestEntity reviewAddRequest) {
+    public void addReview(ReviewAddRequest reviewAddRequest) {
         jdbcReviewDao.insert(reviewAddRequest);
     }
 
     @Override
-    public void removeReview(UserSecureTokenEntity userSecureTokenEntity, int reviewId) throws MovieLandSecurityException {
+    public void removeReview(UserSecureTokenEntity userSecureTokenEntity, int reviewId) throws MovieLandSecurityException, NotFoundException {
         Review review = jdbcReviewDao.getReviewByReviewId(reviewId);
+        if (review == null){
+            throw new NotFoundException("Deleting review " + reviewId + " was not found");
+        }
         try {
-            reviewSecurity.checkDeletePermission(userSecureTokenEntity,review);
+            reviewSecurity.checkUserDeletePermission(userSecureTokenEntity, review);
             jdbcReviewDao.remove(reviewId);
         } catch (MovieLandSecurityException e){
             throw e;

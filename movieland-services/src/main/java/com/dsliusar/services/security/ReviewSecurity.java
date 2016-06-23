@@ -9,5 +9,5 @@ import com.dsliusar.persistence.entity.Review;
  */
 public interface ReviewSecurity {
 
-    void checkDeletePermission(UserSecureTokenEntity userSecureEntity, Review DeletingReview) throws MovieLandSecurityException;
+    void checkUserDeletePermission(UserSecureTokenEntity userSecureEntity, Review DeletingReview) throws MovieLandSecurityException;
 }

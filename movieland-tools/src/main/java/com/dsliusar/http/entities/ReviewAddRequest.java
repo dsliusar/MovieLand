@@ -3,7 +3,7 @@ package com.dsliusar.http.entities;
 /**
  * Created by DSliusar on 21.06.2016.
  */
-public class ReviewAddRequestEntity {
+public class ReviewAddRequest {
     private int userId;
     private int movieId;
     private String review;
@@ -46,7 +46,7 @@ public class ReviewAddRequestEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReviewAddRequestEntity that = (ReviewAddRequestEntity) o;
+        ReviewAddRequest that = (ReviewAddRequest) o;
 
         if (userId != that.userId) return false;
         if (movieId != that.movieId) return false;

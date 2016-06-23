@@ -38,10 +38,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public UserSecureTokenEntity getUserByToken(String token) throws MovieLandSecurityException {
         if (token == null) {
             LOGGER.error("Token was not provided in the request");
-            throw new MovieLandSecurityException("Token was not provided during request" + token);
+            throw new MovieLandSecurityException("Token was not provided in the request");
         }
-        UserSecureTokenEntity userSecureTokenEntity;
-        userSecureTokenEntity = secureTokenServiceProvider.getUserByToken(token);
-        return userSecureTokenEntity;
+        return secureTokenServiceProvider.getUserByToken(token);
     }
 }

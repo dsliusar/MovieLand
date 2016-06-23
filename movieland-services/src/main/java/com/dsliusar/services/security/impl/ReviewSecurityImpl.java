@@ -14,10 +14,13 @@ public class ReviewSecurityImpl implements ReviewSecurity {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Override
-    public void checkDeletePermission(UserSecureTokenEntity userSecureEntity, Review DeletingReview) throws MovieLandSecurityException{
+    public void checkUserDeletePermission(UserSecureTokenEntity userSecureEntity, Review DeletingReview)
+            throws MovieLandSecurityException {
         if (userSecureEntity.getUserId() != DeletingReview.getUserId()
-                && !(userSecureEntity.getUserRole().equals(RolesEnum.ADMIN.toString()))) {
-            LOGGER.error("Deleting of the review {} is prohibited for this user {}", DeletingReview.getReviewId(), userSecureEntity.getUserName());
+                && !(userSecureEntity.getUserRole().equalsIgnoreCase(RolesEnum.ADMIN.toString()))) {
+            LOGGER.error("Deleting of the review {} is prohibited for this user {}",
+                         DeletingReview.getReviewId(),
+                         userSecureEntity.getUserName());
             throw new MovieLandSecurityException("Deleting review id is not owning by this user");
         }
     }

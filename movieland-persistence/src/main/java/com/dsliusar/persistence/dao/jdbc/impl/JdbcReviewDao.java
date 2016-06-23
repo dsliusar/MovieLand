@@ -1,6 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
-import com.dsliusar.http.entities.ReviewAddRequestEntity;
+import com.dsliusar.http.entities.ReviewAddRequest;
 import com.dsliusar.persistence.dao.ReviewDao;
 import com.dsliusar.persistence.dao.jdbc.mapper.ReviewMapRowMapper;
 import com.dsliusar.persistence.dao.jdbc.mapper.ReviewMapper;
@@ -61,7 +61,7 @@ public class JdbcReviewDao implements ReviewDao {
     }
 
     @Override
-    public void insert(ReviewAddRequestEntity reviewAddRequest) {
+    public void insert(ReviewAddRequest reviewAddRequest) {
         LOGGER.info("Start populating Review Table");
         jdbcTemplate.update(insertReviewSQL,reviewAddRequest.getUserId(),
                                             reviewAddRequest.getUserId(),

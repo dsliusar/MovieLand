@@ -24,6 +24,10 @@ public class SecureTokenServiceProvider implements SecureTokenService {
     @Value("${service.tokenLiveTime}")
     private int tokenLiveTime;
 
+    /**
+     * Issuing the token to the user.
+     * @return token
+     */
     @Override
     public String issueToken(User user) {
         LOGGER.info("Issuing a token for the user {}", user.getUserEmail());
@@ -36,7 +40,7 @@ public class SecureTokenServiceProvider implements SecureTokenService {
      * Getting user by token.
      *
      * Logging count of deleted(expired) tokens from the Map of tokens
-     * @throws
+     * @throws MovieLandSecurityException
      */
     @Override
     public UserSecureTokenEntity getUserByToken(String token) throws MovieLandSecurityException {
@@ -69,8 +73,7 @@ public class SecureTokenServiceProvider implements SecureTokenService {
     }
 
     private LocalDateTime getTimeExpired() {
-        LocalDateTime tokenExpiredTime = getTimeInserted().plusHours(tokenLiveTime);
-        return tokenExpiredTime;
+        return getTimeInserted().plusHours(tokenLiveTime);
     }
 
     private UserSecureTokenEntity fillUserTokenEntity(User user) {

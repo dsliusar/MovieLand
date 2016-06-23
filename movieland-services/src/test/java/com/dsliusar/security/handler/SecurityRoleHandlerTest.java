@@ -3,6 +3,7 @@ package com.dsliusar.security.handler;
 import com.dsliusar.annotations.SecurityRoles;
 import com.dsliusar.enums.RolesEnum;
 import com.dsliusar.exceptions.MovieLandSecurityException;
+import com.dsliusar.persistence.entity.Movie;
 import com.dsliusar.services.security.handler.SecurityRoleHandlerService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,23 +14,24 @@ import org.junit.Test;
 public class SecurityRoleHandlerTest {
 
     @SecurityRoles(roles = {RolesEnum.USER})
-    public boolean testUser(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
+    public void testUser(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
         SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
-        return securityRoleHandler.handle(securityRoleHandlerTest, Thread.currentThread().getStackTrace()[1].getMethodName(), "USER");
+        securityRoleHandler.handle(SecurityRoleHandlerTest.class, Thread.currentThread().getStackTrace()[1].getMethodName(), "USER");
     }
 
     @SecurityRoles(roles = {RolesEnum.ADMIN, RolesEnum.USER})
-    public boolean testAdmin(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
+    public void testAdmin(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
 
         SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
-        return securityRoleHandler.handle(securityRoleHandlerTest, Thread.currentThread().getStackTrace()[1].getMethodName(), "ADMIN");
+        System.out.println(SecurityRoleHandlerService.class);
+        securityRoleHandler.handle(SecurityRoleHandlerTest.class, Thread.currentThread().getStackTrace()[1].getMethodName(), "ADMIN");
     }
 
     @SecurityRoles(roles = {RolesEnum.ADMIN, RolesEnum.USER, RolesEnum.GUEST})
-    public boolean testNoName(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
+    public void testNoName(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
 
         SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
-        return securityRoleHandler.handle(securityRoleHandlerTest, Thread.currentThread().getStackTrace()[1].getMethodName(), "ADMa");
+        securityRoleHandler.handle(SecurityRoleHandlerTest.class, Thread.currentThread().getStackTrace()[1].getMethodName(), "ADMa");
     }
 
     @Test
@@ -49,18 +51,27 @@ public class SecurityRoleHandlerTest {
     @Test
     public void testAdmin() throws MovieLandSecurityException {
         SecurityRoleHandlerTest handlerTest = new SecurityRoleHandlerTest();
-        boolean adminTrue = true;
-        boolean adminActual = handlerTest.testAdmin(handlerTest);
-        Assert.assertEquals(adminTrue, adminActual);
+        String expectedError = null;
+        String actualError = null;
+        try {
+            handlerTest.testAdmin(handlerTest);
+        } catch (MovieLandSecurityException e){
+            actualError = e.getMessage();
+        }
+        Assert.assertEquals(expectedError, actualError);
     }
 
     @Test
     public void testUser() throws MovieLandSecurityException {
         SecurityRoleHandlerTest handlerTest = new SecurityRoleHandlerTest();
-
-        boolean userTrue = true;
-        boolean userActual = handlerTest.testUser(handlerTest);
-        Assert.assertEquals(userTrue, userActual);
+        String expectedError = null;
+        String actualError = null;
+        try{
+            handlerTest.testUser(handlerTest);
+        }catch (MovieLandSecurityException e){
+            actualError = e.getMessage();
+        }
+        Assert.assertEquals(expectedError,actualError);
     }
 
 }
