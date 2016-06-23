@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
+
 /**
  * Perform recursion for annotation of Roles
  * If method is annotated with roles it will not throw any errors
  * If method is not annotated or incoming role is not as in annotation throw exceptions
- *
  */
 @Service
 public class SecurityRoleHandlerService {
@@ -29,10 +29,9 @@ public class SecurityRoleHandlerService {
                         for (RolesEnum rolesEnum : roles.roles()) {
                             if (rolesEnum.toString().equalsIgnoreCase(role)) {
                                 break outerLabel;
-                            } else {
-                                throw new MovieLandSecurityException("Current role " + role + " is prohibited to do this operation");
                             }
                         }
+                        throw new MovieLandSecurityException("Current role " + role + " is prohibited to do this operation");
                     } else {
                         throw new MovieLandSecurityException("No Annotation found");
                     }

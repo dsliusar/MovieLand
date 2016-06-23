@@ -14,6 +14,6 @@ public interface ReviewService {
     List<Review> getAllReviewByMovieId(int movieId);
     Map<Integer,List<Review>> getAllMoviesReviews();
     void addReview(ReviewAddRequest reviewAddRequest);
-    void removeReview(UserSecureTokenEntity userSecureTokenEntity,int reviewId) throws SecurityException, MovieLandSecurityException, NotFoundException;
+    void removeReview(UserSecureTokenEntity userSecureTokenEntity,int reviewId) throws MovieLandSecurityException, NotFoundException;
 
 }

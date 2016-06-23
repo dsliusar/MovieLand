@@ -8,6 +8,7 @@ import com.dsliusar.persistence.entity.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -92,7 +93,12 @@ public class JdbcReviewDao implements ReviewDao {
     public Review getReviewByReviewId(int reviewId) {
         LOGGER.info("Start getting Review by Id");
         long startTime = System.currentTimeMillis();
-        Review review = jdbcTemplate.queryForObject(getReviewByReviewId, new Object[]{reviewId}, reviewMapper);
+        Review review = null;
+        try {
+            review = jdbcTemplate.queryForObject(getReviewByReviewId, new Object[]{reviewId}, reviewMapper);
+        }catch (EmptyResultDataAccessException e){
+            LOGGER.error(e.getMessage());
+        }
         LOGGER.info("Reviews by Movie Id was received, it took {}", System.currentTimeMillis() - startTime);
         if (LOGGER.isDebugEnabled()){
             LOGGER.debug("Next review was received {} ", review);

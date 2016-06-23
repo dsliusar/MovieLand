@@ -18,7 +18,7 @@ public class SecurityRoleHandlerTest {
         SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
         securityRoleHandler.handle(SecurityRoleHandlerTest.class, Thread.currentThread().getStackTrace()[1].getMethodName(), "USER");
     }
-    @SecurityRoles(roles = {RolesEnum.ADMIN, RolesEnum.USER})
+    @SecurityRoles(roles = {RolesEnum.USER,RolesEnum.ADMIN})
     public void testAdmin() throws MovieLandSecurityException {
 
         SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
