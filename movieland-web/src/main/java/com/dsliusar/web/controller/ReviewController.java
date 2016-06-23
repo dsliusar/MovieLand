@@ -65,6 +65,7 @@ public class ReviewController {
                 HttpStatus.OK);
     }
 
+    @SecurityRoles(roles = {RolesEnum.USER, RolesEnum.ADMIN})
     @RequestMapping(value = "/review/{reviewId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> removeMovieReview(@PathVariable Integer reviewId,
                                                @RequestHeader(value = "security-token") String token) {

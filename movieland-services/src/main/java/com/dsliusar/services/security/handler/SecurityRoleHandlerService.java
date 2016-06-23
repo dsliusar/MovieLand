@@ -33,6 +33,8 @@ public class SecurityRoleHandlerService {
                                 throw new MovieLandSecurityException("Current role " + role + " is prohibited to do this operation");
                             }
                         }
+                    } else {
+                        throw new MovieLandSecurityException("No Annotation found");
                     }
                 }
             }

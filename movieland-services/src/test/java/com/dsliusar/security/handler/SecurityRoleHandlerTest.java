@@ -14,13 +14,12 @@ import org.junit.Test;
 public class SecurityRoleHandlerTest {
 
     @SecurityRoles(roles = {RolesEnum.USER})
-    public void testUser(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
+    public void testUser() throws MovieLandSecurityException {
         SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
         securityRoleHandler.handle(SecurityRoleHandlerTest.class, Thread.currentThread().getStackTrace()[1].getMethodName(), "USER");
     }
-
     @SecurityRoles(roles = {RolesEnum.ADMIN, RolesEnum.USER})
-    public void testAdmin(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
+    public void testAdmin() throws MovieLandSecurityException {
 
         SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
         System.out.println(SecurityRoleHandlerService.class);
@@ -28,20 +27,26 @@ public class SecurityRoleHandlerTest {
     }
 
     @SecurityRoles(roles = {RolesEnum.ADMIN, RolesEnum.USER, RolesEnum.GUEST})
-    public void testNoName(SecurityRoleHandlerTest securityRoleHandlerTest) throws MovieLandSecurityException {
+    public void testNoName() throws MovieLandSecurityException {
+
+        SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
+        securityRoleHandler.handle(SecurityRoleHandlerTest.class, Thread.currentThread().getStackTrace()[1].getMethodName(), "ADMa");
+    }
+
+      public void testNoAnnotation() throws MovieLandSecurityException {
 
         SecurityRoleHandlerService securityRoleHandler = new SecurityRoleHandlerService();
         securityRoleHandler.handle(SecurityRoleHandlerTest.class, Thread.currentThread().getStackTrace()[1].getMethodName(), "ADMa");
     }
 
     @Test
-    public void testNoName() throws MovieLandSecurityException {
+    public void testNoNameTest(){
         SecurityRoleHandlerTest handlerTest = new SecurityRoleHandlerTest();
         String role = "ADMa";
         String expectedError = "Current role " + role + " is prohibited to do this operation";
         String actualError = "";
         try {
-            handlerTest.testNoName(handlerTest);
+            handlerTest.testNoName();
         } catch (MovieLandSecurityException e) {
             actualError = e.getMessage();
         }
@@ -49,12 +54,12 @@ public class SecurityRoleHandlerTest {
     }
 
     @Test
-    public void testAdmin() throws MovieLandSecurityException {
+    public void testAdminTest(){
         SecurityRoleHandlerTest handlerTest = new SecurityRoleHandlerTest();
         String expectedError = null;
         String actualError = null;
         try {
-            handlerTest.testAdmin(handlerTest);
+            handlerTest.testAdmin();
         } catch (MovieLandSecurityException e){
             actualError = e.getMessage();
         }
@@ -62,12 +67,25 @@ public class SecurityRoleHandlerTest {
     }
 
     @Test
-    public void testUser() throws MovieLandSecurityException {
+    public void testUserTest(){
         SecurityRoleHandlerTest handlerTest = new SecurityRoleHandlerTest();
         String expectedError = null;
         String actualError = null;
         try{
-            handlerTest.testUser(handlerTest);
+            handlerTest.testUser();
+        }catch (MovieLandSecurityException e){
+            actualError = e.getMessage();
+        }
+        Assert.assertEquals(expectedError,actualError);
+    }
+
+    @Test
+    public void testNoAnnotationTest(){
+        SecurityRoleHandlerTest handlerTest = new SecurityRoleHandlerTest();
+        String expectedError = "No Annotation found";
+        String actualError = null;
+        try{
+            handlerTest.testNoAnnotation();
         }catch (MovieLandSecurityException e){
             actualError = e.getMessage();
         }
