@@ -1,12 +1,11 @@
 package com.dsliusar.services.security;
 
+import com.dsliusar.exceptions.MovieLandSecurityException;
 import com.dsliusar.http.entities.UserCredentialsRequest;
 import com.dsliusar.http.entities.UserSecureTokenEntity;
 
-import javax.naming.AuthenticationException;
-
 public interface AuthenticationService {
 
-    String authenticateUser(UserCredentialsRequest userCredentialsRequest) throws AuthenticationException;
-    UserSecureTokenEntity getUserByToken(String token) throws IllegalAccessException;
+    String authenticateUser(UserCredentialsRequest userCredentialsRequest) throws MovieLandSecurityException;
+    UserSecureTokenEntity getUserByToken(String token) throws MovieLandSecurityException;
 }

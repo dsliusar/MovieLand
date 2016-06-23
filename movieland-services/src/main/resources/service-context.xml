@@ -6,31 +6,39 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
-        <!--<property name="locations" value="classpath:properties/application-service.properties" order = 2/>-->
+    <!--<property name="locations" value="classpath:properties/application-service.properties" order = 2/>-->
     <!--</bean>-->
 
-    <context:property-placeholder location="classpath*:properties/application-service.properties" ignore-unresolvable="true" order="1" />
+    <context:property-placeholder location="classpath*:properties/application-service.properties"
+                                  ignore-unresolvable="true" order="1"/>
 
 
     <import resource="classpath:/persistence-context.xml"/>
 
     <context:component-scan base-package="com.dsliusar.services"/>
-    <task:annotation-driven />
+    <task:annotation-driven/>
     <task:scheduler id="myScheduler"/>
 
-    <bean id="genreCacheUpdateService" class="com.dsliusar.services.cache.executor.GenreCacheUpdateService" depends-on="initDb"/>
-    <bean id="countryCacheUpdateService" class="com.dsliusar.services.cache.executor.CountryCacheUpdateService" depends-on="initDb"/>
-    <bean id="reviewCacheUpdateService" class="com.dsliusar.services.cache.executor.ReviewCacheUpdateService" depends-on="initDb"/>
-    <bean id="tokensHousekeepingService" class="com.dsliusar.services.security.executor.TokenHouseKeepingExecutor"/>
+    <bean id="genreCacheUpdateService" class="com.dsliusar.services.cache.executor.GenreCacheUpdateService"
+          depends-on="initDb"/>
+    <bean id="countryCacheUpdateService" class="com.dsliusar.services.cache.executor.CountryCacheUpdateService"
+          depends-on="initDb"/>
+    <bean id="reviewCacheUpdateService" class="com.dsliusar.services.cache.executor.ReviewCacheUpdateService"
+          depends-on="initDb"/>
 
     <task:scheduled-tasks scheduler="myScheduler">
-    <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresCache" cron="${service.cronGenreCacheUpdateInterval}" />
-    <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresWithMovieIdCache" cron="${service.cronGenreMovieCacheUpdateInterval}" />
-    <task:scheduled ref="countryCacheUpdateService" method="updateAllCountriesCache" cron="${service.cronAllCountriesUpdateInterval}" />
-    <task:scheduled ref="countryCacheUpdateService" method="updateAllMoviesCountriesCache" cron="${service.cronAllMoviesCountriesUpdateInterval}" />
-    <task:scheduled ref="reviewCacheUpdateService" method="updateAllMoviesReviewsCache" cron="${service.cronAllReviewsUpdateInterval}" />
-    <task:scheduled ref="tokensHousekeepingService" method="performTokenHousekeeping" cron="${service.cronTokensHouseKeepingInterval}" />
-</task:scheduled-tasks>
+        <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresCache"
+                        cron="${service.cronGenreCacheUpdateInterval}"/>
+        <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresWithMovieIdCache"
+                        cron="${service.cronGenreMovieCacheUpdateInterval}"/>
+        <task:scheduled ref="countryCacheUpdateService" method="updateAllCountriesCache"
+                        cron="${service.cronAllCountriesUpdateInterval}"/>
+        <task:scheduled ref="countryCacheUpdateService" method="updateAllMoviesCountriesCache"
+                        cron="${service.cronAllMoviesCountriesUpdateInterval}"/>
+        <task:scheduled ref="reviewCacheUpdateService" method="updateAllMoviesReviewsCache"
+                        cron="${service.cronAllReviewsUpdateInterval}"/>
+        <!--<task:scheduled ref="AuthenticationServiceImpl" method="performTokenHousekeeping" cron="${service.cronTokensHouseKeepingInterval}" />-->
+    </task:scheduled-tasks>
 
 
 </beans>

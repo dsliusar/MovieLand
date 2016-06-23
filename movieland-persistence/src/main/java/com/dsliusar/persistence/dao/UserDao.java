@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface UserDao{
      void insert(Map<String, User> userMap);
-     Map<Integer,User> checkUserByCredentials(UserCredentialsRequest userCredentials);
+     User checkUserByCredentials(UserCredentialsRequest userCredentials);
      Map<Integer,User> getAllUsersMap();
      List<User> getAllUsers();
 }

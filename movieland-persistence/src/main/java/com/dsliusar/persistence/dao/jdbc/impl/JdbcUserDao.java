@@ -58,14 +58,14 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public Map<Integer, User> checkUserByCredentials(UserCredentialsRequest userCredentials) {
+    public User checkUserByCredentials(UserCredentialsRequest userCredentials) {
         LOGGER.info("Get user by credentials");
         long startTime = System.currentTimeMillis();
-        Map<Integer, User> userMap = jdbcTemplate.query(getUserByCredentials,
-                                     new Object[]{userCredentials.getUserEmail(),userCredentials.getUserPassword()},
-                                     singleUserRowMapper);
+        User user = jdbcTemplate.queryForObject(getUserByCredentials, new Object[]{userCredentials.getUserEmail(),
+                                                                      userCredentials.getUserPassword()},
+                                                                      usersRowMapper);
         LOGGER.info("Finished getting user by credentials, it took {}", System.currentTimeMillis() - startTime);
-        return userMap;
+        return user;
     }
 
     @Override
