@@ -1,6 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.utils;
 
-import com.dsliusar.constants.Constant;
+import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.persistence.dao.*;
 import com.dsliusar.persistence.dao.files.facade.FileParserFacade;
 import com.dsliusar.persistence.entity.*;
@@ -44,9 +44,9 @@ public class SetUpDataBaseFacade{
 
         jdbcGenreDao.insert((Map<String, Genre>) mapOfFiles.get(Constant.GENRE_MAP_NAME));
 
-        jdbcMovieDao.insert((Map<String, Movie>)mapOfFiles.get(Constant.MOVIE_MAP_NAME)
-                ,(Map<String, Country>)mapOfFiles.get(Constant.COUNTRY_MAP_NAME)
-                ,(Map<String, Genre>)mapOfFiles.get(Constant.GENRE_MAP_NAME));
+        jdbcMovieDao.addMovie((Map<String, Movie>) mapOfFiles.get(Constant.MOVIE_MAP_NAME)
+                , (Map<String, Country>) mapOfFiles.get(Constant.COUNTRY_MAP_NAME)
+                , (Map<String, Genre>) mapOfFiles.get(Constant.GENRE_MAP_NAME));
 
         jdbcCountryDao.insert((Map<String, Country>) mapOfFiles.get(Constant.COUNTRY_MAP_NAME));
         jdbcReviewDao.insert((List<Review>) mapOfFiles.get(Constant.REVIEW_LIST_NAME));

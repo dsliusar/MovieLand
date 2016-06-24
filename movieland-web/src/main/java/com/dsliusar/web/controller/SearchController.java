@@ -1,6 +1,6 @@
 package com.dsliusar.web.controller;
 
-import com.dsliusar.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.http.entities.MovieSearchRequest;
 import com.dsliusar.services.service.MovieService;
 import com.dsliusar.web.dto.AllMovieDto;
 import com.dsliusar.web.dto.AllMovieListDto;
@@ -29,13 +29,7 @@ public class SearchController {
 
     public ResponseEntity<List<AllMovieDto>> searchMovies(MovieSearchRequest searchMovieDto){
         LOGGER.info(" Send request to search movies by criteria {} ", searchMovieDto);
-        List<AllMovieDto> movieDtoList;
-        try {
-           movieDtoList = movieDtoConverter.transformAllMovieToDto(movieService.getAllSearchedMovies(searchMovieDto));
-        } catch (Exception e){
-             LOGGER.error("Error happened in search movie controller ", e);
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        List<AllMovieDto> movieDtoList = movieDtoConverter.transformAllMovieToDto(movieService.getAllSearchedMovies(searchMovieDto));
         if (movieDtoList.isEmpty()){
             LOGGER.info("Null content returned");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

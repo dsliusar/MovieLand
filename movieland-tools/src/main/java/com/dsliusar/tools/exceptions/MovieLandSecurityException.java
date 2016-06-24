@@ -1,4 +1,4 @@
-package com.dsliusar.exceptions;
+package com.dsliusar.tools.exceptions;
 
 
 public class MovieLandSecurityException extends Exception {

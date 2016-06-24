@@ -1,6 +1,6 @@
 package com.dsliusar.persistence.dao.files.facade;
 
-import com.dsliusar.constants.Constant;
+import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.persistence.dao.files.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

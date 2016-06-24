@@ -1,17 +1,17 @@
-package com.dsliusar.enums;
+package com.dsliusar.tools.enums;
 
-public enum SortTypeEnum {
+public enum SortType {
     ASC("asc"),
     DESC("desc");
 
     private String sortId;
 
-    SortTypeEnum(String sortId) {
+    SortType(String sortId) {
         this.sortId = sortId;
     }
 
-    public static SortTypeEnum validateSortType(String sortId) throws IllegalArgumentException {
-        for (SortTypeEnum sortValues : SortTypeEnum.values()) {
+    public static SortType validateSortType(String sortId) throws IllegalArgumentException {
+        for (SortType sortValues : SortType.values()) {
             if (sortId.equalsIgnoreCase(sortValues.toString())) {
                 return sortValues;
             }

@@ -1,4 +1,4 @@
-package com.dsliusar.exceptions;
+package com.dsliusar.tools.exceptions;
 
 /**
  * Created by Red1 on 6/23/2016.

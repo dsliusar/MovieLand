@@ -1,6 +1,6 @@
-package com.dsliusar.annotations;
+package com.dsliusar.tools.annotations;
 
-import com.dsliusar.enums.RolesEnum;
+import com.dsliusar.tools.enums.Roles;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SecurityRoles {
-    RolesEnum[] roles();
+    Roles[] roles();
 }

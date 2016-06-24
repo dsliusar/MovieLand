@@ -1,4 +1,4 @@
-package com.dsliusar.constants;
+package com.dsliusar.tools.constants;
 
 /**
  * Created by Red1 on 6/13/2016.
@@ -17,6 +17,7 @@ public class Constant {
     public final static String ALL_COUNTRIES_CACHE = "allCountriesCache";
     public final static String ALL_MOVIES_COUNTRIES_CACHE = "allMoviesCountriesCache";
     public final static String ALL_MOVIES_REVIEWS_CACHE = "allMoviesReviewsCache";
-    public final static String ALL_USERS_CACHE = "allUsersCache";
+
+    public final static String SECURITY_TOKEN_HEADER_NAME = "security-token";
 
 }

@@ -1,7 +1,7 @@
 package com.dsliusar.services.service.impl.cacheable;
 
 import com.dsliusar.services.cache.CacheService;
-import com.dsliusar.constants.Constant;
+import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.persistence.entity.Country;
 import com.dsliusar.services.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;

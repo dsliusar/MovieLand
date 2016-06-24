@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.naming.ldap.HasControls;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,10 +47,7 @@ public class JdbcCountryDao implements CountryDao {
         for (Map.Entry<String, Country> country : countryMap.entrySet()) {
                 jdbcTemplate.update(insertCountrySQL,country.getValue().getCountryId(),
                                                      country.getValue().getCountryName());
-            if(LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Next rows {} were inserted into counties, it took {} ", country, System.currentTimeMillis() - startTime);
-            }
-            LOGGER.info("All rows were inserted to counties table");
+             LOGGER.info("All rows were inserted to counties table");
         }
     }
 
@@ -76,7 +71,6 @@ public class JdbcCountryDao implements CountryDao {
             }
             return mapRet;
         });
-
         LOGGER.info("All Countries were extracted from DB, it took {} ms ", System.currentTimeMillis() - startTime );
         return countiesMap;
     }

@@ -41,9 +41,9 @@ public class GenreFileParser {
                 genreHashMap.put(fileLine, genre);
             }
         } catch (FileNotFoundException e1) {
-            LOGGER.error("Parsing failed with next error {}", String.valueOf(e1));
+            LOGGER.error("Parsing failed with next error {}", e1);
         } catch (IOException e1) {
-            LOGGER.error("Parsing failed with next error {}", String.valueOf(e1));
+            LOGGER.error("Parsing failed with next error {}", e1);
         }
         LOGGER.info("Parsing file from {} finished successfully", filePath);
         return genreHashMap;

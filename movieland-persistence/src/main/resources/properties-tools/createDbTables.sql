@@ -16,14 +16,17 @@ CREATE TABLE genre_movies (
 DROP TABLE IF EXISTS movie;
 
 CREATE table movie(
-   movie_id INT NOT NULL AUTO_INCREMENT
+   movie_id_seq INT NOT NULL AUTO_INCREMENT
+  ,movie_id INT NOT NULL
   ,movie_name_rus VARCHAR(100)
   ,movie_name_eng VARCHAR(100)
   ,year INT
   ,description VARCHAR(5000)
   ,rating DOUBLE
   ,price DOUBLE
-  ,PRIMARY KEY (movie_id)
+  ,current_flag   VARCHAR(1)   DEFAULT 'Y'
+  ,last_upd_ts    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+  ,PRIMARY KEY (movie_id_seq)
 );
 
 DROP TABLE IF EXISTS genre_movies;
@@ -67,4 +70,16 @@ CREATE TABLE user(
   user_role VARCHAR(20) DEFAULT "user",
   PRIMARY KEY (user_id)
 );
+
+DROP TABLE IF EXISTS user_movie_rating;
+CREATE TABLE user_movie_rating (
+  user_movie_rating_id INT NOT NULL AUTO_INCREMENT,
+  movie_id             INT NOT NULL,
+  user_id              INT NOT NULL,
+  rating               DOUBLE,
+  current_flag         VARCHAR(1)   DEFAULT 'Y',
+  last_upd_ts          TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_movie_rating_id)
+);
+
 

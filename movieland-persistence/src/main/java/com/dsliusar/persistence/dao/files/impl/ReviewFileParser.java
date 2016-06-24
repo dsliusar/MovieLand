@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,10 +68,8 @@ public class ReviewFileParser {
                     continue;
                 }
             }
-        } catch (FileNotFoundException e) {
-            LOGGER.error("Parsing failed with next error {}", String.valueOf(e));
-        } catch (IOException e) {
-            LOGGER.error("Parsing failed with next error {}", String.valueOf(e));
+        } catch (Exception e) {
+            LOGGER.error("Parsing failed with next error {}", e);
         }
         LOGGER.info("Parsing file from {} finished successfully", filePath);
         return reviewList;
@@ -92,17 +88,4 @@ public class ReviewFileParser {
             }
         return NOT_FOUND_VALUE++;
     }
-
-    public List<Review> reviewList() {
-        return reviewList;
-    }
-
-    public void setMovieFileParser(MovieFileParser movieFileParser) {
-        this.movieFileParser = movieFileParser;
-    }
-
-    public void setUserFileParser(UserFileParser userFileParser) {
-        this.userFileParser = userFileParser;
-    }
-
 }

@@ -1,6 +1,6 @@
 package com.dsliusar.services.cache.executor;
 
-import com.dsliusar.constants.Constant;
+import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.persistence.dao.ReviewDao;
 import com.dsliusar.services.cache.CacheService;
 import org.slf4j.Logger;

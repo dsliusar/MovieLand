@@ -1,7 +1,7 @@
 package com.dsliusar.services.cache.executor;
 
 import com.dsliusar.services.cache.CacheService;
-import com.dsliusar.constants.Constant;
+import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.persistence.dao.GenreDao;
 import com.dsliusar.persistence.entity.Genre;
 import org.slf4j.Logger;

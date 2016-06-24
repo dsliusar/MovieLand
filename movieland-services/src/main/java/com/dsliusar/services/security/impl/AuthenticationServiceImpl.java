@@ -1,8 +1,8 @@
 package com.dsliusar.services.security.impl;
 
-import com.dsliusar.exceptions.MovieLandSecurityException;
-import com.dsliusar.http.entities.UserCredentialsRequest;
-import com.dsliusar.http.entities.UserSecureTokenEntity;
+import com.dsliusar.tools.exceptions.MovieLandSecurityException;
+import com.dsliusar.tools.http.entities.UserCredentialsRequest;
+import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.User;
 import com.dsliusar.services.security.AuthenticationService;
 import com.dsliusar.services.security.SecureTokenService;
@@ -37,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public UserSecureTokenEntity getUserByToken(String token) throws MovieLandSecurityException {
         if (token == null) {
-            LOGGER.error("Token was not provided in the request");
+            LOGGER.warn("Token was not provided in the request");
             throw new MovieLandSecurityException("Token was not provided in the request");
         }
         return secureTokenServiceProvider.getUserByToken(token);

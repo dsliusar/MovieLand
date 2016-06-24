@@ -1,9 +1,10 @@
 package com.dsliusar.services.security.impl;
 
-import com.dsliusar.exceptions.MovieLandSecurityException;
-import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.User;
 import com.dsliusar.services.security.SecureTokenService;
+import com.dsliusar.tools.enums.Roles;
+import com.dsliusar.tools.exceptions.MovieLandSecurityException;
+import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +46,7 @@ public class SecureTokenServiceProvider implements SecureTokenService {
     @Override
     public UserSecureTokenEntity getUserByToken(String token) throws MovieLandSecurityException {
         if (!checkIfExists(token)) {
-            LOGGER.error("Token {} do not exists, please sign in again", token);
+            LOGGER.error("Token do not exists, please sign in again");
             throw new MovieLandSecurityException("Token " + token + " do not exists");
         }
         if (!checkIfNotExpired(token)) {
@@ -80,7 +81,7 @@ public class SecureTokenServiceProvider implements SecureTokenService {
         UserSecureTokenEntity userSecureTokenEntity = new UserSecureTokenEntity();
         userSecureTokenEntity.setUserName(user.getUserName());
         userSecureTokenEntity.setUserId(user.getUserId());
-        userSecureTokenEntity.setUserRole(user.getUserRole());
+        userSecureTokenEntity.setUserRole(Roles.getRole(user.getUserRole()));
         userSecureTokenEntity.setValidFrom(getTimeInserted());
         userSecureTokenEntity.setValidTo(getTimeExpired());
         return userSecureTokenEntity;

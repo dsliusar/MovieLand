@@ -1,7 +1,7 @@
 package com.dsliusar.persistence.dao.jdbc.builder;
 
-import com.dsliusar.enums.MovieFieldNamesEnum;
-import com.dsliusar.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.enums.MovieFieldNames;
+import com.dsliusar.tools.http.entities.MovieSearchRequest;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,15 +27,15 @@ public class SearchQueryBuilder {
         }
         returnSql.append(DEFAULT_WHERE_CLAUSE);
         if (movieSearchRequest.getMovieNameRus() != null) {
-            appendWhereClause(returnSql, MovieFieldNamesEnum.MOVIE_NAME_RUS.toString(),
+            appendWhereClause(returnSql, MovieFieldNames.MOVIE_NAME_RUS.toString(),
                     movieSearchRequest.getMovieNameRus());
         }
         if (movieSearchRequest.getMovieNameOrigin() != null) {
-            appendWhereClause(returnSql, MovieFieldNamesEnum.MOVIE_NAME_ENG.toString(),
+            appendWhereClause(returnSql, MovieFieldNames.MOVIE_NAME_ENG.toString(),
                     movieSearchRequest.getMovieNameOrigin());
         }
         if (movieSearchRequest.getYear() != null) {
-            appendWhereClause(returnSql, MovieFieldNamesEnum.YEAR.toString(),
+            appendWhereClause(returnSql, MovieFieldNames.YEAR.toString(),
                     movieSearchRequest.getYear());
         }
         return returnSql.toString();
