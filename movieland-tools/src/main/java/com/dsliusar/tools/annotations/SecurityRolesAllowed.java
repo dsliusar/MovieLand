@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SecurityRoles {
+public @interface SecurityRolesAllowed {
     Roles[] roles();
 }

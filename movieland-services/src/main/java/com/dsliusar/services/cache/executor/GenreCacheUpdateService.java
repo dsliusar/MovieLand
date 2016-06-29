@@ -1,6 +1,7 @@
 package com.dsliusar.services.cache.executor;
 
 import com.dsliusar.services.cache.CacheService;
+import com.dsliusar.tools.annotations.CacheInvalidator;
 import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.persistence.dao.GenreDao;
 import com.dsliusar.persistence.entity.Genre;
@@ -12,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
+@CacheInvalidator
 public class GenreCacheUpdateService implements CacheService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());

@@ -1,5 +1,6 @@
 package com.dsliusar.services.cache.executor;
 
+import com.dsliusar.tools.annotations.CacheInvalidator;
 import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.persistence.dao.ReviewDao;
 import com.dsliusar.services.cache.CacheService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.util.Map;
 
+@CacheInvalidator
 public class ReviewCacheUpdateService implements CacheService{
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 

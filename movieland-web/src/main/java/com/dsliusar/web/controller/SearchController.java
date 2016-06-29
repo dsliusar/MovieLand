@@ -43,6 +43,7 @@ public class SearchController {
     public AllMovieListDto searchMoviesXML(@RequestBody MovieSearchRequest searchMovieDto) {
         return new AllMovieListDto(searchMovies(searchMovieDto));
     }
+
     @RequestMapping(value = "/search", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<AllMovieDto>> searchMoviesJSON(@RequestBody MovieSearchRequest searchMovieDto) {

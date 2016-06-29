@@ -4,12 +4,13 @@ import com.dsliusar.web.dto.converter.GenreListSerializer;
 import com.dsliusar.persistence.entity.Genre;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlRootElement(name = "movie")
-@XmlType (propOrder = {"movieNameRus","movieNameOrigin","year","rating", "genres"} )
+@XmlType (propOrder = {"movieNameRus","movieNameOrigin","year","rating", "genre"} )
 public class AllMovieDto{
 
 
@@ -21,8 +22,9 @@ public class AllMovieDto{
 
     private double rating;
 
+    @XmlElementWrapper(name = "genres")
     @JsonSerialize(using = GenreListSerializer.class)
-    private List<Genre> genres;
+    private List<Genre> genre;
 
     @Override
     public String toString() {
@@ -31,7 +33,7 @@ public class AllMovieDto{
                 ", movieNameOrigin='" + movieNameOrigin + '\'' +
                 ", year=" + year +
                 ", rating=" + rating +
-                ", genres=" + genres +
+                ", genre=" + genre +
                 '}';
     }
 
@@ -67,11 +69,11 @@ public class AllMovieDto{
         this.rating = rating;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    public List<Genre> getGenre() {
+        return genre;
     }
 
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
+    public void setGenre(List<Genre> genre) {
+        this.genre = genre;
     }
 }

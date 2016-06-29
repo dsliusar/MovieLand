@@ -2,7 +2,7 @@ package com.dsliusar.web.controller;
 
 import com.dsliusar.services.security.AuthenticationService;
 import com.dsliusar.services.security.ReviewSecurity;
-import com.dsliusar.tools.annotations.SecurityRoles;
+import com.dsliusar.tools.annotations.SecurityRolesAllowed;
 import com.dsliusar.tools.enums.Roles;
 import com.dsliusar.tools.exceptions.MovieLandSecurityException;
 import com.dsliusar.tools.exceptions.NotFoundException;
@@ -11,6 +11,7 @@ import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
 import com.dsliusar.web.dto.SingleMessageResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,28 +30,33 @@ public class ReviewController {
     @Autowired
     private ReviewSecurity reviewSecurity;
 
-    @SecurityRoles(roles = {Roles.USER})
+    @SecurityRolesAllowed(roles = {Roles.USER})
     @RequestMapping(value = "/review/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addMovieReview(@RequestBody ReviewAddRequest reviewAddRequest,
-                                            @RequestHeader(value = "security-token") String token) {
+                                            @RequestHeader(value = "security-token") String token) throws MovieLandSecurityException {
         LOGGER.info("Inserting requested review");
+        UserSecureTokenEntity userSecureTokenEntity = authenticationService.getUserByToken(token);
+        MDC.put("userLogin",userSecureTokenEntity.getUserName());
         reviewSecurity.addReviewSecurity(reviewAddRequest);
         LOGGER.info("The review {} have been added successfully", reviewAddRequest);
+        MDC.remove("userLogin");
         return new ResponseEntity<>(new SingleMessageResponseDto("The review have been added successfully"),
                 HttpStatus.OK);
     }
 
-    @SecurityRoles(roles = {Roles.USER, Roles.ADMIN})
+    @SecurityRolesAllowed(roles = {Roles.USER, Roles.ADMIN})
     @RequestMapping(value = "/review/delete/{reviewId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> removeMovieReview(@PathVariable Integer reviewId,
                                                @RequestHeader(value = "security-token") String token) throws MovieLandSecurityException, NotFoundException {
 
         LOGGER.info("Deleting requested review, {}", reviewId);
         UserSecureTokenEntity userSecureTokenEntity = authenticationService.getUserByToken(token);
+        MDC.put("userLogin",userSecureTokenEntity.getUserName());
         reviewSecurity.removeReviewSecurity(reviewId, userSecureTokenEntity);
         LOGGER.info("Review {} was deleted by user {} successfully;",
                 reviewId,
                 userSecureTokenEntity.getUserName());
+        MDC.remove("userLogin");
         return new ResponseEntity<>(new SingleMessageResponseDto("Review with id " + reviewId + " were deleted")
                 , HttpStatus.OK);
     }
