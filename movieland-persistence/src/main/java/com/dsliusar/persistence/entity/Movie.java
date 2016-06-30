@@ -1,5 +1,7 @@
 package com.dsliusar.persistence.entity;
 
+import com.dsliusar.tools.http.entities.MovieAddRequest;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,6 +17,18 @@ public class Movie implements Serializable{
     private List<Genre> genreList;
     private List<Country> countryList;
     private List<Review> reviewText;
+
+    public Movie(){}
+
+    public Movie(MovieAddRequest movieAddRequest) {
+        this.movieId = movieAddRequest.getMovieId();
+        this.movieNameRus = movieAddRequest.getMovieNameRus();
+        this.movieNameOrigin = movieAddRequest.getMovieNameOrigin();
+        this.year = movieAddRequest.getYear();
+        this.description = movieAddRequest.getDescription();
+        this.rating = movieAddRequest.getRating();
+        this.price = movieAddRequest.getPrice();
+    }
 
     @Override
     public String toString() {

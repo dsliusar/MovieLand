@@ -70,8 +70,8 @@ public class JdbcMovieDao implements MovieDao {
                     arrMovie.getValue().getDescription(),
                     arrMovie.getValue().getRating(),
                     arrMovie.getValue().getPrice());
-            insertCountryMovie(countryMap, arrMovie.getValue().getCountryList(), arrMovie.getValue().getMovieId());
-            insertGenreMovie(mapGenre, arrMovie.getValue().getGenreList(), arrMovie.getValue().getMovieId());
+            addMovieCountries(countryMap, arrMovie.getValue().getCountryList(), arrMovie.getValue().getMovieId());
+            addMovieGenres(mapGenre, arrMovie.getValue().getGenreList(), arrMovie.getValue().getMovieId());
         }
         LOGGER.info("All rows to movie were inserted");
         LOGGER.info("Finished inserting into Movie table, it took {} ", System.currentTimeMillis() - startTime);
@@ -92,7 +92,7 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("Finished inserting into Movie table, it took {} ", System.currentTimeMillis() - startTime);
     }
 
-    private void insertCountryMovie(Map<String, Country> countryMap, List<Country> countryList, int movieId) {
+    private void addMovieCountries(Map<String, Country> countryMap, List<Country> countryList, int movieId) {
         LOGGER.info("Start populating countries_movie_mapper table");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         long startTime = System.currentTimeMillis();
@@ -104,7 +104,7 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("All rows to country_movie were inserted, it took {} ", System.currentTimeMillis() - startTime);
     }
 
-    private void insertGenreMovie(Map<String, Genre> mapGenre, List<Genre> movieGenreList, int movieId) {
+    private void addMovieGenres(Map<String, Genre> mapGenre, List<Genre> movieGenreList, int movieId) {
         LOGGER.info("Start inserting into genre_movies table");
         long startTime = System.currentTimeMillis();
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -114,6 +114,28 @@ public class JdbcMovieDao implements MovieDao {
             namedJdbcTemplate.update(insertGenreMovieSQL, parameterSource);
         }
         LOGGER.info("All rows to genre_movie were inserted, it took {}", System.currentTimeMillis() - startTime);
+    }
+
+    @Override
+    public void addMovieGenres(int movieId, int genreId) {
+        LOGGER.info("Start inserting into genre_movies table");
+        long startTime = System.currentTimeMillis();
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+            parameterSource.addValue("genre_id", genreId);
+            parameterSource.addValue("movie_id", movieId);
+            namedJdbcTemplate.update(insertGenreMovieSQL, parameterSource);
+        LOGGER.info("All rows to genre_movie were inserted, it took {}", System.currentTimeMillis() - startTime);
+    }
+
+    @Override
+    public void addMovieCountries(int movieId, int countryId) {
+        LOGGER.info("Start populating countries_movie_mapper table");
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        long startTime = System.currentTimeMillis();
+            parameterSource.addValue("country_id", countryId);
+            parameterSource.addValue("movie_id", movieId);
+            namedJdbcTemplate.update(insertCountryMovieSQL, parameterSource);
+       LOGGER.info("All rows to country_movie were inserted, it took {} ", System.currentTimeMillis() - startTime);
     }
 
     @Override

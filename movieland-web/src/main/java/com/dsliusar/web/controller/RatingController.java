@@ -4,13 +4,12 @@ import com.dsliusar.services.security.AuthenticationService;
 import com.dsliusar.services.service.ReviewService;
 import com.dsliusar.tools.exceptions.MovieLandSecurityException;
 import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.exceptions.RequestFormatException;
+import com.dsliusar.tools.exceptions.RequestException;
 import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
 import com.dsliusar.tools.http.entities.MovieRatingOnChangeResponse;
 import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,7 +38,7 @@ public class RatingController {
      * @param movieRatingChangeRequest
      * @param token
      * @return
-     * @throws RequestFormatException
+     * @throws RequestException
      * @throws MovieLandSecurityException
      * @throws NotFoundException
      */
@@ -47,7 +46,7 @@ public class RatingController {
                     method = RequestMethod.POST,
                     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<MovieRatingOnChangeResponse> addUserMovieRating(@RequestBody MovieRatingChangeRequest movieRatingChangeRequest,
-                                                                          @RequestHeader(value = "security-token") String token) throws RuntimeException{
+                                                                          @RequestHeader(value = "security-token") String token){
         LOGGER.info("Received request to add rating for movie {}" , movieRatingChangeRequest.getMovieId());
         UserSecureTokenEntity userSecure =  authenticationService.getUserByToken(token);
         movieRatingChangeRequest.setUserId(userSecure.getUserId());
@@ -63,14 +62,14 @@ public class RatingController {
      * @param token
      * @return
      * @throws MovieLandSecurityException
-     * @throws RequestFormatException
+     * @throws RequestException
      * @throws NotFoundException
      */
     @RequestMapping(value = "/rating/update",
                     method = RequestMethod.PUT,
                     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<MovieRatingOnChangeResponse> updateUserMovieRating(@RequestBody MovieRatingChangeRequest movieRatingChangeRequest,
-                                                                             @RequestHeader(value = "security-token") String token) throws RuntimeException {
+                                                                             @RequestHeader(value = "security-token") String token){
         UserSecureTokenEntity userSecure =  authenticationService.getUserByToken(token);
         movieRatingChangeRequest.setUserId(userSecure.getUserId());
         MovieRatingOnChangeResponse movieRatingUpdateResponse =  genericReviewService.updateRating(movieRatingChangeRequest);

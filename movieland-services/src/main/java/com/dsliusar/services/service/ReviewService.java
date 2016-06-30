@@ -1,8 +1,6 @@
 package com.dsliusar.services.service;
 
 import com.dsliusar.persistence.entity.Review;
-import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.exceptions.RequestFormatException;
 import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
 import com.dsliusar.tools.http.entities.MovieRatingOnChangeResponse;
 import com.dsliusar.tools.http.entities.ReviewAddRequest;
@@ -22,9 +20,9 @@ public interface ReviewService {
 
     void removeReview(int reviewId);
 
-    MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException, NotFoundException;
+    MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest);
 
-    MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException, NotFoundException;
+    MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest);
 
 
 }

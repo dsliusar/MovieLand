@@ -3,14 +3,14 @@ package com.dsliusar.tools.exceptions;
 /**
  * Created by DSliusar on 24.06.2016.
  */
-public class RequestFormatException extends RuntimeException {
+public class RequestException extends RuntimeException {
     private String message;
 
-    public RequestFormatException(){
+    public RequestException(){
         super();
     }
 
-    public RequestFormatException(String message){
+    public RequestException(String message){
         super(message);
     }
 

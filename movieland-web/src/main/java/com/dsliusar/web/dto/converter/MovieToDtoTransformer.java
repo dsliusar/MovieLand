@@ -1,7 +1,7 @@
 package com.dsliusar.web.dto.converter;
 
-import com.dsliusar.web.dto.AllMovieDto;
-import com.dsliusar.web.dto.MovieByIdDto;
+import com.dsliusar.web.dto.movies.AllMovieDto;
+import com.dsliusar.web.dto.movies.MovieByIdDto;
 import com.dsliusar.persistence.entity.Movie;
 import org.springframework.stereotype.Service;
 

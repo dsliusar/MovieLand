@@ -1,13 +1,17 @@
 package com.dsliusar.services.service.impl;
 
-import com.dsliusar.tools.http.entities.MovieSearchRequest;
-import com.dsliusar.tools.http.entities.MovieSortRequest;
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.entity.Movie;
 import com.dsliusar.services.service.CountryService;
 import com.dsliusar.services.service.GenreService;
 import com.dsliusar.services.service.MovieService;
 import com.dsliusar.services.service.ReviewService;
+import com.dsliusar.tools.exceptions.RequestException;
+import com.dsliusar.tools.http.entities.MovieAddRequest;
+import com.dsliusar.tools.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.http.entities.MovieSortRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,7 @@ import java.util.List;
 
 @Service
 public class GenericMovieService implements MovieService {
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private MovieDao jdbcMovieDao;
@@ -96,15 +101,104 @@ public class GenericMovieService implements MovieService {
         jdbcMovieDao.updateCurrentFlag(movieId);
     }
 
-    /**
-     * Adding movie to database
-     * @param movie
-     */
-    @Override
-    public void addMovie(Movie movie) {
-       jdbcMovieDao.addMovie(movie);
+    private void addMovie(Movie movie){
+        jdbcMovieDao.addMovie(movie);
     }
 
+    /**
+     * Adding movie to database
+     * User provde movie with genres,countries and all movie details and movie is inserted to DB in
+     * all relevant tables where movie mapped to the another entities
+     * @param movieAddRequest
+     */
+    @Override
+    public void addMovie(MovieAddRequest movieAddRequest) {
+        LOGGER.info("Checking if movie already exists in the DB");
+        Movie movie = jdbcMovieDao.getById(movieAddRequest.getMovieId());
+
+        if (movie == null) {
+            //Set movie entity (constructor set) and add movie to the DB
+            addMovie(new Movie(movieAddRequest));
+
+            //Add Movie Genres to mapper table
+            addMovieGenres(movieAddRequest.getMovieId(),movieAddRequest.getGenres());
+
+            //Add Movie Countries to mapper table
+            addMovieCountries(movieAddRequest.getMovieId(),movieAddRequest.getCountries());
+
+        } else {
+            LOGGER.info("Movie already exists and cannot be added");
+            throw new RequestException("Requested movie already exists in DB, movieID = " + movieAddRequest.getMovieId());
+        }
+
+    }
+
+    @Override
+    public void updateMovie(MovieAddRequest movieAddRequest) {
+        LOGGER.info("Checking if movie already exists in the DB");
+        Movie movie = jdbcMovieDao.getById(movieAddRequest.getMovieId());
+
+        if (movie == null) {
+            LOGGER.info("Movie do not exists in the DB, cannot update the movie");
+            throw new RequestException("Requested movie do not exists in the DB, movieID = " + movieAddRequest.getMovieId());
+            //Set movie entity (constructor set) and add movie to the DB
+
+        } else {
+            //Update current movie flag to N
+            updateCurrentFlag(movieAddRequest.getMovieId());
+
+            //Set movie entity (constructor set) and add movie to the DB
+            addMovie(new Movie(movieAddRequest));
+
+            //Add Movie Genres to mapper table
+            addMovieGenres(movieAddRequest.getMovieId(),movieAddRequest.getGenres());
+
+            //Add Movie Countries to mapper table
+            addMovieCountries(movieAddRequest.getMovieId(),movieAddRequest.getCountries());
+        }
+    }
+
+
+
+    /**
+     * Common method to add the movie genres to the DB
+     * @param movieId
+     * @param genreId
+     */
+    private void addMovieGenres(int movieId, int genreId) {
+       jdbcMovieDao.addMovieGenres(movieId,genreId);
+    }
+
+    /**
+     * Parsing the list of genres and call method addMovieGenres
+     * @param movieId
+     * @param genreList
+     */
+    private void addMovieGenres(int movieId, List<Integer> genreList) {
+        for (Integer genreId : genreList) {
+            addMovieGenres(movieId,genreId);
+        }
+    }
+
+    /**
+     * Parsing the list of countiesIds and call method addMovieCountries
+     * @param movieId
+     * @param countryList
+     */
+    private void addMovieCountries(int movieId, List<Integer> countryList) {
+        for (Integer countryId : countryList) {
+            addMovieCountries(movieId, countryId);
+        }
+    }
+
+    /**
+     * Common method to insert into countries movie mapper table
+     * @param movieId
+     * @param countryId
+     */
+    private void addMovieCountries(int movieId, int countryId) {
+        jdbcMovieDao.addMovieCountries(movieId,countryId);
+    }
 
     /**
      * Updating current row of the movie id to flag N - invalidation row

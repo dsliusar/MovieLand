@@ -1,11 +1,11 @@
-package com.dsliusar.web.dto;
+package com.dsliusar.web.dto.movies;
 
-import com.dsliusar.web.dto.converter.CountryListSerializer;
-import com.dsliusar.web.dto.converter.GenreListSerializer;
-import com.dsliusar.web.dto.converter.ReviewListSerializer;
 import com.dsliusar.persistence.entity.Country;
 import com.dsliusar.persistence.entity.Genre;
 import com.dsliusar.persistence.entity.Review;
+import com.dsliusar.web.dto.converter.CountryListSerializer;
+import com.dsliusar.web.dto.converter.GenreListSerializer;
+import com.dsliusar.web.dto.converter.ReviewListSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

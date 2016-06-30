@@ -43,6 +43,23 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- Spring Security Dependencies -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
         <!-- Logs -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -90,7 +107,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring.version>4.0.1.RELEASE</spring.version>
         <!-- Spring -->
-        <spring-boot.version>1.2.1.RELEASE</spring-boot.version>
+        <spring-security.version>3.2.7.RELEASE</spring-security.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

@@ -1,4 +1,4 @@
-package com.dsliusar.web.dto;
+package com.dsliusar.web.dto.movies;
 
 import com.dsliusar.web.dto.converter.GenreListSerializer;
 import com.dsliusar.persistence.entity.Genre;
