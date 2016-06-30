@@ -1,10 +1,12 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
-import com.dsliusar.http.entities.ReviewAddRequest;
 import com.dsliusar.persistence.dao.ReviewDao;
+import com.dsliusar.persistence.dao.jdbc.mapper.DoubleRowMapper;
 import com.dsliusar.persistence.dao.jdbc.mapper.ReviewMapRowMapper;
 import com.dsliusar.persistence.dao.jdbc.mapper.ReviewMapper;
 import com.dsliusar.persistence.entity.Review;
+import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
+import com.dsliusar.tools.http.entities.ReviewAddRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,21 @@ public class JdbcReviewDao implements ReviewDao {
 
     @Autowired
     private String getReviewByReviewId;
+
+    @Autowired
+    private String insertUserMovieRatingSQL;
+
+    @Autowired
+    private String updateUserRatingSQL;
+
+    @Autowired
+    private String getAllMovieRatings;
+
+    @Autowired
+    private DoubleRowMapper doubleRowMapper;
+
+    @Autowired
+    private String getUserMovieRatingId;
 
     @Override
     public void insert(List<Review> reviewList) {
@@ -97,12 +114,9 @@ public class JdbcReviewDao implements ReviewDao {
         try {
             review = jdbcTemplate.queryForObject(getReviewByReviewId, new Object[]{reviewId}, reviewMapper);
         }catch (EmptyResultDataAccessException e){
-            LOGGER.error(e.getMessage());
+            LOGGER.warn("Error happen in getReviewByReviewId method ", e);
         }
         LOGGER.info("Reviews by Movie Id was received, it took {}", System.currentTimeMillis() - startTime);
-        if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("Next review was received {} ", review);
-        }
         return review;
     }
 
@@ -113,5 +127,47 @@ public class JdbcReviewDao implements ReviewDao {
         Map<Integer, List<Review>> reviewsMap = jdbcTemplate.query(getAllMoviesReviews,reviewMapRowMapper);
         LOGGER.info("All Movies Review were extracted from DB, it took {} ms ", System.currentTimeMillis() - startTime);
         return reviewsMap;
+    }
+
+    @Override
+    public void addRating(MovieRatingChangeRequest movieRatingChangeRequest) {
+        LOGGER.info("Start inserting rating for movieId {}", movieRatingChangeRequest.getMovieId());
+        long startTime = System.currentTimeMillis();
+        jdbcTemplate.update(insertUserMovieRatingSQL, movieRatingChangeRequest.getMovieId(),
+                                                       movieRatingChangeRequest.getUserId(),
+                                                       movieRatingChangeRequest.getRating());
+        LOGGER.info("Rating for the movie was inserted it took {}", System.currentTimeMillis() - startTime);
+    }
+
+    @Override
+    public void updateRating(int userRateId) {
+        LOGGER.info("Start Updating Rating with id {}", userRateId);
+        long startTime = System.currentTimeMillis();
+        jdbcTemplate.update(updateUserRatingSQL,userRateId);
+        LOGGER.info("Rating for the movie were updated, it took {}", System.currentTimeMillis() - startTime);
+
+    }
+
+    @Override
+    public List<Double> getAllUsersMovieRating(int movieID) {
+        LOGGER.info("Start getting all Ratings for movie {}", movieID);
+        long startTime = System.currentTimeMillis();
+        List<Double> ratingList = jdbcTemplate.query(getAllMovieRatings, new Object[]{movieID}, doubleRowMapper);
+        LOGGER.info("All users Rating was retrieved, it took {}", System.currentTimeMillis() - startTime);
+        return ratingList;
+    }
+
+    @Override
+    public int getUserMovieRatingId(int movieID, int userId) {
+        LOGGER.info("get user movie rating id for movie {} and user {}",movieID, userId);
+        long startTime = System.currentTimeMillis();
+        Integer userMovieRatingId = 0;
+        try {
+            userMovieRatingId = jdbcTemplate.queryForObject(getUserMovieRatingId, new Object[]{movieID, userId}, Integer.class);
+        } catch (EmptyResultDataAccessException e){
+            LOGGER.info("No data found", e);
+        }
+        LOGGER.info("user movie id was retrieved, it took {}", System.currentTimeMillis() - startTime);
+        return userMovieRatingId;
     }
 }

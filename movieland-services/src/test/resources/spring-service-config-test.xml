@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+
+
+    <context:component-scan base-package="com.dsliusar"/>
+    <context:property-placeholder location="classpath*:properties/application-service.properties"
+                                  ignore-unresolvable="true" order="1"/>
+
+
+    <import resource="spring-tools/query-inserts-context.xml"/>
+    <import resource="spring-tools/query-select-db-context.xml"/>
+    <import resource="spring-tools/query-delete-context.xml"/>
+    <import resource="spring-tools/query-update-context.xml"/>
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/world"/>
+        <property name="username" value="root"/>
+        <property name="password" value="12345678"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <task:annotation-driven/>
+    <task:scheduler id="myScheduler"/>
+
+    <bean id="genreCacheUpdateService" class="com.dsliusar.services.cache.executor.GenreCacheUpdateService"/>
+    <bean id="countryCacheUpdateService" class="com.dsliusar.services.cache.executor.CountryCacheUpdateService"/>
+    <bean id="reviewCacheUpdateService" class="com.dsliusar.services.cache.executor.ReviewCacheUpdateService"/>
+
+
+
+
+</beans>

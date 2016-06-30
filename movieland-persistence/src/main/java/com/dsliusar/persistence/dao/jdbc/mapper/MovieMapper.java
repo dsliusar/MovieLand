@@ -18,6 +18,8 @@ public class MovieMapper implements RowMapper<Movie> {
         movie.setMovieId(resultSet.getInt("movie_id"));
         movie.setYear(resultSet.getInt("year"));
         movie.setRating(resultSet.getDouble("rating"));
+        movie.setDescription(resultSet.getString("description"));
+        movie.setPrice(resultSet.getDouble("price"));
         return movie;
     }
 }

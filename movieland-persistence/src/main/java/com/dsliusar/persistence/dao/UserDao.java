@@ -1,7 +1,7 @@
 package com.dsliusar.persistence.dao;
 
 import com.dsliusar.persistence.entity.User;
-import com.dsliusar.http.entities.UserCredentialsRequest;
+import com.dsliusar.tools.http.entities.UserCredentialsRequest;
 
 import java.util.List;
 import java.util.Map;

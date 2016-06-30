@@ -5,15 +5,10 @@
        xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
-    <!--<property name="locations" value="classpath:properties/application-service.properties" order = 2/>-->
-    <!--</bean>-->
-
     <context:property-placeholder location="classpath*:properties/application-service.properties"
                                   ignore-unresolvable="true" order="1"/>
-
-
     <import resource="classpath:/persistence-context.xml"/>
+    <import resource="jmx-context.xml"/>
 
     <context:component-scan base-package="com.dsliusar.services"/>
     <task:annotation-driven/>
@@ -37,7 +32,6 @@
                         cron="${service.cronAllMoviesCountriesUpdateInterval}"/>
         <task:scheduled ref="reviewCacheUpdateService" method="updateAllMoviesReviewsCache"
                         cron="${service.cronAllReviewsUpdateInterval}"/>
-        <!--<task:scheduled ref="AuthenticationServiceImpl" method="performTokenHousekeeping" cron="${service.cronTokensHouseKeepingInterval}" />-->
     </task:scheduled-tasks>
 
 

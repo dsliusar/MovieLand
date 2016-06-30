@@ -1,8 +1,8 @@
 package com.dsliusar.services.security;
 
-import com.dsliusar.exceptions.MovieLandSecurityException;
-import com.dsliusar.http.entities.UserCredentialsRequest;
-import com.dsliusar.http.entities.UserSecureTokenEntity;
+import com.dsliusar.tools.exceptions.MovieLandSecurityException;
+import com.dsliusar.tools.http.entities.UserCredentialsRequest;
+import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
 
 public interface AuthenticationService {
 

@@ -24,13 +24,19 @@
     <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
     </bean>
 
-    <bean id="xmlMessageConverter"
-          class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"></bean>
+    <bean id="xmlMessageConverter" class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>
 
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
 
     <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <property name="defaultContentType" value="application/json"/>
     </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/v1/review/**"/>
+            <bean class="com.dsliusar.web.interceptors.AuthorizationSecurityRoleHandlerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>

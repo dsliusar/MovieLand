@@ -1,12 +1,14 @@
 package com.dsliusar.services.service.impl.cacheable;
 
-import com.dsliusar.constants.Constant;
-import com.dsliusar.exceptions.MovieLandSecurityException;
-import com.dsliusar.http.entities.ReviewAddRequest;
-import com.dsliusar.http.entities.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.Review;
 import com.dsliusar.services.cache.CacheService;
 import com.dsliusar.services.service.ReviewService;
+import com.dsliusar.tools.constants.Constant;
+import com.dsliusar.tools.exceptions.NotFoundException;
+import com.dsliusar.tools.exceptions.RequestFormatException;
+import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
+import com.dsliusar.tools.http.entities.MovieRatingOnChangeResponse;
+import com.dsliusar.tools.http.entities.ReviewAddRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +37,22 @@ public class CacheableReviewService implements ReviewService {
     }
 
     @Override
-    public void removeReview(UserSecureTokenEntity userSecureTokenEntity, int reviewId) throws MovieLandSecurityException {
+    public Review getReviewById(int reviewId) {
+        return null;
+    }
+
+    @Override
+    public void removeReview(int reviewId) {
 
     }
 
+    @Override
+    public MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException {
+        return null;
+    }
+
+    @Override
+    public MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException, NotFoundException {
+        return null;
+    }
 }

@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Component
@@ -94,12 +91,8 @@ public class MovieFileParser {
                     continue;
                 }
             }
-        } catch (UnsupportedEncodingException e) {
-            LOGGER.error("Parsing failed with next error {}",String.valueOf(e));
-        } catch (FileNotFoundException e) {
-            LOGGER.error("Parsing failed with next error {}",String.valueOf(e));
-        } catch (IOException e) {
-            LOGGER.error("Parsing failed with next error {}",String.valueOf(e));
+        } catch (Exception e) {
+            LOGGER.error("Parsing failed with next error {}", e);
         }
         LOGGER.info("Parsing file from {} finished successfully", filePath);
         return movieHashMap;
@@ -108,8 +101,5 @@ public class MovieFileParser {
     public Map<String,Movie> getParsedMovieMap(){
         return movieHashMap;
     }
-
-    public void setCountriesParser(CountryParser countriesParser) { this.countriesParser = countriesParser; }
-
 
 }
