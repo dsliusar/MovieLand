@@ -18,7 +18,7 @@ public interface ReviewDao{
     void addRating(MovieRatingChangeRequest movieRatingChangeRequest);
     void updateRating(int userRateId);
     List<Double> getAllUsersMovieRating(int movieID);
-    int getUserMovieRatingId(int movieID, int userId);
+    Integer getUserMovieRatingId(int movieID, int userId);
 
 
 }

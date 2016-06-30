@@ -17,8 +17,10 @@ public class CacheInvalidatorControllerMBean implements CacheInvalidatorMBean {
 
     @Autowired
     private CountryCacheUpdateService countryCacheUpdateService;
+
     @Autowired
     private GenreCacheUpdateService genreCacheUpdateService;
+
     @Autowired
     private ReviewCacheUpdateService reviewCacheUpdateService;
 
@@ -27,8 +29,7 @@ public class CacheInvalidatorControllerMBean implements CacheInvalidatorMBean {
     public void invalidateCountryCache() {
         LOGGER.info("Invalidating of the cache started");
         long startTime = System.currentTimeMillis();
-        countryCacheUpdateService.updateAllCountriesCache();
-        countryCacheUpdateService.updateAllMoviesCountriesCache();
+        countryCacheUpdateService.invalidateCache();
         LOGGER.info("Cache has been invalidated and updated, it took {} ", System.currentTimeMillis() - startTime);
     }
 
@@ -37,8 +38,7 @@ public class CacheInvalidatorControllerMBean implements CacheInvalidatorMBean {
     public void invalidateGenreCache() {
         LOGGER.info("Invalidating of the cache started");
         long startTime = System.currentTimeMillis();
-        genreCacheUpdateService.updateAllGenresCache();
-        genreCacheUpdateService.updateAllGenresWithMovieIdCache();
+        genreCacheUpdateService.invalidateCache();
         LOGGER.info("Cache has been invalidated and updated, it took {} ", System.currentTimeMillis() - startTime);
     }
 
@@ -47,7 +47,7 @@ public class CacheInvalidatorControllerMBean implements CacheInvalidatorMBean {
     public void invalidateReviewCache() {
         LOGGER.info("Invalidating of the cache started");
         long startTime = System.currentTimeMillis();
-        reviewCacheUpdateService.updateAllMoviesReviewsCache();
+        reviewCacheUpdateService.invalidateCache();
         LOGGER.info("Cache has been invalidated and updated, it took {} ", System.currentTimeMillis() - startTime);
     }
 }

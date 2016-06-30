@@ -25,7 +25,7 @@ public class GeneralControllerExcpetionHandling {
     @ExceptionHandler(MovieLandSecurityException.class)
     public ResponseEntity<ExceptionResponseDto> movieLandSecurityExceptionHandler(MovieLandSecurityException e) {
         LOGGER.info("Security Exception occurred : ",e);
-        return new ResponseEntity<>(new ExceptionResponseDto(e.getMessage()), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(new ExceptionResponseDto(e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(NotFoundException.class)

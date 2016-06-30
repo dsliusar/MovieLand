@@ -158,7 +158,7 @@ public class JdbcReviewDao implements ReviewDao {
     }
 
     @Override
-    public int getUserMovieRatingId(int movieID, int userId) {
+    public Integer getUserMovieRatingId(int movieID, int userId) {
         LOGGER.info("get user movie rating id for movie {} and user {}",movieID, userId);
         long startTime = System.currentTimeMillis();
         Integer userMovieRatingId = 0;

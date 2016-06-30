@@ -38,6 +38,11 @@ public class SearchController {
         return new ResponseEntity<>(movieDtoList,HttpStatus.OK);
     }
 
+    /**
+     * Search for requested movie
+     * @param searchMovieDto
+     * @return
+     */
     @RequestMapping(value = "/search", method = RequestMethod.POST, produces=MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public AllMovieListDto searchMoviesXML(@RequestBody MovieSearchRequest searchMovieDto) {

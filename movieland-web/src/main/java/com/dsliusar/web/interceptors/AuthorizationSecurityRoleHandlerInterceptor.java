@@ -51,13 +51,14 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
         Method method = handlerMethod.getMethod();
         SecurityRolesAllowed roles = method.getAnnotation(SecurityRolesAllowed.class);
         if (roles != null) {
+            String token = request.getHeader(Constant.SECURITY_TOKEN_HEADER_NAME);
+            userSecureTokenEntity = authenticationService.getUserByToken(token);
+            MDC.put("userLogin",userSecureTokenEntity.getUserName());
             for (Roles rolesEnum : roles.roles()) {
                 if (rolesEnum.equals(Roles.GUEST)) {
                     return super.preHandle(request, response, handler);
                 }
-                String token = request.getHeader(Constant.SECURITY_TOKEN_HEADER_NAME);
-                userSecureTokenEntity = authenticationService.getUserByToken(token);
-                if (rolesEnum.equals(userSecureTokenEntity.getUserRole())) {
+                else if (rolesEnum.equals(userSecureTokenEntity.getUserRole())) {
                     LOGGER.info("User with role {} have been successfully validated using token {}",
                             userSecureTokenEntity.getUserRole(),
                             token);
@@ -70,21 +71,4 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
         }
         return super.preHandle(request, response, handler);
     }
-
-    /**
-     * Delete the request after the controller got executed
-     * @param request
-     * @param response
-     * @param handler
-     * @param modelAndView
-     * @throws Exception
-     */
-    @Override
-    public void postHandle(HttpServletRequest request,
-                           HttpServletResponse response, Object handler,
-                           ModelAndView modelAndView) throws Exception {
-        MDC.remove("requestId");
-        super.postHandle(request, response, handler, modelAndView);
-    }
-
 }

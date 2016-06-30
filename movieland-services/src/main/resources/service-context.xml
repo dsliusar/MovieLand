@@ -14,13 +14,6 @@
     <task:annotation-driven/>
     <task:scheduler id="myScheduler"/>
 
-    <bean id="genreCacheUpdateService" class="com.dsliusar.services.cache.executor.GenreCacheUpdateService"
-          depends-on="initDb"/>
-    <bean id="countryCacheUpdateService" class="com.dsliusar.services.cache.executor.CountryCacheUpdateService"
-          depends-on="initDb"/>
-    <bean id="reviewCacheUpdateService" class="com.dsliusar.services.cache.executor.ReviewCacheUpdateService"
-          depends-on="initDb"/>
-
     <task:scheduled-tasks scheduler="myScheduler">
         <task:scheduled ref="genreCacheUpdateService" method="updateAllGenresCache"
                         cron="${service.cronGenreCacheUpdateInterval}"/>

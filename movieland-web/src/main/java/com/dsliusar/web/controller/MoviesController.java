@@ -64,7 +64,6 @@ public class MoviesController {
 
         long startTime = System.currentTimeMillis();
         MovieByIdDto movieByIdDto = movieToDtoTransformer.transformMovieByIdToDto(genericMovieService.getMovieById(movieId));
-
         LOGGER.info("movie received, it took {} ms", System.currentTimeMillis() - startTime);
         return new ResponseEntity<>(movieByIdDto, HttpStatus.OK);
     }

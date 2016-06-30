@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
+<configuration debug="false">
 
        <property name="LOGS" value="D:/logs" />
 
        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
               <encoder>
-                     <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+                     <Pattern>%d{HH:mm:ss.SSS} %X{requestId} %X{userLogin} [%thread] %-5level %logger{36} - %msg%n</Pattern>
               </encoder>
        </appender>
 
@@ -20,7 +20,7 @@
               </rollingPolicy>
 
               <encoder>
-                     <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</Pattern>
+                     <Pattern>%d{HH:mm:ss.SSS} %X{requestId} %X{userLogin} [%thread] %-5level %logger{36} - %msg%n</Pattern>
               </encoder>
        </appender>
 

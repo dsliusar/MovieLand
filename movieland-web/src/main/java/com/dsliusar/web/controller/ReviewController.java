@@ -33,13 +33,11 @@ public class ReviewController {
     @SecurityRolesAllowed(roles = {Roles.USER})
     @RequestMapping(value = "/review/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addMovieReview(@RequestBody ReviewAddRequest reviewAddRequest,
-                                            @RequestHeader(value = "security-token") String token) throws MovieLandSecurityException {
+                                            @RequestHeader(value = "security-token") String token) throws RuntimeException {
         LOGGER.info("Inserting requested review");
         UserSecureTokenEntity userSecureTokenEntity = authenticationService.getUserByToken(token);
-        MDC.put("userLogin",userSecureTokenEntity.getUserName());
         reviewSecurity.addReviewSecurity(reviewAddRequest);
         LOGGER.info("The review {} have been added successfully", reviewAddRequest);
-        MDC.remove("userLogin");
         return new ResponseEntity<>(new SingleMessageResponseDto("The review have been added successfully"),
                 HttpStatus.OK);
     }
@@ -47,16 +45,14 @@ public class ReviewController {
     @SecurityRolesAllowed(roles = {Roles.USER, Roles.ADMIN})
     @RequestMapping(value = "/review/delete/{reviewId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> removeMovieReview(@PathVariable Integer reviewId,
-                                               @RequestHeader(value = "security-token") String token) throws MovieLandSecurityException, NotFoundException {
+                                               @RequestHeader(value = "security-token") String token) throws RuntimeException {
 
         LOGGER.info("Deleting requested review, {}", reviewId);
         UserSecureTokenEntity userSecureTokenEntity = authenticationService.getUserByToken(token);
-        MDC.put("userLogin",userSecureTokenEntity.getUserName());
         reviewSecurity.removeReviewSecurity(reviewId, userSecureTokenEntity);
         LOGGER.info("Review {} was deleted by user {} successfully;",
                 reviewId,
                 userSecureTokenEntity.getUserName());
-        MDC.remove("userLogin");
         return new ResponseEntity<>(new SingleMessageResponseDto("Review with id " + reviewId + " were deleted")
                 , HttpStatus.OK);
     }

@@ -1,7 +1,7 @@
 package com.dsliusar.tools.exceptions;
 
 
-public class MovieLandSecurityException extends Exception {
+public class MovieLandSecurityException extends RuntimeException {
 
     private String message;
     private String type;
