@@ -1,6 +1,6 @@
 package com.dsliusar.web.controller;
 
-import com.dsliusar.http.entities.MovieSortRequest;
+import com.dsliusar.tools.http.entities.MovieSortRequest;
 import com.dsliusar.services.service.MovieService;
 import com.dsliusar.web.dto.AllMovieDto;
 import com.dsliusar.web.dto.AllMovieListDto;
@@ -48,9 +48,6 @@ public class MoviesController {
                 genericMovieService.getAllMovies(movieSortRequest));
 
         LOGGER.info("All movies received, it took {} ms", System.currentTimeMillis() - startTime);
-        if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("The response of body is next {} ", movieDtoList);
-        }
         return movieDtoList;
     }
 
@@ -67,11 +64,7 @@ public class MoviesController {
 
         long startTime = System.currentTimeMillis();
         MovieByIdDto movieByIdDto = movieToDtoTransformer.transformMovieByIdToDto(genericMovieService.getMovieById(movieId));
-
         LOGGER.info("movie received, it took {} ms", System.currentTimeMillis() - startTime);
-        if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("The response of body is next {} ", movieByIdDto);
-        }
         return new ResponseEntity<>(movieByIdDto, HttpStatus.OK);
     }
 }

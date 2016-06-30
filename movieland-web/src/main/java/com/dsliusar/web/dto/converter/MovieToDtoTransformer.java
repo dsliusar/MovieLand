@@ -19,7 +19,7 @@ public class MovieToDtoTransformer {
         List<AllMovieDto> allMovieDtoList = new ArrayList<>();
         for (Movie movie : movieList) {
             AllMovieDto allMovieDto = new AllMovieDto();
-            allMovieDto.setGenres(movie.getGenreList());
+            allMovieDto.setGenre(movie.getGenreList());
             allMovieDto.setMovieNameRus(movie.getMovieNameRus());
             allMovieDto.setMovieNameOrigin(movie.getMovieNameOrigin());
             allMovieDto.setRating(movie.getRating());

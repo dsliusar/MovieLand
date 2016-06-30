@@ -1,6 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
-import com.dsliusar.http.entities.MovieSortRequest;
+import com.dsliusar.tools.http.entities.MovieSortRequest;
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.dao.jdbc.builder.SearchQueryBuilder;
 import com.dsliusar.persistence.dao.jdbc.builder.SortingQueryBuilder;
@@ -8,7 +8,7 @@ import com.dsliusar.persistence.dao.jdbc.mapper.MovieMapper;
 import com.dsliusar.persistence.entity.Country;
 import com.dsliusar.persistence.entity.Genre;
 import com.dsliusar.persistence.entity.Movie;
-import com.dsliusar.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.http.entities.MovieSearchRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +55,13 @@ public class JdbcMovieDao implements MovieDao {
     @Autowired
     private SearchQueryBuilder searchQueryBuilder;
 
+    @Autowired
+    private String updateMovieCurrentFlagByIdSQL;
+
     @Override
-    public void insert(Map<String, Movie> movieMap, Map<String, Country> countryMap, Map<String, Genre> mapGenre) {
+    public void addMovie(Map<String, Movie> movieMap, Map<String, Country> countryMap, Map<String, Genre> mapGenre) {
         LOGGER.info("Start inserting into Movie table ");
+        long startTime = System.currentTimeMillis();
         for (Map.Entry<String, Movie> arrMovie : movieMap.entrySet()) {
             jdbcTemplate.update(insertMovieSQL, arrMovie.getValue().getMovieId(),
                     arrMovie.getValue().getMovieNameRus(),
@@ -68,45 +72,48 @@ public class JdbcMovieDao implements MovieDao {
                     arrMovie.getValue().getPrice());
             insertCountryMovie(countryMap, arrMovie.getValue().getCountryList(), arrMovie.getValue().getMovieId());
             insertGenreMovie(mapGenre, arrMovie.getValue().getGenreList(), arrMovie.getValue().getMovieId());
-            if (LOGGER.isDebugEnabled()){
-                LOGGER.info("Next rows were inserted to movie " + arrMovie);
-            }
         }
-
         LOGGER.info("All rows to movie were inserted");
+        LOGGER.info("Finished inserting into Movie table, it took {} ", System.currentTimeMillis() - startTime);
 
+    }
+
+    @Override
+    public void addMovie(Movie movie) {
+        LOGGER.info("Start inserting into Movie table ");
+        long startTime = System.currentTimeMillis();
+        jdbcTemplate.update(insertMovieSQL, movie.getMovieId(),
+                movie.getMovieNameRus(),
+                movie.getMovieNameOrigin(),
+                movie.getYear(),
+                movie.getDescription(),
+                movie.getRating(),
+                movie.getPrice());
+        LOGGER.info("Finished inserting into Movie table, it took {} ", System.currentTimeMillis() - startTime);
     }
 
     private void insertCountryMovie(Map<String, Country> countryMap, List<Country> countryList, int movieId) {
         LOGGER.info("Start populating countries_movie_mapper table");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-
+        long startTime = System.currentTimeMillis();
         for (Country country : countryList) {
             parameterSource.addValue("country_id", countryMap.get(country.getCountryName()).getCountryId());
             parameterSource.addValue("movie_id", movieId);
             namedJdbcTemplate.update(insertCountryMovieSQL, parameterSource);
-            if (LOGGER.isDebugEnabled()){
-                LOGGER.info("Next rows were inserted to country_movie " + country);
-            }
         }
-
-        LOGGER.info("All rows to country_movie were inserted");
+        LOGGER.info("All rows to country_movie were inserted, it took {} ", System.currentTimeMillis() - startTime);
     }
 
     private void insertGenreMovie(Map<String, Genre> mapGenre, List<Genre> movieGenreList, int movieId) {
         LOGGER.info("Start inserting into genre_movies table");
+        long startTime = System.currentTimeMillis();
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-
         for (Genre genre : movieGenreList) {
             parameterSource.addValue("genre_id", mapGenre.get(genre.getName()).getGenreId());
             parameterSource.addValue("movie_id", movieId);
             namedJdbcTemplate.update(insertGenreMovieSQL, parameterSource);
-            if (LOGGER.isDebugEnabled()){
-                LOGGER.debug("Next rows were inserted to genre_movie " + genre);
-            }
         }
-
-        LOGGER.info("All rows to genre_movie were inserted");
+        LOGGER.info("All rows to genre_movie were inserted, it took {}", System.currentTimeMillis() - startTime);
     }
 
     @Override
@@ -114,7 +121,7 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("Start getting all movies from DB");
         long startTime = System.currentTimeMillis();
         List<Movie> allMovieList = jdbcTemplate.query(sortingQueryBuilder.movieSortingQueryBuilder
-                (getAllMoviesSQL, movieSortRequest),movieMapper);
+                (getAllMoviesSQL, movieSortRequest), movieMapper);
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
     }
@@ -130,11 +137,19 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Override
-    public Movie getById(int id) {
+    public Movie getById(int movieId) {
         LOGGER.info("Start getting all movies from DB");
         long startTime = System.currentTimeMillis();
-        Movie movie = jdbcTemplate.queryForObject(getMovieById, new Object[]{id}, movieMapper);
+        Movie movie = jdbcTemplate.queryForObject(getMovieById, new Object[]{movieId}, movieMapper);
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return movie;
+    }
+
+    @Override
+    public void updateCurrentFlag(int movieId) {
+        LOGGER.info("Start updating average Rating");
+        long startTime = System.currentTimeMillis();
+        jdbcTemplate.update(updateMovieCurrentFlagByIdSQL, movieId);
+        LOGGER.info("Average Rating has been updated, it took {}", System.currentTimeMillis() - startTime);
     }
 }

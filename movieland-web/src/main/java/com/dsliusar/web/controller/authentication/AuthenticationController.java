@@ -1,9 +1,8 @@
 package com.dsliusar.web.controller.authentication;
 
-import com.dsliusar.exceptions.MovieLandSecurityException;
-import com.dsliusar.http.entities.UserCredentialsRequest;
 import com.dsliusar.services.security.AuthenticationService;
-import com.dsliusar.web.dto.ExceptionResponseDto;
+import com.dsliusar.tools.exceptions.MovieLandSecurityException;
+import com.dsliusar.tools.http.entities.UserCredentialsRequest;
 import com.dsliusar.web.dto.TokenRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,16 +23,9 @@ public class AuthenticationController {
 
     @RequestMapping(method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<?> authorizeUser(@RequestBody UserCredentialsRequest userCredentialsRequest){
+    public ResponseEntity<?> authorizeUser(@RequestBody UserCredentialsRequest userCredentialsRequest) throws MovieLandSecurityException {
         LOGGER.info("Authorizing user by credentials, user email {}", userCredentialsRequest.getUserEmail());
-        String token;
-        try {
-            token = authenticationService.authenticateUser(userCredentialsRequest);
-        } catch (MovieLandSecurityException e) {
-            LOGGER.error(e.getMessage());
-            return new ResponseEntity<>(new ExceptionResponseDto(e.getMessage()),
-                                        HttpStatus.BAD_REQUEST);
-        }
+        String token = authenticationService.authenticateUser(userCredentialsRequest);
         LOGGER.info("Token were generated successfully, token {}",token);
         return new ResponseEntity<>(new TokenRequestDto(token), HttpStatus.OK) ;
     }

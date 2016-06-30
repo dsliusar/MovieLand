@@ -1,7 +1,7 @@
 package com.dsliusar.services.service.impl;
 
-import com.dsliusar.http.entities.MovieSearchRequest;
-import com.dsliusar.http.entities.MovieSortRequest;
+import com.dsliusar.tools.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.http.entities.MovieSortRequest;
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.entity.Movie;
 import com.dsliusar.services.service.CountryService;
@@ -30,6 +30,12 @@ public class GenericMovieService implements MovieService {
     private ReviewService cacheableReviewService;
 
 
+    /**
+     * Get All movies from database
+     * of Sort Criteria exists then on DAO layer generate sort criteria
+     * @param movieSortRequest
+     * @return
+     */
     @Override
     public List<Movie> getAllMovies(MovieSortRequest movieSortRequest) {
 
@@ -41,6 +47,12 @@ public class GenericMovieService implements MovieService {
 
     }
 
+    /**
+     * Get All movies by Search Criteria
+     * All movies are stored in the List
+     * @param movieSearchRequest
+     * @return
+     */
     @Override
     public List<Movie> getAllSearchedMovies(MovieSearchRequest movieSearchRequest) {
 
@@ -61,14 +73,72 @@ public class GenericMovieService implements MovieService {
         return movieList;
     }
 
+    /**
+     * Getting movie object by ID
+     * @param movieId
+     * @return
+     */
     @Override
-    public Movie getMovieById(int id) {
-        Movie movie = jdbcMovieDao.getById(id);
+    public Movie getMovieById(int movieId) {
+        Movie movie = jdbcMovieDao.getById(movieId);
         movie.setGenreList(cacheableGenreService.getGenresByMovieId(movie.getMovieId()));
         movie.setCountryList(cacheableCountryService.getAllCountriesByMovieId(movie.getMovieId()));
         movie.setReviewText(cacheableReviewService.getAllReviewByMovieId(movie.getMovieId()));
         return movie;
-
-
     }
+
+    /**
+     * Updating current flag row in movie table to N
+     * @param movieId
+     */
+    @Override
+    public void updateCurrentFlag(int movieId) {
+        jdbcMovieDao.updateCurrentFlag(movieId);
+    }
+
+    /**
+     * Adding movie to database
+     * @param movie
+     */
+    @Override
+    public void addMovie(Movie movie) {
+       jdbcMovieDao.addMovie(movie);
+    }
+
+
+    /**
+     * Updating current row of the movie id to flag N - invalidation row
+     * Inserting new row with movied with new calculated rating.
+     * @param movieId
+     * @param usersRating
+     * @return
+     */
+    @Override
+    public double updateAverageRating(int movieId, List<Double> usersRating) {
+        double avgRating = calculateAvgRating(usersRating);
+        Movie movie = jdbcMovieDao.getById(movieId);
+        updateCurrentFlag(movieId);
+        movie.setRating(avgRating);
+        addMovie(movie);
+        return avgRating;
+    }
+
+
+    /**
+     * Calculating average rating for the movie based on users ratings
+     * @param usersRatings
+     * @return
+     */
+    private double calculateAvgRating(List<Double> usersRatings){
+        double avgRating = 0;
+        int userCount = 0;
+        for (Double usersRating : usersRatings) {
+             avgRating += usersRating;
+             userCount++;
+        }
+        avgRating /= userCount;
+        return avgRating;
+    }
+
+
 }

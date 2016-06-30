@@ -1,8 +1,8 @@
 package com.dsliusar.services.service;
 
-import com.dsliusar.http.entities.MovieSortRequest;
+import com.dsliusar.tools.http.entities.MovieSortRequest;
 import com.dsliusar.persistence.entity.Movie;
-import com.dsliusar.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.http.entities.MovieSearchRequest;
 
 import java.util.List;
 
@@ -12,8 +12,11 @@ public interface MovieService {
 
     List<Movie> getAllSearchedMovies(MovieSearchRequest movieSearchRequest);
 
-    Movie getMovieById(int id);
+    Movie getMovieById(int movieId);
 
+    void updateCurrentFlag(int movieId);
 
+    void addMovie(Movie movie);
 
+    double updateAverageRating(int movieId, List<Double> usersRating);
 }

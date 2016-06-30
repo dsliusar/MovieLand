@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+       <bean id="updateUserRatingSQL" class="java.lang.String">
+              <constructor-arg value=" UPDATE user_movie_rating
+                                         SET current_flag = 'N'
+                                            ,last_upd_ts = CURRENT_TIMESTAMP
+                                       WHERE user_movie_rating_id = ?;"/>
+      </bean>
+
+    <bean id="updateMovieCurrentFlagByIdSQL" class="java.lang.String">
+        <constructor-arg value=" UPDATE movie
+                                    SET current_flag = 'N'
+                                      , last_upd_ts  = CURRENT_TIMESTAMP
+                                   WHERE movie_id = ?;"/>
+    </bean>
+
+
+</beans>

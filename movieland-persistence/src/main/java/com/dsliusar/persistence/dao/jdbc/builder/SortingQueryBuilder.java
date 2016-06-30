@@ -1,8 +1,8 @@
 package com.dsliusar.persistence.dao.jdbc.builder;
 
-import com.dsliusar.enums.MovieFieldNamesEnum;
-import com.dsliusar.enums.SortTypeEnum;
-import com.dsliusar.http.entities.MovieSortRequest;
+import com.dsliusar.tools.enums.MovieFieldNames;
+import com.dsliusar.tools.enums.SortType;
+import com.dsliusar.tools.http.entities.MovieSortRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -25,13 +25,13 @@ public class SortingQueryBuilder {
         }
 
         if (movieSortRequest.getRatingOrder() != null) {
-            appendWithSortClause(sortClause, MovieFieldNamesEnum.RATING.toString(),
-                    SortTypeEnum.validateSortType(movieSortRequest.getRatingOrder()).toString().toUpperCase());
+            appendWithSortClause(sortClause, MovieFieldNames.RATING.toString(),
+                    SortType.validateSortType(movieSortRequest.getRatingOrder()).toString().toUpperCase());
         }
 
         if (movieSortRequest.getPriceOrder() != null) {
-            appendWithSortClause(sortClause, MovieFieldNamesEnum.PRICE.toString(),
-                    SortTypeEnum.validateSortType(movieSortRequest.getPriceOrder()).toString().toUpperCase());
+            appendWithSortClause(sortClause, MovieFieldNames.PRICE.toString(),
+                    SortType.validateSortType(movieSortRequest.getPriceOrder()).toString().toUpperCase());
         }
 
         return sortClause.toString();

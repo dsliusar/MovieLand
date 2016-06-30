@@ -2,6 +2,7 @@ package com.dsliusar.services.cache;
 
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,7 +13,7 @@ public class ConcurrentHashMapService implements CacheService {
 
     @Override
     public Map<?,?> getCacheById(String cacheId) {
-        return mapOfCacheMaps.get(cacheId);
+        return new ConcurrentHashMap<>(mapOfCacheMaps.get(cacheId));
     }
 
     @Override

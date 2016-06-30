@@ -1,6 +1,7 @@
 package com.dsliusar.persistence.dao;
 
-import com.dsliusar.http.entities.ReviewAddRequest;
+import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
+import com.dsliusar.tools.http.entities.ReviewAddRequest;
 import com.dsliusar.persistence.entity.Review;
 
 import java.util.List;
@@ -14,5 +15,10 @@ public interface ReviewDao{
     List<Review> getReviewsByMovieId(int movieId);
     Review getReviewByReviewId(int reviewId);
     Map<Integer,List<Review>> getAllMoviesReviews();
+    void addRating(MovieRatingChangeRequest movieRatingChangeRequest);
+    void updateRating(int userRateId);
+    List<Double> getAllUsersMovieRating(int movieID);
+    Integer getUserMovieRatingId(int movieID, int userId);
+
 
 }

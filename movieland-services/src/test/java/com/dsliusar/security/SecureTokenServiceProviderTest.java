@@ -1,7 +1,7 @@
 package com.dsliusar.services.security;
 
 import com.dsliusar.persistence.entity.User;
-import com.dsliusar.http.entities.UserSecureTokenEntity;
+import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
 import com.dsliusar.services.security.impl.SecureTokenServiceProvider;
 import org.junit.Assert;
 import org.junit.Before;

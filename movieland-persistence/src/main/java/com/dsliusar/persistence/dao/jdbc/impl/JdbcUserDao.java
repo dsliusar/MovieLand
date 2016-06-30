@@ -4,7 +4,7 @@ import com.dsliusar.persistence.dao.UserDao;
 import com.dsliusar.persistence.dao.jdbc.mapper.SingleUserRowMapper;
 import com.dsliusar.persistence.dao.jdbc.mapper.UsersRowMapper;
 import com.dsliusar.persistence.entity.User;
-import com.dsliusar.http.entities.UserCredentialsRequest;
+import com.dsliusar.tools.http.entities.UserCredentialsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +46,11 @@ public class JdbcUserDao implements UserDao {
         for (Map.Entry<String, User> arrUsers : userMap.entrySet()) {
 
             jdbcTemplate.update(insertUserSQL, arrUsers.getValue().getUserId(),
-                                               arrUsers.getValue().getUserName(),
-                                               arrUsers.getValue().getUserEmail(),
-                                               arrUsers.getValue().getUserPassword(),
-                                               arrUsers.getValue().getUserRole());
-            if(LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Inserting Next Rows to DB : " + arrUsers);
-            }
+                    arrUsers.getValue().getUserName(),
+                    arrUsers.getValue().getUserEmail(),
+                    arrUsers.getValue().getUserPassword(),
+                    arrUsers.getValue().getUserRole());
+
         }
         LOGGER.info("All users to user table were inserted");
     }
@@ -62,8 +60,8 @@ public class JdbcUserDao implements UserDao {
         LOGGER.info("Get user by credentials");
         long startTime = System.currentTimeMillis();
         User user = jdbcTemplate.queryForObject(getUserByCredentials, new Object[]{userCredentials.getUserEmail(),
-                                                                      userCredentials.getUserPassword()},
-                                                                      usersRowMapper);
+                        userCredentials.getUserPassword()},
+                usersRowMapper);
         LOGGER.info("Finished getting user by credentials, it took {}", System.currentTimeMillis() - startTime);
         return user;
     }

@@ -4,15 +4,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Movies -->
-  <bean id="getAllMoviesSQL" class="java.lang.String">
-              <constructor-arg value="  SELECT q.movie_name_eng
+    <bean id="getAllMoviesSQL" class="java.lang.String">
+        <constructor-arg value="  SELECT q.movie_name_eng
                                             , q.movie_name_rus
                                             , q.movie_id
                                             , q.year
                                             , q.rating
                                       FROM movie q
                                     "/>
-  </bean>
+    </bean>
 
     <bean id="getMovieById" class="java.lang.String">
         <constructor-arg value=" SELECT q.movie_name_rus
@@ -20,13 +20,17 @@
                                       , q.movie_id
                                       , q.year
                                       , q.rating
+                                      , q.description
+                                      , q.price
                                 FROM movie q
-                                  WHERE q.movie_id = ?"/>
+                                  WHERE q.movie_id = ?
+                                    AND q.current_flag = 'Y'"/>
     </bean>
 
     <!-- Reviews -->
     <bean id="getReviewById" class="java.lang.String">
-        <constructor-arg value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r where r.movie_id = ? LIMIT 2"/>
+        <constructor-arg
+                value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r where r.movie_id = ? LIMIT 2"/>
     </bean>
 
     <bean id="getAllMoviesReviews" class="java.lang.String">
@@ -34,7 +38,8 @@
     </bean>
 
     <bean id="getReviewByReviewId" class="java.lang.String">
-        <constructor-arg value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r where r.review_id = ? "/>
+        <constructor-arg
+                value="select r.movie_id, r.user_id, r.review_id, r.review_text from review r where r.review_id = ? "/>
     </bean>
 
 
@@ -63,7 +68,7 @@
     </bean>
 
     <!-- Countries -->
-    <bean id = "getAllCountriesByMovieId" class="java.lang.String">
+    <bean id="getAllCountriesByMovieId" class="java.lang.String">
         <constructor-arg value="select c.country_id
                                       ,c.country_name from countries c
                                 join countries_movie_mapper cmm
@@ -75,7 +80,7 @@
         <constructor-arg value="select g.country_id, g.country_name from countries g"/>
     </bean>
 
-    <bean id = "getAllMoviesCountries" class="java.lang.String">
+    <bean id="getAllMoviesCountries" class="java.lang.String">
         <constructor-arg value="select cmm.movie_id
                                       ,c.country_id
                                       ,c.country_name from countries c
@@ -84,7 +89,7 @@
     </bean>
 
     <!-- User -->
-     <bean id = "getUserByCredentials" class="java.lang.String">
+    <bean id="getUserByCredentials" class="java.lang.String">
         <constructor-arg value="select   user_id,
                                          user_name,
                                          user_email,
@@ -93,7 +98,7 @@
                                          from user
                                          where user_email = ? and user_password = ?"/>
     </bean>
-    <bean id = "getAllUsers" class="java.lang.String">
+    <bean id="getAllUsers" class="java.lang.String">
         <constructor-arg value="select   user_id,
                                          user_name,
                                          user_email,
@@ -102,6 +107,22 @@
                                          from user"/>
     </bean>
 
+    <!-- User Movie Rating  -->
+    <bean id="getUserMovieRatingId" class="java.lang.String">
+        <constructor-arg value="  SELECT q.user_movie_rating_id
+                                    FROM user_movie_rating q
+                                  WHERE q.movie_id = ?
+                                    AND q.user_id = ?
+                                    AND q.current_flag = 'Y'"/>
+    </bean>
+
+
+    <bean id="getAllMovieRatings" class="java.lang.String">
+        <constructor-arg value=" SELECT q.rating
+                                        FROM user_movie_rating q
+                                        WHERE q.movie_id = ?
+                                          AND q.current_flag = 'Y';"/>
+    </bean>
 
 
 </beans>
