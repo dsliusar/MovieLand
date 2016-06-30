@@ -52,37 +52,64 @@ public class GenericReviewService implements ReviewService {
     public void removeReview(int reviewId) {
         jdbcReviewDao.remove(reviewId);
     }
-
-
     /**
-     * Method is performing business check before insert or update the users Rating
-     * Check if user has already rate the requested movie
+     * Add rating to the database
      *
      * @param movieRatingChangeRequest
-     * @return
      * @throws RequestFormatException
      */
-    @Override
-    public MovieRatingOnChangeResponse calculateAndUpdateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException, NotFoundException {
+    public MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException {
         try {
             checkRatingValue(movieRatingChangeRequest.getRating());
         } catch (RequestFormatException e) {
             LOGGER.error("Rating value is not valid", e);
             throw e;
         }
-
         LOGGER.info("Checking if user already rated the movie");
-        // check if user already rate the movie
-        int userRateId = jdbcReviewDao.getUserMovieRatingId(movieRatingChangeRequest.getMovieId(),
+        int userRateId = getCurrentUserRatingForMovie(movieRatingChangeRequest.getMovieId(),
                 movieRatingChangeRequest.getUserId());
 
         // If user did not rate the movie add requested Rating
-        if (userRateId == 0) {
-            LOGGER.info("Movie rating for user with ID {} was not found",movieRatingChangeRequest.getUserId());
-            throw new NotFoundException("Rating for user was not found ");
+        if (userRateId > 0) {
+            jdbcReviewDao.addRating(movieRatingChangeRequest);
         } else { // If user already rated the movie then update the movie rating and add Rating as latest
-            updateRating(userRateId);
-            addRating(movieRatingChangeRequest);
+            jdbcReviewDao.updateRating(userRateId);
+            jdbcReviewDao.addRating(movieRatingChangeRequest);
+        }
+
+        // calculate and update average rating of the movie base on all ratings
+        double avgRating = updateAvgMovieRating(movieRatingChangeRequest.getMovieId());
+
+        //return response object
+        return fillMovieRatingChangeResponse(movieRatingChangeRequest.getMovieId(),
+                movieRatingChangeRequest.getRating(),
+                avgRating);
+    }
+
+    /**
+     * Update rating in the database
+     *
+     * @param movieRatingChangeRequest
+     * @throws RequestFormatException
+     */
+    public MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException, NotFoundException {
+        try {
+            checkRatingValue(movieRatingChangeRequest.getRating());
+        } catch (RequestFormatException e) {
+            LOGGER.error("Rating value is not valid", e);
+            throw e;
+        }
+        LOGGER.info("Checking if user already rated the movie");
+        int userRateId = getCurrentUserRatingForMovie(movieRatingChangeRequest.getMovieId(),
+                movieRatingChangeRequest.getUserId());
+
+        // IF user is updating the rating that he did not set than throw exception
+        if (userRateId == 0) {
+            LOGGER.info("Movie rating for user with id {} was not found", movieRatingChangeRequest.getUserId());
+            throw new NotFoundException("Movie Rating not found for user, movie Id = " + movieRatingChangeRequest.getMovieId());
+        } else { // If user Rated the movie previously update current row as invalid and add new row with new rating
+            jdbcReviewDao.updateRating(userRateId);
+            jdbcReviewDao.addRating(movieRatingChangeRequest);
         }
         // calculate and update average rating of the movie base on all ratings
         double avgRating = updateAvgMovieRating(movieRatingChangeRequest.getMovieId());
@@ -91,46 +118,10 @@ public class GenericReviewService implements ReviewService {
         return fillMovieRatingChangeResponse(movieRatingChangeRequest.getMovieId(),
                 movieRatingChangeRequest.getRating(),
                 avgRating);
-
     }
 
     /**
-     * Filling the object for Response
-     * @param movieId
-     * @param userRating
-     * @param avgRating
-     * @return
-     */
-    private MovieRatingOnChangeResponse fillMovieRatingChangeResponse(int movieId, double userRating, double avgRating) {
-        MovieRatingOnChangeResponse movieRatingResponse = new MovieRatingOnChangeResponse();
-        movieRatingResponse.setMovieId(movieId);
-        movieRatingResponse.setAverageRating(avgRating);
-        movieRatingResponse.setUserRating(userRating);
-        return movieRatingResponse;
-    }
-
-    /**
-     * Add rating to the database
-     *
-     * @param movieRatingChangeRequest
-     * @throws RequestFormatException
-     */
-    private void addRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException {
-        jdbcReviewDao.addRating(movieRatingChangeRequest);
-    }
-
-    /**
-     * Update rating in the database
-     *
-     * @param userRateId
-     * @throws RequestFormatException
-     */
-    private void updateRating(int userRateId) throws RequestFormatException {
-        jdbcReviewDao.updateRating(userRateId);
-    }
-
-    /**
-     * Checks if RatingValue is equal, should be between 0 or 10
+     * Checks if RatingValue is correct, should be between 0 or 10
      *
      * @param RatingValue
      * @throws RequestFormatException
@@ -139,6 +130,7 @@ public class GenericReviewService implements ReviewService {
         if (!(RatingValue >= 1 && RatingValue <= 10))
             throw new RequestFormatException("Rating value should be between 0 and 10");
     }
+
 
     /**
      * Method getting all users Rating for specific movie
@@ -161,4 +153,28 @@ public class GenericReviewService implements ReviewService {
         return genericMovieService.updateAverageRating(movieId, getAllUsersMovieRating(movieId));
     }
 
+    /**
+     * Get current rating of the user in the database
+     * @param movieId
+     * @param userId
+     * @return
+     */
+    private int getCurrentUserRatingForMovie(int movieId, int userId){
+        return jdbcReviewDao.getUserMovieRatingId(movieId,userId);
+    }
+
+    /**
+     * Filling the object for Response
+     * @param movieId
+     * @param userRating
+     * @param avgRating
+     * @return
+     */
+    private MovieRatingOnChangeResponse fillMovieRatingChangeResponse(int movieId, double userRating, double avgRating) {
+        MovieRatingOnChangeResponse movieRatingResponse = new MovieRatingOnChangeResponse();
+        movieRatingResponse.setMovieId(movieId);
+        movieRatingResponse.setAverageRating(avgRating);
+        movieRatingResponse.setUserRating(userRating);
+        return movieRatingResponse;
+    }
 }

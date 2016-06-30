@@ -27,7 +27,7 @@ public class GenericReviewServiceTest {
         movieRatingChangeRequest.setMovieId(3);
 
         try {
-            genericReviewService.calculateAndUpdateRating(movieRatingChangeRequest);
+            genericReviewService.addRating(movieRatingChangeRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }

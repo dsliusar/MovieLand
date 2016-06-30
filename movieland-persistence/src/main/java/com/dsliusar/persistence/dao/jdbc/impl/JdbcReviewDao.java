@@ -165,7 +165,7 @@ public class JdbcReviewDao implements ReviewDao {
         try {
             userMovieRatingId = jdbcTemplate.queryForObject(getUserMovieRatingId, new Object[]{movieID, userId}, Integer.class);
         } catch (EmptyResultDataAccessException e){
-            LOGGER.warn("Exception : ", e);
+            LOGGER.info("No data found", e);
         }
         LOGGER.info("user movie id was retrieved, it took {}", System.currentTimeMillis() - startTime);
         return userMovieRatingId;

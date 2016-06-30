@@ -8,12 +8,11 @@
     <context:property-placeholder location="classpath*:properties/application-service.properties"
                                   ignore-unresolvable="true" order="1"/>
     <import resource="classpath:/persistence-context.xml"/>
+    <import resource="jmx-context.xml"/>
 
     <context:component-scan base-package="com.dsliusar.services"/>
     <task:annotation-driven/>
     <task:scheduler id="myScheduler"/>
-
-    <bean class="com.dsliusar.services.cache.invalidator.CacheInvalidatorBeanPostProcessor"/>
 
     <bean id="genreCacheUpdateService" class="com.dsliusar.services.cache.executor.GenreCacheUpdateService"
           depends-on="initDb"/>
@@ -33,7 +32,6 @@
                         cron="${service.cronAllMoviesCountriesUpdateInterval}"/>
         <task:scheduled ref="reviewCacheUpdateService" method="updateAllMoviesReviewsCache"
                         cron="${service.cronAllReviewsUpdateInterval}"/>
-        <!--<task:scheduled ref="AuthenticationServiceImpl" method="performTokenHousekeeping" cron="${service.cronTokensHouseKeepingInterval}" />-->
     </task:scheduled-tasks>
 
 

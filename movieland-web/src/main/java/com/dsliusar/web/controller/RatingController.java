@@ -17,6 +17,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller for Rating operations
+ * Controllers can add and update user Ratings
+ */
 @RestController
 @RequestMapping(value = "/v1")
 public class RatingController {
@@ -29,29 +33,51 @@ public class RatingController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @RequestMapping(value = "/rating/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /**
+     * Adding Rating of the movie that was entered by user to the database
+     * In case of any issues throws exception
+     * @param movieRatingChangeRequest
+     * @param token
+     * @return
+     * @throws RequestFormatException
+     * @throws MovieLandSecurityException
+     * @throws NotFoundException
+     */
+    @RequestMapping(value = "/rating/add",
+                    method = RequestMethod.POST,
+                    produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<MovieRatingOnChangeResponse> addUserMovieRating(@RequestBody MovieRatingChangeRequest movieRatingChangeRequest,
                                                                           @RequestHeader(value = "security-token") String token) throws RequestFormatException, MovieLandSecurityException, NotFoundException {        LOGGER.info("Received request to add rating for movie {}" , movieRatingChangeRequest.getMovieId());
-
-        return new ResponseEntity<>(calculateAndUpdateRating(movieRatingChangeRequest,token), HttpStatus.OK);
-    }
-
-
-
-    @RequestMapping(value = "/rating/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MovieRatingOnChangeResponse> updateUserMovieRating(@RequestBody MovieRatingChangeRequest movieRatingChange,
-                                                                             @RequestHeader(value = "security-token") String token) throws MovieLandSecurityException, RequestFormatException, NotFoundException {
-
-        return new ResponseEntity<>(calculateAndUpdateRating(movieRatingChange,token), HttpStatus.OK);
-    }
-
-    private MovieRatingOnChangeResponse calculateAndUpdateRating(MovieRatingChangeRequest ratingChangeRequest
-                                                              , String token) throws MovieLandSecurityException, RequestFormatException, NotFoundException {
         UserSecureTokenEntity userSecure =  authenticationService.getUserByToken(token);
         MDC.put("userLogin", userSecure.getUserName());
-        ratingChangeRequest.setUserId(userSecure.getUserId());
-        MovieRatingOnChangeResponse movieRatingOnChangeResponse =  genericReviewService.calculateAndUpdateRating(ratingChangeRequest);
+        movieRatingChangeRequest.setUserId(userSecure.getUserId());
+        MovieRatingOnChangeResponse movieRatignAddResponse =  genericReviewService.addRating(movieRatingChangeRequest);
         MDC.remove("userLogin");
-        return movieRatingOnChangeResponse;
+        return new ResponseEntity<>(movieRatignAddResponse, HttpStatus.OK);
     }
+
+
+    /**
+     * Updating Rating of Movie for the specific user in the database
+     * In case of any issues throws exception
+     * @param movieRatingChangeRequest
+     * @param token
+     * @return
+     * @throws MovieLandSecurityException
+     * @throws RequestFormatException
+     * @throws NotFoundException
+     */
+    @RequestMapping(value = "/rating/update",
+                    method = RequestMethod.PUT,
+                    produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<MovieRatingOnChangeResponse> updateUserMovieRating(@RequestBody MovieRatingChangeRequest movieRatingChangeRequest,
+                                                                             @RequestHeader(value = "security-token") String token) throws MovieLandSecurityException, RequestFormatException, NotFoundException {
+        UserSecureTokenEntity userSecure =  authenticationService.getUserByToken(token);
+        MDC.put("userLogin", userSecure.getUserName());
+        movieRatingChangeRequest.setUserId(userSecure.getUserId());
+        MovieRatingOnChangeResponse movieRatingUpdateResponse =  genericReviewService.updateRating(movieRatingChangeRequest);
+        MDC.remove("userLogin");
+        return new ResponseEntity<>(movieRatingUpdateResponse, HttpStatus.OK);
+    }
+
 }

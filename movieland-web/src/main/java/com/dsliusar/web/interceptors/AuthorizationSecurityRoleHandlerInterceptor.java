@@ -20,6 +20,9 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 
 
+/**
+ * Interceptor for authorizing the user and logging every request
+ */
 public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerInterceptorAdapter {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -27,6 +30,16 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
     @Autowired
     private AuthenticationService authenticationService;
 
+    /**
+     * Method works before controller and authorizing the user
+     * If user role is prohibited to do the operation throws MovielandSecurity exception
+     * Logging every request and generating the UUID using MDC
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
@@ -57,6 +70,15 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
         }
         return super.preHandle(request, response, handler);
     }
+
+    /**
+     * Delete the request after the controller got executed
+     * @param request
+     * @param response
+     * @param handler
+     * @param modelAndView
+     * @throws Exception
+     */
     @Override
     public void postHandle(HttpServletRequest request,
                            HttpServletResponse response, Object handler,

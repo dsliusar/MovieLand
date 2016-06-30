@@ -22,8 +22,9 @@ public interface ReviewService {
 
     void removeReview(int reviewId);
 
-    MovieRatingOnChangeResponse calculateAndUpdateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException, NotFoundException;
+    MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException;
 
+    MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException, NotFoundException;
 
 
 }
