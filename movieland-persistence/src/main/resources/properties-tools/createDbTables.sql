@@ -31,10 +31,10 @@ CREATE table movie(
 
 DROP TABLE IF EXISTS genre_movies;
 CREATE TABLE genre_movies (
-  genre_movie_id INT NOT NULL AUTO_INCREMENT,
+  genre_movie_id INT NOT NULL AUTO_INCREMENT UNIQUE,
   movie_id INT NOT NULL,
   genre_id INT,
-  PRIMARY KEY (genre_movie_id)
+  UNIQUE (movie_id,genre_id)
 );
 
 DROP TABLE IF EXISTS review;
@@ -55,10 +55,10 @@ CREATE TABLE countries(
 
 DROP TABLE IF EXISTS countries_movie_mapper;
 CREATE TABLE countries_movie_mapper(
-  country_movie_id INT NOT NULL AUTO_INCREMENT,
+  country_movie_id INT NOT NULL AUTO_INCREMENT UNIQUE,
   country_id INT,
   movie_id INT,
-  PRIMARY KEY (country_movie_id)
+  UNIQUE (country_id,movie_id)
 );
 
 DROP TABLE IF EXISTS user;

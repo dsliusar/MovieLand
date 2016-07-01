@@ -24,26 +24,26 @@
         </encoder>
     </appender>
 
-    <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
-        <smtpHost>smtp.gmail.com</smtpHost>
-        <smtpPort>587</smtpPort>
-        <STARTTLS>true</STARTTLS>
-        <asynchronousSending>false</asynchronousSending>
-        <username>dmitrii.slyusar@gmail.com</username>
-        <password>!!!!!!!!!</password>
-        <to>dmitrii.slyusar@gmail.com</to>
-        <from>dmitrii.slyusar@gmail.com</from>
-        <subject>Movieland Error: %logger{20} - %m</subject>
+    <!--<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">-->
+        <!--<smtpHost>smtp.gmail.com</smtpHost>-->
+        <!--<smtpPort>587</smtpPort>-->
+        <!--<STARTTLS>true</STARTTLS>-->
+        <!--<asynchronousSending>false</asynchronousSending>-->
+        <!--<username>dmitrii.slyusar@gmail.com</username>-->
+        <!--<password>!!!!!!!!!</password>-->
+        <!--<to>dmitrii.slyusar@gmail.com</to>-->
+        <!--<from>dmitrii.slyusar@gmail.com</from>-->
+        <!--<subject>Movieland Error: %logger{20} - %m</subject>-->
 
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{HH:mm:ss.SSS} %-55(%X{user} %level [%thread] %logger{20}) - %msg%n</pattern>
-        </layout>
+        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
+            <!--<pattern>%d{HH:mm:ss.SSS} %-55(%X{user} %level [%thread] %logger{20}) - %msg%n</pattern>-->
+        <!--</layout>-->
 
-    </appender>
-    <root level="ERROR">
-        <!--<appender-ref ref="STDOUT"/>-->
-        <appender-ref ref="EMAIL" />
-    </root>
+    <!--</appender>-->
+    <!--<root level="ERROR">-->
+        <!--&lt;!&ndash;<appender-ref ref="STDOUT"/>&ndash;&gt;-->
+        <!--<appender-ref ref="EMAIL" />-->
+    <!--</root>-->
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>

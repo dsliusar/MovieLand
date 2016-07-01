@@ -170,7 +170,13 @@ public class GenericMovieService implements MovieService {
             //Set movie entity (constructor set) and add movie to the DB
             addMovie(new Movie(movieAddRequest));
 
-           //Update all movies Related caches
+            //Add/update Movie Genres to mapper table
+            addMovieGenres(movieAddRequest.getMovieId(),movieAddRequest.getGenres());
+
+            //Add/update Movie Countries to mapper table
+            addMovieCountries(movieAddRequest.getMovieId(),movieAddRequest.getCountries());
+
+            //Update all movies Related caches
             updateMoviesRelatedCaches();
         }
     }
