@@ -5,7 +5,7 @@ import com.dsliusar.persistence.entity.Review;
 import com.dsliusar.services.service.MovieService;
 import com.dsliusar.services.service.ReviewService;
 import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.exceptions.RequestFormatException;
+import com.dsliusar.tools.exceptions.RequestException;
 import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
 import com.dsliusar.tools.http.entities.MovieRatingOnChangeResponse;
 import com.dsliusar.tools.http.entities.ReviewAddRequest;
@@ -57,9 +57,9 @@ public class GenericReviewService implements ReviewService {
      * Add rating to the database
      *
      * @param movieRatingChangeRequest
-     * @throws RequestFormatException
+     * @throws RequestException
      */
-    public MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RuntimeException {
+    public MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest) {
         LOGGER.info("Checking if rating value is valid");
         checkRatingValue(movieRatingChangeRequest.getRating());
 
@@ -88,9 +88,9 @@ public class GenericReviewService implements ReviewService {
      * Update rating in the database
      *
      * @param movieRatingChangeRequest
-     * @throws RequestFormatException
+     * @throws RequestException
      */
-    public MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RuntimeException {
+    public MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest) {
         LOGGER.info("Checking if rating value is valid");
         checkRatingValue(movieRatingChangeRequest.getRating());
 
@@ -98,7 +98,7 @@ public class GenericReviewService implements ReviewService {
         Integer userRateId = getCurrentUserRatingForMovie(movieRatingChangeRequest.getMovieId(),
                 movieRatingChangeRequest.getUserId());
 
-        // IF user is updating the rating that he did not set than throw exception
+        // If user is updating the rating that he did not set than throw exception
         if (userRateId == null) {
             LOGGER.info("Movie rating for user with id {} was not found", movieRatingChangeRequest.getUserId());
             throw new NotFoundException("Movie Rating not found for user, movie Id = " + movieRatingChangeRequest.getMovieId());
@@ -119,11 +119,11 @@ public class GenericReviewService implements ReviewService {
      * Checks if RatingValue is correct, should be between 0 or 10
      *
      * @param RatingValue
-     * @throws RequestFormatException
+     * @throws RequestException
      */
-    private void checkRatingValue(double RatingValue) throws RequestFormatException {
+    private void checkRatingValue(double RatingValue) throws RequestException {
         if (RatingValue < 0 || RatingValue > 10)
-            throw new RequestFormatException("Rating value should be between 0 and 10");
+            throw new RequestException("Rating value should be between 0 and 10");
     }
 
 

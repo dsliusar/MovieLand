@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false">
+<configuration debug="true">
 
-       <property name="LOGS" value="D:/logs" />
+    <property name="LOGS" value="D:/logs"/>
 
-       <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-              <encoder>
-                     <Pattern>%d{HH:mm:ss.SSS} %X{requestId} %X{userLogin} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-              </encoder>
-       </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d{HH:mm:ss.SSS} %X{requestId} %X{userLogin} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
 
-       <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-              <file>${LOGS}/movieland.log</file>
-              <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                     <!-- rollover daily -->
-                     <fileNamePattern>${LOGS}/archived/movieland.%d{yyyy-MM-dd}.log.%i</fileNamePattern>
-                     <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                            <maxFileSize>5MB</maxFileSize>
-                     </timeBasedFileNamingAndTriggeringPolicy>
-              </rollingPolicy>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/movieland.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOGS}/archived/movieland.%d{yyyy-MM-dd}.log.%i</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
 
-              <encoder>
-                     <Pattern>%d{HH:mm:ss.SSS} %X{requestId} %X{userLogin} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-              </encoder>
-       </appender>
+        <encoder>
+            <Pattern>%d{HH:mm:ss.SSS} %X{requestId} %X{userLogin} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
 
-       <root level="DEBUG">
-              <appender-ref ref="STDOUT" />
-              <appender-ref ref="FILE" />
-       </root>
+    <!--<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">-->
+        <!--<smtpHost>smtp.gmail.com</smtpHost>-->
+        <!--<smtpPort>587</smtpPort>-->
+        <!--<STARTTLS>true</STARTTLS>-->
+        <!--<asynchronousSending>false</asynchronousSending>-->
+        <!--<username>dmitrii.slyusar@gmail.com</username>-->
+        <!--<password>!!!!!!!!!</password>-->
+        <!--<to>dmitrii.slyusar@gmail.com</to>-->
+        <!--<from>dmitrii.slyusar@gmail.com</from>-->
+        <!--<subject>Movieland Error: %logger{20} - %m</subject>-->
+
+        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
+            <!--<pattern>%d{HH:mm:ss.SSS} %-55(%X{user} %level [%thread] %logger{20}) - %msg%n</pattern>-->
+        <!--</layout>-->
+
+    <!--</appender>-->
+    <!--<root level="ERROR">-->
+        <!--&lt;!&ndash;<appender-ref ref="STDOUT"/>&ndash;&gt;-->
+        <!--<appender-ref ref="EMAIL" />-->
+    <!--</root>-->
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
 
 </configuration>

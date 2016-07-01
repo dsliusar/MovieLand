@@ -2,7 +2,7 @@ package com.dsliusar.web.controller.exceptions;
 
 import com.dsliusar.tools.exceptions.MovieLandSecurityException;
 import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.exceptions.RequestFormatException;
+import com.dsliusar.tools.exceptions.RequestException;
 import com.dsliusar.web.dto.ExceptionResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +34,8 @@ public class GeneralControllerExcpetionHandling {
         return new ResponseEntity<>(new ExceptionResponseDto(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(RequestFormatException.class)
-    public ResponseEntity<ExceptionResponseDto> requestFormatExceptionHandler(RequestFormatException e) {
+    @ExceptionHandler(RequestException.class)
+    public ResponseEntity<ExceptionResponseDto> requestFormatExceptionHandler(RequestException e) {
         LOGGER.info("The request was not correct : ",e);
         return new ResponseEntity<>(new ExceptionResponseDto(e.getMessage()), HttpStatus.BAD_REQUEST);
     }

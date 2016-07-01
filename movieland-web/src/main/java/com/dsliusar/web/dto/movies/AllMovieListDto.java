@@ -1,4 +1,4 @@
-package com.dsliusar.web.dto;
+package com.dsliusar.web.dto.movies;
 
 import org.springframework.http.ResponseEntity;
 

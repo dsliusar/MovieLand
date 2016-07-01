@@ -5,7 +5,7 @@ import com.dsliusar.services.cache.CacheService;
 import com.dsliusar.services.service.ReviewService;
 import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.exceptions.RequestFormatException;
+import com.dsliusar.tools.exceptions.RequestException;
 import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
 import com.dsliusar.tools.http.entities.MovieRatingOnChangeResponse;
 import com.dsliusar.tools.http.entities.ReviewAddRequest;
@@ -47,12 +47,12 @@ public class CacheableReviewService implements ReviewService {
     }
 
     @Override
-    public MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException {
+    public MovieRatingOnChangeResponse addRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestException {
         return null;
     }
 
     @Override
-    public MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestFormatException, NotFoundException {
+    public MovieRatingOnChangeResponse updateRating(MovieRatingChangeRequest movieRatingChangeRequest) throws RequestException, NotFoundException {
         return null;
     }
 }

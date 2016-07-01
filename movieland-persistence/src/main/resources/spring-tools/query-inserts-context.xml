@@ -7,8 +7,6 @@
               <constructor-arg value="${path.sql.create}"/>
        </bean>
 
-
-
        <bean id="insertUserSQL" class="java.lang.String">
               <constructor-arg value="INSERT INTO user (user_id, user_name, user_email, user_password, user_role) VALUES (?, ?, ?, ?, ?);"/>
        </bean>
@@ -22,7 +20,8 @@
        </bean>
 
        <bean id="insertGenreMovieSQL" class="java.lang.String">
-              <constructor-arg value="INSERT INTO genre_movies (genre_id,movie_id) VALUES (:genre_id, :movie_id);"/>
+              <constructor-arg value="INSERT INTO genre_movies (genre_id,movie_id) VALUES (:genre_id, :movie_id)
+              ON DUPLICATE KEY UPDATE genre_id = :genre_id, movie_id = :movie_id;"/>
        </bean>
 
        <bean id="insertGenreSQL" class="java.lang.String">
@@ -31,7 +30,8 @@
 
        <bean id="insertCountryMovieSQL" class="java.lang.String">
               <constructor-arg value="INSERT INTO countries_movie_mapper(country_id, movie_id)
-                                                                VALUES (:country_id, :movie_id);"/>
+                                                                VALUES (:country_id, :movie_id)
+                                      ON DUPLICATE KEY UPDATE country_id = :country_id, movie_id = :movie_id;"/>
        </bean>
 
        <bean id="insertCountrySQL" class="java.lang.String">

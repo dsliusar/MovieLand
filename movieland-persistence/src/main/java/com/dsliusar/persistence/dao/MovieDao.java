@@ -17,6 +17,9 @@ public interface MovieDao{
     Movie getById(int movieId);
     void updateCurrentFlag(int movieId);
     void addMovie(Movie movie);
+    void addMovieGenres(int movieId, int genreId);
+    void addMovieCountries(int movieId, int countryId);
+
 
 
 

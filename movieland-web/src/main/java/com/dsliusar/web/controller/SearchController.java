@@ -2,8 +2,8 @@ package com.dsliusar.web.controller;
 
 import com.dsliusar.tools.http.entities.MovieSearchRequest;
 import com.dsliusar.services.service.MovieService;
-import com.dsliusar.web.dto.AllMovieDto;
-import com.dsliusar.web.dto.AllMovieListDto;
+import com.dsliusar.web.dto.movies.AllMovieDto;
+import com.dsliusar.web.dto.movies.AllMovieListDto;
 import com.dsliusar.web.dto.converter.MovieToDtoTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
