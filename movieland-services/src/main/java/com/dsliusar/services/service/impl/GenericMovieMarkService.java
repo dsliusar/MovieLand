@@ -22,6 +22,11 @@ public class GenericMovieMarkService implements MovieMarkService {
 
     private Set<Integer> markedMovieSet = new CopyOnWriteArraySet<>();
 
+    /**
+     * Mark movie for deletion
+     * movie id is saved to set and deleted in deleteMarkedMovies method
+     * @param movieId
+     */
     @Override
     public void markMovieToDelete(int movieId) {
         LOGGER.info("Mark movie for deletion");
@@ -33,6 +38,11 @@ public class GenericMovieMarkService implements MovieMarkService {
         }
     }
 
+    /**
+     * Movie un marked from deletion
+     * movie id is deleted from set
+     * @param movieId
+     */
     @Override
     public void unMarkMovieToDelete(int movieId) {
         LOGGER.info("Un-mark Movie from deletion");
@@ -45,6 +55,10 @@ public class GenericMovieMarkService implements MovieMarkService {
 
     }
 
+    /**
+     * Deleting movie by Cron scheduling
+     * after deletion of all movies all set is cleared
+     */
     @Scheduled(cron = "${service.cronMarkedMovieHouseKeepingInterval}")
     @Override
     public void deleteMarkedMovies() {

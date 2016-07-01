@@ -149,6 +149,10 @@ public class GenericMovieService implements MovieService {
 
     }
 
+    /**
+     * Updating movie in DB
+     * @param movieAddRequest
+     */
     @Override
     public void updateMovie(MovieAddRequest movieAddRequest) {
         LOGGER.info("Checking if movie already exists in the DB");
@@ -171,6 +175,9 @@ public class GenericMovieService implements MovieService {
         }
     }
 
+    /**
+     * Updating cache once movie inserted/updated
+     */
     private void updateMoviesRelatedCaches(){
         countryCacheUpdateService.invalidateCache();
         reviewCacheUpdateService.invalidateCache();
