@@ -2,6 +2,10 @@ package com.dsliusar.services.service.impl;
 
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.entity.Movie;
+import com.dsliusar.services.cache.CacheService;
+import com.dsliusar.services.cache.executor.CountryCacheUpdateService;
+import com.dsliusar.services.cache.executor.GenreCacheUpdateService;
+import com.dsliusar.services.cache.executor.ReviewCacheUpdateService;
 import com.dsliusar.services.service.CountryService;
 import com.dsliusar.services.service.GenreService;
 import com.dsliusar.services.service.MovieService;
@@ -33,6 +37,15 @@ public class GenericMovieService implements MovieService {
 
     @Autowired
     private ReviewService cacheableReviewService;
+
+    @Autowired
+    private CountryCacheUpdateService countryCacheUpdateService;
+
+    @Autowired
+    private GenreCacheUpdateService genreCacheUpdateService;
+
+    @Autowired
+    private ReviewCacheUpdateService reviewCacheUpdateService;
 
 
     /**
@@ -126,6 +139,9 @@ public class GenericMovieService implements MovieService {
             //Add Movie Countries to mapper table
             addMovieCountries(movieAddRequest.getMovieId(),movieAddRequest.getCountries());
 
+            //Update all movies Related caches
+            updateMoviesRelatedCaches();
+
         } else {
             LOGGER.info("Movie already exists and cannot be added");
             throw new RequestException("Requested movie already exists in DB, movieID = " + movieAddRequest.getMovieId());
@@ -155,9 +171,17 @@ public class GenericMovieService implements MovieService {
 
             //Add Movie Countries to mapper table
             addMovieCountries(movieAddRequest.getMovieId(),movieAddRequest.getCountries());
+
+            //Update all movies Related caches
+            updateMoviesRelatedCaches();
         }
     }
 
+    private void updateMoviesRelatedCaches(){
+        countryCacheUpdateService.invalidateCache();
+        reviewCacheUpdateService.invalidateCache();
+        genreCacheUpdateService.invalidateCache();
+    }
 
 
     /**

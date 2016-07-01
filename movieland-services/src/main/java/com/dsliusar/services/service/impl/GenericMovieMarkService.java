@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Service
-public class MovieMarkServiceImpl implements MovieMarkService {
+public class GenericMovieMarkService implements MovieMarkService {
 
     @Autowired
     private MovieService genericMovieService;
@@ -26,7 +26,7 @@ public class MovieMarkServiceImpl implements MovieMarkService {
     public void markMovieToDelete(int movieId) {
         LOGGER.info("Mark movie for deletion");
         if(markedMovieSet.add(movieId)) {
-            LOGGER.info("Movie was marked for deletion");
+            LOGGER.info("Movie with ID {} was marked for deletion", movieId);
         } else {
             LOGGER.info("Movie already marked for deletion");
             throw new RequestException("Movie already marked for deletion, movieId = " + movieId);
@@ -37,10 +37,10 @@ public class MovieMarkServiceImpl implements MovieMarkService {
     public void unMarkMovieToDelete(int movieId) {
         LOGGER.info("Un-mark Movie from deletion");
         if (markedMovieSet.remove(movieId)){
-            LOGGER.info("Movie successfully un-marked from deletion");
+            LOGGER.info("Movie with Id {} successfully un-marked from deletion", movieId);
         } else {
             LOGGER.info("Movie id {} cannot be marked because it doesn't exists in Mark collection", movieId);
-            throw new RequestException("Movie with ID "+movieId+" cannot be marked, because it doesn't exists");
+            throw new RequestException("Movie with ID "+movieId+" cannot be un marked, because it was not marked");
         }
 
     }

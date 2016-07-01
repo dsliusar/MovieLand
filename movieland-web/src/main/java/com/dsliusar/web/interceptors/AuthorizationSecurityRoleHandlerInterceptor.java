@@ -46,7 +46,7 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
 
         LOGGER.info("Authorization started");
         MDC.put("requestId", UUID.randomUUID().toString());
-        UserSecureTokenEntity userSecureTokenEntity = null;
+        UserSecureTokenEntity userSecureTokenEntity;
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         SecurityRolesAllowed roles = method.getAnnotation(SecurityRolesAllowed.class);
@@ -67,7 +67,7 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
             }
             throw new MovieLandSecurityException("Current role " +
                     userSecureTokenEntity.getUserRole() +
-                    " is prohibited to do this operation");
+                    " is prohibited to do this operation ");
         }
         return super.preHandle(request, response, handler);
     }

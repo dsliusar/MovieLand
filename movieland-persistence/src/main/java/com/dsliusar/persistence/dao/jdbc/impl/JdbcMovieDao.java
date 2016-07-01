@@ -1,5 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
+import com.dsliusar.tools.exceptions.NotFoundException;
 import com.dsliusar.tools.http.entities.MovieSortRequest;
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.dao.jdbc.builder.SearchQueryBuilder;
@@ -12,6 +13,7 @@ import com.dsliusar.tools.http.entities.MovieSearchRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -121,9 +123,9 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("Start inserting into genre_movies table");
         long startTime = System.currentTimeMillis();
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-            parameterSource.addValue("genre_id", genreId);
-            parameterSource.addValue("movie_id", movieId);
-            namedJdbcTemplate.update(insertGenreMovieSQL, parameterSource);
+        parameterSource.addValue("genre_id", genreId);
+        parameterSource.addValue("movie_id", movieId);
+        namedJdbcTemplate.update(insertGenreMovieSQL, parameterSource);
         LOGGER.info("All rows to genre_movie were inserted, it took {}", System.currentTimeMillis() - startTime);
     }
 
@@ -132,10 +134,10 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("Start populating countries_movie_mapper table");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         long startTime = System.currentTimeMillis();
-            parameterSource.addValue("country_id", countryId);
-            parameterSource.addValue("movie_id", movieId);
-            namedJdbcTemplate.update(insertCountryMovieSQL, parameterSource);
-       LOGGER.info("All rows to country_movie were inserted, it took {} ", System.currentTimeMillis() - startTime);
+        parameterSource.addValue("country_id", countryId);
+        parameterSource.addValue("movie_id", movieId);
+        namedJdbcTemplate.update(insertCountryMovieSQL, parameterSource);
+        LOGGER.info("All rows to country_movie were inserted, it took {} ", System.currentTimeMillis() - startTime);
     }
 
     @Override
@@ -162,7 +164,12 @@ public class JdbcMovieDao implements MovieDao {
     public Movie getById(int movieId) {
         LOGGER.info("Start getting all movies from DB");
         long startTime = System.currentTimeMillis();
-        Movie movie = jdbcTemplate.queryForObject(getMovieById, new Object[]{movieId}, movieMapper);
+        Movie movie = null;
+        try {
+            movie = jdbcTemplate.queryForObject(getMovieById, new Object[]{movieId}, movieMapper);
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.info("No data found in movie table by movie Id {}", movieId);
+        }
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return movie;
     }
