@@ -6,6 +6,7 @@ import com.dsliusar.persistence.entity.Review;
 import com.dsliusar.web.dto.converter.CountryListSerializer;
 import com.dsliusar.web.dto.converter.GenreListSerializer;
 import com.dsliusar.web.dto.converter.ReviewListSerializer;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -17,10 +18,10 @@ public class MovieByIdDto{
 
     private String movieNameRus;
     private String movieNameOrigin;
-    private int year;
+    private Integer year;
 
     @JsonProperty("totalRating")
-    private double rating;
+    private Double rating;
 
     @JsonSerialize(using = GenreListSerializer.class)
     @JsonProperty("genres")
@@ -30,17 +31,20 @@ public class MovieByIdDto{
     @JsonProperty("countries")
     private List<Country> countryList;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonSerialize(using = ReviewListSerializer.class)
     @JsonProperty("reviews")
     private List<Review> reviewText;
 
     @JsonProperty("UserRating")
-    private double userRating;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double userRating;
 
     @JsonProperty("priceCurrency")
     private String currency;
 
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double price;
 
     public String getMovieNameRus() {
         return movieNameRus;
@@ -58,19 +62,19 @@ public class MovieByIdDto{
         this.movieNameOrigin = movieNameOrigin;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -98,11 +102,11 @@ public class MovieByIdDto{
         this.reviewText = reviewText;
     }
 
-    public double getUserRating() {
+    public Double getUserRating() {
         return userRating;
     }
 
-    public void setUserRating(double userRating) {
+    public void setUserRating(Double userRating) {
         this.userRating = userRating;
     }
 
@@ -112,6 +116,14 @@ public class MovieByIdDto{
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Override
@@ -126,6 +138,7 @@ public class MovieByIdDto{
                 ", reviewText=" + reviewText +
                 ", userRating=" + userRating +
                 ", currency='" + currency + '\'' +
+                ", price=" + price +
                 '}';
     }
 
@@ -145,7 +158,8 @@ public class MovieByIdDto{
         if (genreList != null ? !genreList.equals(that.genreList) : that.genreList != null) return false;
         if (countryList != null ? !countryList.equals(that.countryList) : that.countryList != null) return false;
         if (reviewText != null ? !reviewText.equals(that.reviewText) : that.reviewText != null) return false;
-        return !(currency != null ? !currency.equals(that.currency) : that.currency != null);
+        if (currency != null ? !currency.equals(that.currency) : that.currency != null) return false;
+        return !(price != null ? !price.equals(that.price) : that.price != null);
 
     }
 
@@ -164,6 +178,7 @@ public class MovieByIdDto{
         temp = Double.doubleToLongBits(userRating);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (currency != null ? currency.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
         return result;
     }
 }

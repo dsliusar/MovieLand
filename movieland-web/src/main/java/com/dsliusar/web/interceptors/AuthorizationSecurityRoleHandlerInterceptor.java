@@ -56,7 +56,9 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
             for (Roles rolesEnum : roles.roles()) {
                 if (rolesEnum.equals(Roles.GUEST)) return super.preHandle(request, response, handler);
 
-                if (rolesEnum.equals(userSecureTokenEntity.getUserRole())) {
+                if (rolesEnum.equals(userSecureTokenEntity.getUserRole()) ||
+                        userSecureTokenEntity.getUserRole().equals(Roles.ADMIN)) {
+                    response.setHeader("userId","userId");
                     LOGGER.info("User with role {} have been successfully validated using token {}",
                             userSecureTokenEntity.getUserRole(),
                             token);

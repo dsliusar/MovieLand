@@ -1,7 +1,8 @@
 package com.dsliusar.web.dto.movies;
 
-import com.dsliusar.web.dto.converter.GenreListSerializer;
 import com.dsliusar.persistence.entity.Genre;
+import com.dsliusar.web.dto.converter.GenreListSerializer;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -20,7 +21,8 @@ public class AllMovieDto{
 
     private int year;
 
-    private double rating;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double rating;
 
     @XmlElementWrapper(name = "genres")
     @JsonSerialize(using = GenreListSerializer.class)
@@ -59,11 +61,11 @@ public class AllMovieDto{
         this.year = year;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 

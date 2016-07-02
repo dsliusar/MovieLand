@@ -93,18 +93,19 @@ public class MoviesController {
      * @param movieId
      * @return
      */
-    @SecurityRolesAllowed(roles = {Roles.USER})
+    @SecurityRolesAllowed(roles = {Roles.GUEST,Roles.USER})
     @RequestMapping(value = "/movie/{movieId}",
             method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
     public ResponseEntity<?> getMovieById(@PathVariable Integer movieId,
-                                          @RequestHeader(value = "security-token") String token,
+                                          @RequestHeader(value = "security-token", required = false) String token,
+                                          @RequestHeader (value = "userId", required = false) String userId,
                                           @RequestParam(value = "currency", required = false) String requestedCurrency) {
         LOGGER.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
         UserSecureTokenEntity userSecureTokenEntity = authenticationService.getUserByToken(token);
-
+        System.out.println(userId);
         //get requested movie
         Movie movie = genericMovieService.getMovieById(movieId);
 
@@ -115,11 +116,8 @@ public class MoviesController {
         String currencyExchanged =  genericCurrencyService.convertCurrencyToRequested(movie, requestedCurrency);
 
         //convert to DTO
-        MovieByIdDto movieByIdDto = movieToDtoTransformer.transformMovieByIdToDto(movie,userRating, currencyExchanged);
-        if (userSecureTokenEntity.getUserId() != null) {
-            movieByIdDto.setUserRating(genericMovieService.getUserRating(userSecureTokenEntity.getUserId(),
-                    movieId));
-        }
+        MovieByIdDto movieByIdDto = movieToDtoTransformer.transformMovieByIdToDto(movie, userRating, currencyExchanged);
+
         LOGGER.info("movie received, it took {} ms", System.currentTimeMillis() - startTime);
         return new ResponseEntity<>(movieByIdDto, HttpStatus.OK);
     }

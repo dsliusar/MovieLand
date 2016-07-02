@@ -44,6 +44,7 @@ public class GenericCurrencyService implements CurrencyService {
      * @return
      */
     private Double getRequestedCurrencyRate(String requestedCurrency,CurrencyEntity[] currencyEntities) {
+        LOGGER.info("Get Requested currency Rate");
         for (CurrencyEntity currencyEntity : currencyEntities) {
             if (currencyEntity.getExchange_currency().equalsIgnoreCase(requestedCurrency)) {
                 return currencyEntity.getSale();

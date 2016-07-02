@@ -56,8 +56,11 @@ public class MovieToDtoTransformer {
         movieByIdDto.setYear(movie.getYear());
         movieByIdDto.setCountryList(movie.getCountryList());
         movieByIdDto.setReviewText(movie.getReviewText());
-        movieByIdDto.setUserRating(userRating);
+        if(userRating != null) {
+            movieByIdDto.setUserRating(userRating);
+        }
         movieByIdDto.setCurrency(currency);
+        movieByIdDto.setPrice(movie.getPrice());
         return movieByIdDto;
     }
 

@@ -20,7 +20,7 @@ public class MovieMapper implements RowMapper<Movie> {
         movie.setRating(resultSet.getDouble("rating"));
         movie.setDescription(resultSet.getString("description"));
         movie.setPrice(resultSet.getDouble("price"));
-        movie.setLastUpdateTs(resultSet.getTime("last_upd_ts"));
+        movie.setLastUpdateTs(resultSet.getTimestamp("last_upd_ts"));
         return movie;
     }
 }

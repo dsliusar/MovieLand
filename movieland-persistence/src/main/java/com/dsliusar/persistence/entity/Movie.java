@@ -3,7 +3,7 @@ package com.dsliusar.persistence.entity;
 import com.dsliusar.tools.http.entities.MovieAddRequest;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Movie implements Serializable {
@@ -15,7 +15,7 @@ public class Movie implements Serializable {
     private String description;
     private double rating;
     private double price;
-    private Time lastUpdateTs;
+    private Timestamp lastUpdateTs;
     private List<Genre> genreList;
     private List<Country> countryList;
     private List<Review> reviewText;
@@ -89,11 +89,11 @@ public class Movie implements Serializable {
         this.price = price;
     }
 
-    public Time getLastUpdateTs() {
+    public Timestamp getLastUpdateTs() {
         return lastUpdateTs;
     }
 
-    public void setLastUpdateTs(Time lastUpdateTs) {
+    public void setLastUpdateTs(Timestamp lastUpdateTs) {
         this.lastUpdateTs = lastUpdateTs;
     }
 
