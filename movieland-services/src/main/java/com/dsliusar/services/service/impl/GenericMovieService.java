@@ -2,7 +2,6 @@ package com.dsliusar.services.service.impl;
 
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.entity.Movie;
-import com.dsliusar.services.cache.CacheService;
 import com.dsliusar.services.cache.executor.CountryCacheUpdateService;
 import com.dsliusar.services.cache.executor.GenreCacheUpdateService;
 import com.dsliusar.services.cache.executor.ReviewCacheUpdateService;
@@ -13,7 +12,7 @@ import com.dsliusar.services.service.ReviewService;
 import com.dsliusar.tools.exceptions.RequestException;
 import com.dsliusar.tools.http.entities.MovieAddRequest;
 import com.dsliusar.tools.http.entities.MovieSearchRequest;
-import com.dsliusar.tools.http.entities.MovieSortRequest;
+import com.dsliusar.tools.http.entities.AllMoviesRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,41 +49,41 @@ public class GenericMovieService implements MovieService {
 
     /**
      * Get All movies from database
-     * of Sort Criteria exists then on DAO layer generate sort criteria
+     * of Sort Criteria exists then on DAO layer generate sort criteria including pagination
+     *
      * @param movieSortRequest
      * @return
      */
     @Override
-    public List<Movie> getAllMovies(MovieSortRequest movieSortRequest) {
-
+    public List<Movie> getAllMovies(AllMoviesRequestDto movieSortRequest) {
         List<Movie> movieList = jdbcMovieDao.getAllMovies(movieSortRequest);
-        for(Movie movie : movieList){
+        for (Movie movie : movieList) {
             movie.setGenreList(cacheableGenreService.getGenresByMovieId(movie.getMovieId()));
         }
         return movieList;
-
     }
 
     /**
      * Get All movies by Search Criteria
      * All movies are stored in the List
+     *
      * @param movieSearchRequest
      * @return
      */
     @Override
     public List<Movie> getAllSearchedMovies(MovieSearchRequest movieSearchRequest) {
 
-        if(movieSearchRequest.getCountry() != null){
+        if (movieSearchRequest.getCountry() != null) {
             movieSearchRequest.setCountryId(cacheableCountryService.getAllCountries().
                     get(movieSearchRequest.getCountry()));
         }
-        if(movieSearchRequest.getGenreName() != null) {
-            movieSearchRequest.setGenreId( cacheableGenreService.getAllGenres().
+        if (movieSearchRequest.getGenreName() != null) {
+            movieSearchRequest.setGenreId(cacheableGenreService.getAllGenres().
                     get(movieSearchRequest.getGenreName()));
         }
         List<Movie> movieList = jdbcMovieDao.getSearchedMovies(movieSearchRequest);
 
-        for(Movie movie : movieList){
+        for (Movie movie : movieList) {
             movie.setGenreList(cacheableGenreService.getGenresByMovieId(movie.getMovieId()));
         }
 
@@ -93,6 +92,7 @@ public class GenericMovieService implements MovieService {
 
     /**
      * Getting movie object by ID
+     *
      * @param movieId
      * @return
      */
@@ -106,7 +106,20 @@ public class GenericMovieService implements MovieService {
     }
 
     /**
+     * Getting specific rating set by user for movie
+     *
+     * @param userId
+     * @param movieId
+     * @return
+     */
+    @Override
+    public Double getUserRating(int userId, int movieId) {
+        return jdbcMovieDao.getUserMovieRating(userId, movieId);
+    }
+
+    /**
      * Updating current flag row in movie table to N
+     *
      * @param movieId
      */
     @Override
@@ -114,7 +127,11 @@ public class GenericMovieService implements MovieService {
         jdbcMovieDao.updateCurrentFlag(movieId);
     }
 
-    private void addMovie(Movie movie){
+    /**
+     * Add movie to DB
+     * @param movie
+     */
+    private void addMovie(Movie movie) {
         jdbcMovieDao.addMovie(movie);
     }
 
@@ -122,6 +139,7 @@ public class GenericMovieService implements MovieService {
      * Adding movie to database
      * User provde movie with genres,countries and all movie details and movie is inserted to DB in
      * all relevant tables where movie mapped to the another entities
+     *
      * @param movieAddRequest
      */
     @Override
@@ -134,10 +152,10 @@ public class GenericMovieService implements MovieService {
             addMovie(new Movie(movieAddRequest));
 
             //Add Movie Genres to mapper table
-            addMovieGenres(movieAddRequest.getMovieId(),movieAddRequest.getGenres());
+            addMovieGenres(movieAddRequest.getMovieId(), movieAddRequest.getGenres());
 
             //Add Movie Countries to mapper table
-            addMovieCountries(movieAddRequest.getMovieId(),movieAddRequest.getCountries());
+            addMovieCountries(movieAddRequest.getMovieId(), movieAddRequest.getCountries());
 
             //Update all movies Related caches
             updateMoviesRelatedCaches();
@@ -151,6 +169,7 @@ public class GenericMovieService implements MovieService {
 
     /**
      * Updating movie in DB
+     *
      * @param movieAddRequest
      */
     @Override
@@ -171,10 +190,10 @@ public class GenericMovieService implements MovieService {
             addMovie(new Movie(movieAddRequest));
 
             //Add/update Movie Genres to mapper table
-            addMovieGenres(movieAddRequest.getMovieId(),movieAddRequest.getGenres());
+            addMovieGenres(movieAddRequest.getMovieId(), movieAddRequest.getGenres());
 
             //Add/update Movie Countries to mapper table
-            addMovieCountries(movieAddRequest.getMovieId(),movieAddRequest.getCountries());
+            addMovieCountries(movieAddRequest.getMovieId(), movieAddRequest.getCountries());
 
             //Update all movies Related caches
             updateMoviesRelatedCaches();
@@ -184,7 +203,7 @@ public class GenericMovieService implements MovieService {
     /**
      * Updating cache once movie inserted/updated
      */
-    private void updateMoviesRelatedCaches(){
+    private void updateMoviesRelatedCaches() {
         countryCacheUpdateService.invalidateCache();
         reviewCacheUpdateService.invalidateCache();
         genreCacheUpdateService.invalidateCache();
@@ -193,26 +212,29 @@ public class GenericMovieService implements MovieService {
 
     /**
      * Common method to add the movie genres to the DB
+     *
      * @param movieId
      * @param genreId
      */
     private void addMovieGenres(int movieId, int genreId) {
-       jdbcMovieDao.addMovieGenres(movieId,genreId);
+        jdbcMovieDao.addMovieGenres(movieId, genreId);
     }
 
     /**
      * Parsing the list of genres and call method addMovieGenres
+     *
      * @param movieId
      * @param genreList
      */
     private void addMovieGenres(int movieId, List<Integer> genreList) {
         for (Integer genreId : genreList) {
-            addMovieGenres(movieId,genreId);
+            addMovieGenres(movieId, genreId);
         }
     }
 
     /**
      * Parsing the list of countiesIds and call method addMovieCountries
+     *
      * @param movieId
      * @param countryList
      */
@@ -224,16 +246,18 @@ public class GenericMovieService implements MovieService {
 
     /**
      * Common method to insert into countries movie mapper table
+     *
      * @param movieId
      * @param countryId
      */
     private void addMovieCountries(int movieId, int countryId) {
-        jdbcMovieDao.addMovieCountries(movieId,countryId);
+        jdbcMovieDao.addMovieCountries(movieId, countryId);
     }
 
     /**
      * Updating current row of the movie id to flag N - invalidation row
      * Inserting new row with movied with new calculated rating.
+     *
      * @param movieId
      * @param usersRating
      * @return
@@ -248,18 +272,33 @@ public class GenericMovieService implements MovieService {
         return avgRating;
     }
 
+    /**
+     * Auditing movie table - saving all not valid movies into movie_audit table
+     */
+    public void performAuditOfMovies() {
+        LOGGER.info("Start auditing movie table");
+        int auditMovieCounter = 0;
+        List<Movie> movies = jdbcMovieDao.getAllInvalidMovies();
+        for (Movie movie : movies) {
+            jdbcMovieDao.auditMovies(movie);
+            auditMovieCounter++;
+        }
+        jdbcMovieDao.deleteNotCurrentMovies();
+        LOGGER.info("All invalid movies were audited, totally = {}", auditMovieCounter);
+    }
 
     /**
      * Calculating average rating for the movie based on users ratings
+     *
      * @param usersRatings
      * @return
      */
-    private double calculateAvgRating(List<Double> usersRatings){
+    private double calculateAvgRating(List<Double> usersRatings) {
         double avgRating = 0;
         int userCount = 0;
         for (Double usersRating : usersRatings) {
-             avgRating += usersRating;
-             userCount++;
+            avgRating += usersRating;
+            userCount++;
         }
         avgRating /= userCount;
         return avgRating;

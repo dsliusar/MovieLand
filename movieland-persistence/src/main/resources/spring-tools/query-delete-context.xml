@@ -7,4 +7,8 @@
               <constructor-arg value="delete from review where review_id = ?;"/>
        </bean>
 
+    <bean id="deleteInvalidMoviesSQL" class="java.lang.String">
+        <constructor-arg value="DELETE FROM movie WHERE current_flag = 'N';"/>
+    </bean>
+
 </beans>

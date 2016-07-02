@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,10 +54,9 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
             userSecureTokenEntity = authenticationService.getUserByToken(token);
             MDC.put("userLogin",userSecureTokenEntity.getUserName());
             for (Roles rolesEnum : roles.roles()) {
-                if (rolesEnum.equals(Roles.GUEST)) {
-                    return super.preHandle(request, response, handler);
-                }
-                else if (rolesEnum.equals(userSecureTokenEntity.getUserRole())) {
+                if (rolesEnum.equals(Roles.GUEST)) return super.preHandle(request, response, handler);
+
+                if (rolesEnum.equals(userSecureTokenEntity.getUserRole())) {
                     LOGGER.info("User with role {} have been successfully validated using token {}",
                             userSecureTokenEntity.getUserRole(),
                             token);

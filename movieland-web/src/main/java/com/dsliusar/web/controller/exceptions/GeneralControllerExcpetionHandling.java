@@ -3,6 +3,7 @@ package com.dsliusar.web.controller.exceptions;
 import com.dsliusar.tools.exceptions.MovieLandSecurityException;
 import com.dsliusar.tools.exceptions.NotFoundException;
 import com.dsliusar.tools.exceptions.RequestException;
+import com.dsliusar.tools.exceptions.UrlRequestException;
 import com.dsliusar.web.dto.ExceptionResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,4 +40,11 @@ public class GeneralControllerExcpetionHandling {
         LOGGER.info("The request was not correct : ",e);
         return new ResponseEntity<>(new ExceptionResponseDto(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UrlRequestException.class)
+    public ResponseEntity<ExceptionResponseDto> requestUrlFormatExceptionHandler(UrlRequestException e) {
+        LOGGER.info("The URL request was not correct : ",e);
+        return new ResponseEntity<>(new ExceptionResponseDto(e.getMessage()), HttpStatus.I_AM_A_TEAPOT);
+    }
+
 }

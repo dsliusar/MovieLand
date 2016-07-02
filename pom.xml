@@ -68,12 +68,6 @@
         </dependency>
 
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.1.6</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.7</version>
@@ -182,14 +176,6 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.6</version>
                 <configuration>
-                    <!--A list of files to include into checking. Can contain Ant-style wildcards and double wildcards. Defaults to **/*.java.-->
-                    <!--<includes>
-                      <include>**/*Example.java</include>
-                    </includes>-->
-                    <!--A list of files to exclude from checking. Can contain Ant-style wildcards and double wildcards.-->
-                    <!--<excludes>
-                      <exclude>**/*Example.java</exclude>
-                    </excludes>-->
                 </configuration>
             </plugin>
 

@@ -30,10 +30,8 @@ public class ReviewController {
     @SecurityRolesAllowed(roles = {Roles.USER})
     @RequestMapping(value = "/review/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addMovieReview(@RequestBody ReviewAddRequest reviewAddRequest,
-                                            @RequestHeader(value = "security-token") String token){
+                                            @RequestHeader(value = "security-token") String token) {
         LOGGER.info("Inserting requested review");
-
-        UserSecureTokenEntity userSecureTokenEntity = authenticationService.getUserByToken(token);
         reviewSecurity.addReviewSecurity(reviewAddRequest);
         LOGGER.info("The review {} have been added successfully", reviewAddRequest);
         return new ResponseEntity<>(new SingleMessageResponseDto("The review have been added successfully"),

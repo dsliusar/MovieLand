@@ -1,10 +1,9 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
-import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.http.entities.MovieSortRequest;
+import com.dsliusar.tools.http.entities.AllMoviesRequestDto;
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.dao.jdbc.builder.SearchQueryBuilder;
-import com.dsliusar.persistence.dao.jdbc.builder.SortingQueryBuilder;
+import com.dsliusar.persistence.dao.jdbc.builder.SortingPaginationQueryBuilder;
 import com.dsliusar.persistence.dao.jdbc.mapper.MovieMapper;
 import com.dsliusar.persistence.entity.Country;
 import com.dsliusar.persistence.entity.Genre;
@@ -52,7 +51,7 @@ public class JdbcMovieDao implements MovieDao {
     private MovieMapper movieMapper;
 
     @Autowired
-    private SortingQueryBuilder sortingQueryBuilder;
+    private SortingPaginationQueryBuilder sortingQueryBuilder;
 
     @Autowired
     private SearchQueryBuilder searchQueryBuilder;
@@ -60,6 +59,24 @@ public class JdbcMovieDao implements MovieDao {
     @Autowired
     private String updateMovieCurrentFlagByIdSQL;
 
+    @Autowired
+    private String getUserMovieRating;
+
+    @Autowired
+    private String insertMovieAuditSQL;
+
+    @Autowired
+    private String deleteInvalidMoviesSQL;
+
+    @Autowired
+    private String getAllInvalidMoviesSQL;
+
+    /**
+     * Adding new movies to movie table
+     * @param movieMap
+     * @param countryMap
+     * @param mapGenre
+     */
     @Override
     public void addMovie(Map<String, Movie> movieMap, Map<String, Country> countryMap, Map<String, Genre> mapGenre) {
         LOGGER.info("Start inserting into Movie table ");
@@ -80,6 +97,10 @@ public class JdbcMovieDao implements MovieDao {
 
     }
 
+    /**
+     * Adding new movie to the movie table
+     * @param movie
+     */
     @Override
     public void addMovie(Movie movie) {
         LOGGER.info("Start inserting into Movie table ");
@@ -94,6 +115,12 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("Finished inserting into Movie table, it took {} ", System.currentTimeMillis() - startTime);
     }
 
+    /**
+     * Populate movie_country_mapper table
+     * @param countryMap
+     * @param countryList
+     * @param movieId
+     */
     private void addMovieCountries(Map<String, Country> countryMap, List<Country> countryList, int movieId) {
         LOGGER.info("Start populating countries_movie_mapper table");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -106,6 +133,12 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("All rows to country_movie were inserted, it took {} ", System.currentTimeMillis() - startTime);
     }
 
+    /**
+     * Populate movie_genre table
+     * @param mapGenre
+     * @param movieGenreList
+     * @param movieId
+     */
     private void addMovieGenres(Map<String, Genre> mapGenre, List<Genre> movieGenreList, int movieId) {
         LOGGER.info("Start inserting into genre_movies table");
         long startTime = System.currentTimeMillis();
@@ -118,6 +151,11 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("All rows to genre_movie were inserted, it took {}", System.currentTimeMillis() - startTime);
     }
 
+    /**
+     * Populate movie_genre table
+     * @param movieId
+     * @param genreId
+     */
     @Override
     public void addMovieGenres(int movieId, int genreId) {
         LOGGER.info("Start inserting into genre_movies table");
@@ -129,6 +167,11 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("All rows to genre_movie were inserted, it took {}", System.currentTimeMillis() - startTime);
     }
 
+    /**
+     * Populate values to Movie_county_mapper table
+     * @param movieId
+     * @param countryId
+     */
     @Override
     public void addMovieCountries(int movieId, int countryId) {
         LOGGER.info("Start populating countries_movie_mapper table");
@@ -140,11 +183,54 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("All rows to country_movie were inserted, it took {} ", System.currentTimeMillis() - startTime);
     }
 
-    @Override
-    public List<Movie> getAllMovies(MovieSortRequest movieSortRequest) {
+    /**
+     * Get all not valid movies
+     * @return list of all invalid movies
+     */
+    public List<Movie> getAllInvalidMovies() {
         LOGGER.info("Start getting all movies from DB");
         long startTime = System.currentTimeMillis();
-        List<Movie> allMovieList = jdbcTemplate.query(sortingQueryBuilder.movieSortingQueryBuilder
+        List<Movie> allMovieList = jdbcTemplate.query(getAllInvalidMoviesSQL, movieMapper);
+        LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
+        return allMovieList;
+    }
+
+    /**
+     * Audit all not valid movies to movie_audit table
+     * @param movie
+     */
+    @Override
+    public void auditMovies(Movie movie) {
+        LOGGER.info("Start auditing invalidated movies row to movie_audit table ");
+        long startTime = System.currentTimeMillis();
+        jdbcTemplate.update(insertMovieAuditSQL,
+                movie.getMovieId(),
+                movie.getMovieNameRus(),
+                movie.getMovieNameOrigin(),
+                movie.getYear(),
+                movie.getDescription(),
+                movie.getRating(),
+                movie.getPrice(),
+                movie.getLastUpdateTs());
+        LOGGER.info("Finished inserting into Movie_audit table, it took {} ", System.currentTimeMillis() - startTime);
+    }
+
+    /**
+     * Deleting movies which are not valid where current_flag = N
+     */
+    @Override
+    public void deleteNotCurrentMovies() {
+        LOGGER.info("Start deleting invalid movies");
+        long startTime = System.currentTimeMillis();
+        jdbcTemplate.update(deleteInvalidMoviesSQL);
+        LOGGER.info("All invalid movies were deleted, it took {}",System.currentTimeMillis() - startTime );
+    }
+
+    @Override
+    public List<Movie> getAllMovies(AllMoviesRequestDto movieSortRequest) {
+        LOGGER.info("Start getting all movies from DB");
+        long startTime = System.currentTimeMillis();
+        List<Movie> allMovieList = jdbcTemplate.query(sortingQueryBuilder.movieSortingPaginationQueryBuilder
                 (getAllMoviesSQL, movieSortRequest), movieMapper);
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
@@ -172,6 +258,23 @@ public class JdbcMovieDao implements MovieDao {
         }
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return movie;
+    }
+
+    @Override
+    public Double getUserMovieRating(int userId, int movieId) {
+        LOGGER.info("Start getting user movie with id {} raring from DB for user {}",movieId ,userId);
+        long startTime = System.currentTimeMillis();
+        Double userMovieRating = null;
+        try {
+            userMovieRating = jdbcTemplate.queryForObject(getUserMovieRating, new Object[]{userId, movieId}, Double.class);
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.info("No rating found for user {} for movieId {}", userId, movieId);
+        }
+        LOGGER.info("User movie rating got from db for user {}, it took {}",
+                                                        userId,
+                                                        System.currentTimeMillis() - startTime);
+        return userMovieRating;
+
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class UserSecureTokenEntity {
 
-    private int userId;
+    private Integer userId;
     private String userName;
     private Enum userRole;
     private LocalDateTime validFrom;
@@ -14,11 +14,11 @@ public class UserSecureTokenEntity {
         this.userRole = userRole;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

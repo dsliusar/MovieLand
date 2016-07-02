@@ -41,6 +41,12 @@
        <!-- Users Rating -->
        <bean id="insertUserMovieRatingSQL" class="java.lang.String">
               <constructor-arg value="INSERT INTO user_movie_rating (movie_id, user_id, rating)
-                                                                     VALUES (?,?,?);;"/>
+                                                                     VALUES (?,?,?);"/>
+       </bean>
+
+       <!-- Movie Audit -->
+       <bean id="insertMovieAuditSQL" class="java.lang.String">
+              <constructor-arg value="INSERT INTO movie_audit (movie_id, movie_name_rus, movie_name_eng, year, description, rating, price, last_upd_ts )
+                                          VALUES (?,?,?,?,?,?,?,?);"/>
        </bean>
 </beans>
