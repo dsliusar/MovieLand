@@ -39,7 +39,7 @@ public class CurrencyDaoImplTest {
     }
 
     @Configuration
-    static class someConfig {
+    static class Config {
         @Bean
         PropertyPlaceholderConfigurer propConfig() {
             PropertyPlaceholderConfigurer ppc =  new PropertyPlaceholderConfigurer();

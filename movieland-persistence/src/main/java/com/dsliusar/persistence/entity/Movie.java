@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class Movie implements Serializable {
+public class Movie{
 
     private int movieId;
     private String movieNameRus;

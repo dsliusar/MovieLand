@@ -23,7 +23,7 @@ public class CurrencyDaoImpl implements CurrencyDao {
 
     private Map<String, Double> mapCurrency = new ConcurrentHashMap<>();
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     /**
      * PostConstruct needed to warm up the NBU map

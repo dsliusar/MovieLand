@@ -8,11 +8,13 @@ import com.dsliusar.web.dto.converter.GenreListSerializer;
 import com.dsliusar.web.dto.converter.ReviewListSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
-
+@JsonPropertyOrder({"movieNameRus","movieNameOrigin","year","rating",
+        "genreList","countryList","reviewText", "userRating","price","currency"})
 @XmlRootElement(name = "movie")
 public class MovieByIdDto{
 

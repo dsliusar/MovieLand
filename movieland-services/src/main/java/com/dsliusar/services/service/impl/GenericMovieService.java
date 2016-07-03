@@ -282,6 +282,7 @@ public class GenericMovieService implements MovieService {
         for (Movie movie : movies) {
             jdbcMovieDao.auditMovies(movie);
             auditMovieCounter++;
+            LOGGER.info("Movie with next id {} were audited", movie.getMovieId());
         }
         jdbcMovieDao.deleteNotCurrentMovies();
         LOGGER.info("All invalid movies were audited, totally = {}", auditMovieCounter);
