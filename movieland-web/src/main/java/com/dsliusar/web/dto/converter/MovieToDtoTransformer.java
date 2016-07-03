@@ -8,13 +8,16 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by DSliusar on 15.06.2016.
- */
-
 @Service
 public class MovieToDtoTransformer {
 
+    /**
+     * Transforming all movies to List
+     * Needs to return in XML
+     * @param movieList
+     * @param currency
+     * @return
+     */
     public List<AllMovieDto> transformAllMovieToDto(List<Movie> movieList, String currency) {
         List<AllMovieDto> allMovieDtoList = new ArrayList<>();
         for (Movie movie : movieList) {
@@ -30,6 +33,7 @@ public class MovieToDtoTransformer {
         }
         return allMovieDtoList;
     }
+
 
     public List<AllMovieDto> transformAllMovieToDto(List<Movie> movieList) {
         List<AllMovieDto> allMovieDtoList = new ArrayList<>();
@@ -56,13 +60,9 @@ public class MovieToDtoTransformer {
         movieByIdDto.setYear(movie.getYear());
         movieByIdDto.setCountryList(movie.getCountryList());
         movieByIdDto.setReviewText(movie.getReviewText());
-        if(userRating != null) {
-            movieByIdDto.setUserRating(userRating);
-        }
+        movieByIdDto.setUserRating(userRating);
         movieByIdDto.setCurrency(currency);
         movieByIdDto.setPrice(movie.getPrice());
         return movieByIdDto;
     }
-
-
 }

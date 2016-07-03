@@ -50,7 +50,6 @@ public class MoviesController {
 
     /**
      * Provides XML format of the message for getting movies
-     *
      * @param ratingOrder
      * @param priceOrder
      * @param pageNumber
@@ -86,10 +85,10 @@ public class MoviesController {
 
         return getAllMovies(convertToDto(ratingOrder, priceOrder, pageNumber,currency));
     }
-
-    /**
+   /**
      * Get movie by ID
-     *
+     * Return DTo with all information
+     * If currency requested than also convert rate according to NBU and requested currency
      * @param movieId
      * @return
      */
@@ -100,19 +99,21 @@ public class MoviesController {
     @ResponseBody
     public ResponseEntity<?> getMovieById(@PathVariable Integer movieId,
                                           @RequestHeader(value = "security-token", required = false) String token,
-                                          @RequestHeader (value = "userId", required = false) String userId,
                                           @RequestParam(value = "currency", required = false) String requestedCurrency) {
         LOGGER.info("Sending request to get movie with id = {}", movieId);
         long startTime = System.currentTimeMillis();
-        UserSecureTokenEntity userSecureTokenEntity = authenticationService.getUserByToken(token);
-        System.out.println(userId);
+
         //get requested movie
         Movie movie = genericMovieService.getMovieById(movieId);
 
         //get user rating for requested movie if exists
-        Double userRating = genericMovieService.getUserRating(userSecureTokenEntity.getUserId(),movieId);
+        Double userRating = null;
+        if(token != null) {
+            UserSecureTokenEntity userSecureTokenEntity  = authenticationService.getUserByToken(token);
+            userRating = genericMovieService.getUserRating(userSecureTokenEntity.getUserId(),movieId);
+        }
 
-        //get requested currency exchange
+        //get requested currency exchange, if nothing requested return default currency
         String currencyExchanged =  genericCurrencyService.convertCurrencyToRequested(movie, requestedCurrency);
 
         //convert to DTO

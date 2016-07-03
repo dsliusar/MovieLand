@@ -31,11 +31,11 @@ public class AllMovieDto{
     @JsonProperty("priceCurrency")
     private String currency;
 
-    private double price;
+    private Double price;
 
-    public double getPrice() { return price; }
+    public Double getPrice() { return price; }
 
-    public void setPrice(double price) { this.price = price; }
+    public void setPrice(Double price) { this.price = price; }
 
     public String getMovieNameRus() {
         return movieNameRus;

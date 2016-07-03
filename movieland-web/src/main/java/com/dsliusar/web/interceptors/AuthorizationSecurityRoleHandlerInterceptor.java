@@ -33,6 +33,7 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
      * Method works before controller and authorizing the user
      * If user role is prohibited to do the operation throws MovielandSecurity exception
      * Logging every request and generating the UUID using MDC
+     *
      * @param request
      * @param response
      * @param handler
@@ -51,14 +52,21 @@ public class AuthorizationSecurityRoleHandlerInterceptor extends HandlerIntercep
         SecurityRolesAllowed roles = method.getAnnotation(SecurityRolesAllowed.class);
         if (roles != null) {
             String token = request.getHeader(Constant.SECURITY_TOKEN_HEADER_NAME);
+            if (token == null) {
+                for (Roles rolesEnum : roles.roles()) {
+                    if (rolesEnum.equals(Roles.GUEST)) {
+                        return super.preHandle(request, response, handler);
+                    }
+                }
+                LOGGER.warn("Token was not provided in the request");
+                throw new MovieLandSecurityException("Token was not provided in the request");
+            }
             userSecureTokenEntity = authenticationService.getUserByToken(token);
-            MDC.put("userLogin",userSecureTokenEntity.getUserName());
+            MDC.put("userLogin", userSecureTokenEntity.getUserName());
             for (Roles rolesEnum : roles.roles()) {
-                if (rolesEnum.equals(Roles.GUEST)) return super.preHandle(request, response, handler);
-
                 if (rolesEnum.equals(userSecureTokenEntity.getUserRole()) ||
                         userSecureTokenEntity.getUserRole().equals(Roles.ADMIN)) {
-                    response.setHeader("userId","userId");
+                    response.setHeader("userId", "userId");
                     LOGGER.info("User with role {} have been successfully validated using token {}",
                             userSecureTokenEntity.getUserRole(),
                             token);

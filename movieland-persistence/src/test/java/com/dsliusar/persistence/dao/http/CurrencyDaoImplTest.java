@@ -29,8 +29,10 @@ public class CurrencyDaoImplTest {
         CurrencyDaoImpl currencyDao = ctx.getBean(CurrencyDaoImpl.class);
         try {
             currencyDao.setNbuCurrencyHttpUrl(nbuHttpUrl);
-            CurrencyEntity[] currencyEntities = currencyDao.getNbuRates();
-            Assert.assertNotNull(currencyEntities);
+            currencyDao.getNbuRates();
+            String requestedCurrency = "USD";
+            System.out.println(currencyDao.getSalesRate(requestedCurrency));
+            Assert.assertNotNull(currencyDao.getSalesRate(requestedCurrency));
         } catch (IOException e) {
             e.printStackTrace();
         }
