@@ -46,6 +46,11 @@
                                     AND q.current_flag = 'Y'"/>
     </bean>
 
+    <bean id="getMoviePoster" class="java.lang.String">
+        <constructor-arg value=" SELECT poster FROM movie WHERE movie_id = ? AND current_flag = 'Y'"/>
+    </bean>
+
+
     <!-- Reviews -->
     <bean id="getReviewById" class="java.lang.String">
         <constructor-arg

@@ -8,6 +8,7 @@ import com.dsliusar.tools.http.entities.MovieSearchRequest;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public interface MovieDao{
 
@@ -23,6 +24,7 @@ public interface MovieDao{
     void auditMovies(Movie movie);
     void deleteNotCurrentMovies();
     List<Movie> getAllInvalidMovies();
+    byte[] getMoviePoster(Integer movieId);
 
 
 

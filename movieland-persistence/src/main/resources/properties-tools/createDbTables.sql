@@ -24,6 +24,7 @@ CREATE table movie(
   ,description VARCHAR(5000)
   ,rating DOUBLE
   ,price DOUBLE
+  ,poster LONGBLOB
   ,current_flag   VARCHAR(1)   DEFAULT 'Y'
   ,last_upd_ts    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
   ,PRIMARY KEY (movie_id_seq)
