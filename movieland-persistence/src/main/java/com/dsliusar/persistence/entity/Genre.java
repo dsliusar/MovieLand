@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @JsonIgnoreProperties(value = { "genreId" })
 @XmlRootElement(name = "Genre")
-public class Genre implements Serializable {
+public class Genre{
 
     @XmlTransient
     @JsonIgnore

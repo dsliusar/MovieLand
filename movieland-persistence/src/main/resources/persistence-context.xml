@@ -33,5 +33,6 @@
     </bean>
 
     <bean id = "initDb" class="com.dsliusar.persistence.dao.jdbc.utils.SetUpDataBaseFacade"/>
+    <bean class="com.dsliusar.persistence.dao.http.CurrencyDaoImpl"/>
 
 </beans>

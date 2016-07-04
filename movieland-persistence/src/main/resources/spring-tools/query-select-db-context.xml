@@ -5,12 +5,30 @@
 
     <!-- Movies -->
     <bean id="getAllMoviesSQL" class="java.lang.String">
-        <constructor-arg value="  SELECT q.movie_name_eng
+        <constructor-arg value="  SELECT      q.movie_name_eng
                                             , q.movie_name_rus
                                             , q.movie_id
                                             , q.year
                                             , q.rating
+                                            , q.description
+                                            , q.price
+                                            , q.last_upd_ts
                                       FROM movie q
+                                       where q.current_flag = 'Y'
+                                    "/>
+    </bean>
+
+    <bean id="getAllInvalidMoviesSQL" class="java.lang.String">
+        <constructor-arg value="  SELECT      q.movie_name_eng
+                                            , q.movie_name_rus
+                                            , q.movie_id
+                                            , q.year
+                                            , q.rating
+                                            , q.description
+                                            , q.price
+                                            , q.last_upd_ts
+                                      FROM movie q
+                                       where q.current_flag = 'N'
                                     "/>
     </bean>
 
@@ -22,6 +40,7 @@
                                       , q.rating
                                       , q.description
                                       , q.price
+                                      , q.last_upd_ts
                                 FROM movie q
                                   WHERE q.movie_id = ?
                                     AND q.current_flag = 'Y'"/>
@@ -122,6 +141,10 @@
                                         FROM user_movie_rating q
                                         WHERE q.movie_id = ?
                                           AND q.current_flag = 'Y';"/>
+    </bean>
+
+    <bean id="getUserMovieRating" class="java.lang.String">
+        <constructor-arg value="select q.rating from user_movie_rating q where q.user_id = ? and q.movie_id = ?;"/>
     </bean>
 
 

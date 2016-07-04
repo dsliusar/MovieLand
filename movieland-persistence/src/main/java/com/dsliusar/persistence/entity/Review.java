@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(value = { "reviewId","movieId","userId"})
-public class Review implements Serializable{
+public class Review{
 
     @JsonIgnore
     private int reviewId;

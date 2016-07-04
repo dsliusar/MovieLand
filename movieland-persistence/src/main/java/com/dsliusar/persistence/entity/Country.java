@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 
 @JsonIgnoreProperties(value = { "countryId" })
-public class Country implements Serializable {
+public class Country{
     @JsonIgnore
     private int countryId;
     private String countryName;

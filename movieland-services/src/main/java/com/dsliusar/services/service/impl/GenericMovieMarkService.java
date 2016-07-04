@@ -70,5 +70,6 @@ public class GenericMovieMarkService implements MovieMarkService {
         }
         markedMovieSet.clear();
         LOGGER.info("All marked movies have been deleted, totally {}", deletedMoviesCount);
+        genericMovieService.performAuditOfMovies();
     }
 }
