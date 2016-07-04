@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CurrencyEntity {
     @JsonProperty("ccy")
-    private String exchange_currency;
+    private String exchangeCurrency;
 
     @JsonProperty("base_ccy")
-    private String base_currency;
+    private String baseCurrency;
 
     @JsonProperty("buy")
     private Double buy;
@@ -15,20 +15,20 @@ public class CurrencyEntity {
     @JsonProperty("sale")
     private Double sale;
 
-    public String getExchange_currency() {
-        return exchange_currency;
+    public String getExchangeCurrency() {
+        return exchangeCurrency;
     }
 
-    public void setExchange_currency(String exchange_currency) {
-        this.exchange_currency = exchange_currency;
+    public void setExchangeCurrency(String exchangeCurrency) {
+        this.exchangeCurrency = exchangeCurrency;
     }
 
-    public String getBase_currency() {
-        return base_currency;
+    public String getBaseCurrency() {
+        return baseCurrency;
     }
 
-    public void setBase_currency(String base_currency) {
-        this.base_currency = base_currency;
+    public void setBaseCurrency(String baseCurrency) {
+        this.baseCurrency = baseCurrency;
     }
 
     public Double getBuy() {
@@ -50,8 +50,8 @@ public class CurrencyEntity {
     @Override
     public String toString() {
         return "CurrencyEntity{" +
-                "exchange_currency='" + exchange_currency + '\'' +
-                ", base_currency='" + base_currency + '\'' +
+                "exchangeCurrency='" + exchangeCurrency + '\'' +
+                ", baseCurrency='" + baseCurrency + '\'' +
                 ", buy=" + buy +
                 ", sale=" + sale +
                 '}';
@@ -64,9 +64,9 @@ public class CurrencyEntity {
 
         CurrencyEntity that = (CurrencyEntity) o;
 
-        if (exchange_currency != null ? !exchange_currency.equals(that.exchange_currency) : that.exchange_currency != null)
+        if (exchangeCurrency != null ? !exchangeCurrency.equals(that.exchangeCurrency) : that.exchangeCurrency != null)
             return false;
-        if (base_currency != null ? !base_currency.equals(that.base_currency) : that.base_currency != null)
+        if (baseCurrency != null ? !baseCurrency.equals(that.baseCurrency) : that.baseCurrency != null)
             return false;
         if (buy != null ? !buy.equals(that.buy) : that.buy != null) return false;
         return !(sale != null ? !sale.equals(that.sale) : that.sale != null);
@@ -75,8 +75,8 @@ public class CurrencyEntity {
 
     @Override
     public int hashCode() {
-        int result = exchange_currency != null ? exchange_currency.hashCode() : 0;
-        result = 31 * result + (base_currency != null ? base_currency.hashCode() : 0);
+        int result = exchangeCurrency != null ? exchangeCurrency.hashCode() : 0;
+        result = 31 * result + (baseCurrency != null ? baseCurrency.hashCode() : 0);
         result = 31 * result + (buy != null ? buy.hashCode() : 0);
         result = 31 * result + (sale != null ? sale.hashCode() : 0);
         return result;

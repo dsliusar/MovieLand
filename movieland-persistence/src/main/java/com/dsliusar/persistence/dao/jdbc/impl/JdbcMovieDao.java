@@ -1,5 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
+import com.dsliusar.tools.exceptions.NotFoundException;
 import com.dsliusar.tools.http.entities.AllMoviesRequestDto;
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.dao.jdbc.builder.SearchQueryBuilder;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Repository
 public class JdbcMovieDao implements MovieDao {
@@ -71,8 +73,12 @@ public class JdbcMovieDao implements MovieDao {
     @Autowired
     private String getAllInvalidMoviesSQL;
 
+    @Autowired
+    private String getMoviePoster;
+
     /**
      * Adding new movies to movie table
+     *
      * @param movieMap
      * @param countryMap
      * @param mapGenre
@@ -99,6 +105,7 @@ public class JdbcMovieDao implements MovieDao {
 
     /**
      * Adding new movie to the movie table
+     *
      * @param movie
      */
     @Override
@@ -117,6 +124,7 @@ public class JdbcMovieDao implements MovieDao {
 
     /**
      * Populate movie_country_mapper table
+     *
      * @param countryMap
      * @param countryList
      * @param movieId
@@ -135,6 +143,7 @@ public class JdbcMovieDao implements MovieDao {
 
     /**
      * Populate movie_genre table
+     *
      * @param mapGenre
      * @param movieGenreList
      * @param movieId
@@ -153,6 +162,7 @@ public class JdbcMovieDao implements MovieDao {
 
     /**
      * Populate movie_genre table
+     *
      * @param movieId
      * @param genreId
      */
@@ -169,6 +179,7 @@ public class JdbcMovieDao implements MovieDao {
 
     /**
      * Populate values to Movie_county_mapper table
+     *
      * @param movieId
      * @param countryId
      */
@@ -185,6 +196,7 @@ public class JdbcMovieDao implements MovieDao {
 
     /**
      * Get all not valid movies
+     *
      * @return list of all invalid movies
      */
     public List<Movie> getAllInvalidMovies() {
@@ -196,7 +208,30 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     /**
+     * Return movie poster from DB
+     *
+     * @param movieId
+     * @return byte array with image
+     */
+    @Override
+    public byte[] getMoviePoster(Integer movieId) {
+        LOGGER.info("Get movie poster from DB by movieId = {}", movieId);
+        long startTime = System.currentTimeMillis();
+        byte[] posterByteArr;
+        try {
+            posterByteArr = jdbcTemplate.queryForObject(getMoviePoster, byte[].class, movieId);
+        } catch (EmptyResultDataAccessException e) {
+            LOGGER.warn("No poster find for movie id " + movieId + " or movie doesn't exists"
+                    , e);
+            throw new NotFoundException("Poster was not found for movie with id " + movieId);
+        }
+        LOGGER.info("Poster by movieId {} received from DB, it took {}", movieId, System.currentTimeMillis() - startTime);
+        return posterByteArr;
+    }
+
+    /**
      * Audit all not valid movies to movie_audit table
+     *
      * @param movie
      */
     @Override
@@ -223,9 +258,15 @@ public class JdbcMovieDao implements MovieDao {
         LOGGER.info("Start deleting invalid movies");
         long startTime = System.currentTimeMillis();
         jdbcTemplate.update(deleteInvalidMoviesSQL);
-        LOGGER.info("All invalid movies were deleted, it took {}",System.currentTimeMillis() - startTime );
+        LOGGER.info("All invalid movies were deleted, it took {}", System.currentTimeMillis() - startTime);
     }
 
+    /**
+     * Get all Movies from DB
+     *
+     * @param movieSortRequest
+     * @return List of movies
+     */
     @Override
     public List<Movie> getAllMovies(AllMoviesRequestDto movieSortRequest) {
         LOGGER.info("Start getting all movies from DB");
@@ -236,6 +277,12 @@ public class JdbcMovieDao implements MovieDao {
         return allMovieList;
     }
 
+    /**
+     * Get Searched movies from DB
+     *
+     * @param movieSearchRequest
+     * @return list of movies
+     */
     @Override
     public List<Movie> getSearchedMovies(MovieSearchRequest movieSearchRequest) {
         LOGGER.info("Start getting all movies from by next search criteria {}", movieSearchRequest);
@@ -246,6 +293,12 @@ public class JdbcMovieDao implements MovieDao {
         return allMovieList;
     }
 
+    /**
+     * Get movie from DB by ID
+     *
+     * @param movieId
+     * @return movie entity
+     */
     @Override
     public Movie getById(int movieId) {
         LOGGER.info("Start getting all movies from DB");
@@ -254,29 +307,40 @@ public class JdbcMovieDao implements MovieDao {
         try {
             movie = jdbcTemplate.queryForObject(getMovieById, new Object[]{movieId}, movieMapper);
         } catch (EmptyResultDataAccessException e) {
-            LOGGER.info("No data found in movie table by movie Id {}", movieId);
+            LOGGER.warn("No data found in movie table by movie Id {}", movieId);
         }
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return movie;
     }
 
+    /**
+     * Get user rating that was rated for the movie
+     *
+     * @param userId
+     * @param movieId
+     * @return rating
+     */
     @Override
     public Double getUserMovieRating(int userId, int movieId) {
-        LOGGER.info("Start getting user movie with id {} raring from DB for user {}",movieId ,userId);
+        LOGGER.info("Start getting user movie with id {} raring from DB for user {}", movieId, userId);
         long startTime = System.currentTimeMillis();
         Double userMovieRating = null;
         try {
             userMovieRating = jdbcTemplate.queryForObject(getUserMovieRating, new Object[]{userId, movieId}, Double.class);
         } catch (EmptyResultDataAccessException e) {
-            LOGGER.info("No rating found for user {} for movieId {}", userId, movieId);
+            LOGGER.warn("No rating found for user {} for movieId {}", userId, movieId);
         }
         LOGGER.info("User movie rating got from db for user {}, it took {}",
-                                                        userId,
-                                                        System.currentTimeMillis() - startTime);
+                userId,
+                System.currentTimeMillis() - startTime);
         return userMovieRating;
-
     }
 
+    /**
+     * Invalidate movie in the DB
+     *
+     * @param movieId
+     */
     @Override
     public void updateCurrentFlag(int movieId) {
         LOGGER.info("Start updating average Rating");

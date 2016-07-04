@@ -288,6 +288,11 @@ public class GenericMovieService implements MovieService {
         LOGGER.info("All invalid movies were audited, totally = {}", auditMovieCounter);
     }
 
+    @Override
+    public byte[] getMoviePoster(Integer movieId) {
+        return jdbcMovieDao.getMoviePoster(movieId);
+    }
+
     /**
      * Calculating average rating for the movie based on users ratings
      *

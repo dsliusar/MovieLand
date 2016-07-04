@@ -49,7 +49,7 @@ public class CurrencyDaoImpl implements CurrencyDao {
      */
     private void fillCurrencyMap(CurrencyEntity[] currencyEntities) {
         for (CurrencyEntity currencyEntity : currencyEntities) {
-           mapCurrency.put(currencyEntity.getExchange_currency(), currencyEntity.getSale());
+           mapCurrency.put(currencyEntity.getExchangeCurrency(), currencyEntity.getSale());
         }
     }
 

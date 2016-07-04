@@ -26,4 +26,7 @@ public interface MovieService {
     double updateAverageRating(int movieId, List<Double> usersRating);
 
     void performAuditOfMovies();
+
+    byte[] getMoviePoster(Integer movieId);
+
 }
