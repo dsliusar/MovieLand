@@ -1,9 +1,9 @@
 package com.dsliusar.services.service;
 
 import com.dsliusar.persistence.entity.Review;
-import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
-import com.dsliusar.tools.http.entities.MovieRatingOnChangeResponse;
-import com.dsliusar.tools.http.entities.ReviewAddRequest;
+import com.dsliusar.tools.entities.http.MovieRatingChangeRequest;
+import com.dsliusar.tools.entities.http.MovieRatingOnChangeResponse;
+import com.dsliusar.tools.entities.http.ReviewAddRequest;
 
 import java.util.List;
 import java.util.Map;

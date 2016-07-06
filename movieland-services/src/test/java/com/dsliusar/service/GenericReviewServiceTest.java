@@ -2,7 +2,7 @@ package com.dsliusar.service;
 
 import com.dsliusar.persistence.entity.Review;
 import com.dsliusar.services.service.impl.GenericReviewService;
-import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
+import com.dsliusar.tools.entities.http.MovieRatingChangeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 //@ContextConfiguration(locations = "classpath:spring-service-config-test.xml")

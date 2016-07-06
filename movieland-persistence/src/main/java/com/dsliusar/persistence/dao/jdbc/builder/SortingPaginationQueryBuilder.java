@@ -2,7 +2,7 @@ package com.dsliusar.persistence.dao.jdbc.builder;
 
 import com.dsliusar.tools.enums.MovieFieldNames;
 import com.dsliusar.tools.enums.SortType;
-import com.dsliusar.tools.http.entities.AllMoviesRequestDto;
+import com.dsliusar.tools.entities.http.AllMoviesRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;

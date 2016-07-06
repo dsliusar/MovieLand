@@ -1,6 +1,6 @@
 package com.dsliusar.web.controller;
 
-import com.dsliusar.tools.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.entities.http.MovieSearchRequest;
 import com.dsliusar.services.service.MovieService;
 import com.dsliusar.web.dto.movies.AllMovieDto;
 import com.dsliusar.web.dto.movies.AllMovieListDto;

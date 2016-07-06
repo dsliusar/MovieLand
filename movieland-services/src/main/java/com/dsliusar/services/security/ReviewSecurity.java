@@ -2,8 +2,8 @@ package com.dsliusar.services.security;
 
 import com.dsliusar.tools.exceptions.MovieLandSecurityException;
 import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.http.entities.ReviewAddRequest;
-import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
+import com.dsliusar.tools.entities.http.ReviewAddRequest;
+import com.dsliusar.tools.entities.http.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.Review;
 
 public interface ReviewSecurity {

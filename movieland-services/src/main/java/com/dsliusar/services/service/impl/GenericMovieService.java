@@ -9,10 +9,11 @@ import com.dsliusar.services.service.CountryService;
 import com.dsliusar.services.service.GenreService;
 import com.dsliusar.services.service.MovieService;
 import com.dsliusar.services.service.ReviewService;
+import com.dsliusar.tools.entities.report.AllSiteMovies;
 import com.dsliusar.tools.exceptions.RequestException;
-import com.dsliusar.tools.http.entities.MovieAddRequest;
-import com.dsliusar.tools.http.entities.MovieSearchRequest;
-import com.dsliusar.tools.http.entities.AllMoviesRequestDto;
+import com.dsliusar.tools.entities.http.MovieAddRequest;
+import com.dsliusar.tools.entities.http.MovieSearchRequest;
+import com.dsliusar.tools.entities.http.AllMoviesRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,11 @@ public class GenericMovieService implements MovieService {
             movie.setGenreList(cacheableGenreService.getGenresByMovieId(movie.getMovieId()));
         }
         return movieList;
+    }
+
+    @Override
+    public List<AllSiteMovies> getAllSiteMovies() {
+      return jdbcMovieDao.getAllSiteMovies();
     }
 
     /**

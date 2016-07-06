@@ -2,7 +2,7 @@ package com.dsliusar.web.controller.authentication;
 
 import com.dsliusar.services.security.AuthenticationService;
 import com.dsliusar.tools.exceptions.MovieLandSecurityException;
-import com.dsliusar.tools.http.entities.UserCredentialsRequest;
+import com.dsliusar.tools.entities.http.UserCredentialsRequest;
 import com.dsliusar.web.dto.TokenRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

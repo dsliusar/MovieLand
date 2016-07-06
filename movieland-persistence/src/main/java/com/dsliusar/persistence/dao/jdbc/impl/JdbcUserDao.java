@@ -4,7 +4,7 @@ import com.dsliusar.persistence.dao.UserDao;
 import com.dsliusar.persistence.dao.jdbc.mapper.SingleUserRowMapper;
 import com.dsliusar.persistence.dao.jdbc.mapper.UsersRowMapper;
 import com.dsliusar.persistence.entity.User;
-import com.dsliusar.tools.http.entities.UserCredentialsRequest;
+import com.dsliusar.tools.entities.http.UserCredentialsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

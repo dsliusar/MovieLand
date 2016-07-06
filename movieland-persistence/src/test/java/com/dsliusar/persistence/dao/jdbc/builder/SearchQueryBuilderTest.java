@@ -1,6 +1,6 @@
 package com.dsliusar.persistence.dao.jdbc.builder;
 
-import com.dsliusar.tools.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.entities.http.MovieSearchRequest;
 import org.junit.Assert;
 import org.junit.Test;
 
