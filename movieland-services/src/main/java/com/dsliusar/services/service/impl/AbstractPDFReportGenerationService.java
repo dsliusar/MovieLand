@@ -3,12 +3,10 @@ package com.dsliusar.services.service.impl;
 import com.dsliusar.tools.annotations.ReportFieldNames;
 import com.dsliusar.tools.entities.report.AllSiteMovies;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 
@@ -17,8 +15,19 @@ public class AbstractPDFReportGenerationService {
     private static Font mainHeaderFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
     private static Font centerBold = new Font(Font.FontFamily.TIMES_ROMAN, 28, Font.BOLD, BaseColor.RED);
-    private static final String FONT = "resources/fonts/FreeSans.ttf";
-    private static Font font = FontFactory.getFont(FONT, "Cp1250", BaseFont.EMBEDDED);
+    BaseFont cyrillic;
+    Font font;
+
+    {
+        try {
+            cyrillic = BaseFont.createFont("C:\\Users\\Red1.PTC\\Downloads\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            font = new Font(cyrillic);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private PdfPCell tableCell;
     private Paragraph preface;
@@ -30,29 +39,26 @@ public class AbstractPDFReportGenerationService {
         try {
             Document document = new Document(PageSize.A4);
             PdfWriter.getInstance(document, new FileOutputStream(fileName));
-
             document.open();
             addTitlePage(document, "Movie Land Report", userName);
-
-            document.setPageSize(PageSize.A1.rotate());
             document.newPage();
             PdfPTable table = createTableWithHeaders(inClass);
-            document.add(fillTableWithData(table, objectList, document));
+            document.add(fillTableWithData(table, objectList));
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private PdfPTable fillTableWithData(PdfPTable table, java.util.List<AllSiteMovies> allSiteMovies, Document document) {
+    private PdfPTable fillTableWithData(PdfPTable table, java.util.List<AllSiteMovies> allSiteMovies) {
         table.setHeaderRows(allSiteMovies.size());
-
+        table.setTotalWidth(100);
         for (AllSiteMovies siteMovies : allSiteMovies) {
             table.addCell(siteMovies.getMovieId().toString());
-            table.addCell(siteMovies.getMovieNameOrigin());
+            table.addCell(new Phrase(siteMovies.getMovieNameOrigin(),font));
             table.addCell(new Phrase(siteMovies.getMovieNameRus(),font));
             table.addCell(new Phrase(siteMovies.getDescription(),font));
-            table.addCell(new Phrase(siteMovies.getGenres(),font));
+            table.addCell(new Phrase(siteMovies.getGenres(), font));
             table.addCell(siteMovies.getPrice().toString());
             table.addCell(siteMovies.getAddDate().toString());
             table.addCell(siteMovies.getModifiedDate().toString());
@@ -72,8 +78,7 @@ public class AbstractPDFReportGenerationService {
         Field[] fields = inClass.getDeclaredFields();
         //create table with counts of fields
         PdfPTable table = new PdfPTable(inClass.getDeclaredFields().length);
-        table.setWidthPercentage(100);
-
+        table.setTotalWidth(100);
         for (Field field : fields) {
             field.setAccessible(true);
             if (field.isAnnotationPresent(ReportFieldNames.class)) {
@@ -101,7 +106,7 @@ public class AbstractPDFReportGenerationService {
         document.add(preface);
 
         preface = new Paragraph();
-        preface.add(new Paragraph("Generation Time " + LocalDateTime.now(), smallBold));
+        preface.add(new Paragraph("Время : " + LocalDateTime.now(), font));
         preface.setAlignment(Element.ALIGN_LEFT);
         addEmptyLine(preface, 12);
         document.add(preface);

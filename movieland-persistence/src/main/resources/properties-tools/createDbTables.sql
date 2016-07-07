@@ -30,6 +30,7 @@ CREATE table movie(
   ,PRIMARY KEY (movie_id_seq)
 );
 
+DROP TABLE IF EXISTS movie_audit;
 CREATE TABLE movie_audit (
   movie_audit_id_seq INT NOT NULL AUTO_INCREMENT,
   movie_id           INT NOT NULL ,
@@ -40,7 +41,7 @@ CREATE TABLE movie_audit (
   rating             DOUBLE,
   price              DOUBLE,
   last_upd_ts        TIMESTAMP,
-  audit_time_ts    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  audit_time_ts      TIMESTAMP,
   PRIMARY KEY (movie_audit_id_seq)
 );
 
