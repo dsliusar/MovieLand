@@ -4,8 +4,8 @@ import com.dsliusar.services.service.ReviewService;
 import com.dsliusar.tools.enums.Roles;
 import com.dsliusar.tools.exceptions.MovieLandSecurityException;
 import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.http.entities.ReviewAddRequest;
-import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
+import com.dsliusar.tools.entities.http.ReviewAddRequest;
+import com.dsliusar.tools.entities.http.UserSecureTokenEntity;
 import com.dsliusar.persistence.entity.Review;
 import com.dsliusar.services.security.ReviewSecurity;
 import org.slf4j.Logger;
@@ -28,12 +28,12 @@ public class ReviewSecurityImpl implements ReviewSecurity {
     private ReviewService genericReviewService;
 
     @Override
-    public void checkUserDeletePermission(UserSecureTokenEntity userSecureEntity, Review DeletingReview)
+    public void checkUserDeletePermission(UserSecureTokenEntity userSecureEntity, Review deletingReview)
             throws MovieLandSecurityException {
-        if (userSecureEntity.getUserId() != DeletingReview.getUserId()
+        if (userSecureEntity.getUserId() != deletingReview.getUserId()
                 && !(userSecureEntity.getUserRole().equals(Roles.ADMIN))) {
             LOGGER.error("Deleting of the review {} is prohibited for this user {}",
-                    DeletingReview.getReviewId(),
+                    deletingReview.getReviewId(),
                     userSecureEntity.getUserName());
             throw new MovieLandSecurityException("Deleting review id is not owning by this user");
         }

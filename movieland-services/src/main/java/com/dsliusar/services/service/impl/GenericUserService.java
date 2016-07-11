@@ -1,6 +1,6 @@
 package com.dsliusar.services.service.impl;
 
-import com.dsliusar.tools.http.entities.UserCredentialsRequest;
+import com.dsliusar.tools.entities.http.UserCredentialsRequest;
 import com.dsliusar.persistence.dao.UserDao;
 import com.dsliusar.persistence.entity.User;
 import com.dsliusar.services.service.UserService;

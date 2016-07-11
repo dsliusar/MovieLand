@@ -1,6 +1,6 @@
 package com.dsliusar.web.dto.converter;
 
-import com.dsliusar.tools.http.entities.AllMoviesRequestDto;
+import com.dsliusar.tools.entities.http.AllMoviesRequestDto;
 
 public class RequestToMovieDtoTransformer {
 

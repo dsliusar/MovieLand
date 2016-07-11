@@ -1,6 +1,5 @@
 package com.dsliusar.persistence.dao.http;
 
-import com.dsliusar.tools.http.entities.CurrencyEntity;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,15 +1,17 @@
 package com.dsliusar.persistence.dao.jdbc.impl;
 
-import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.http.entities.AllMoviesRequestDto;
 import com.dsliusar.persistence.dao.MovieDao;
 import com.dsliusar.persistence.dao.jdbc.builder.SearchQueryBuilder;
 import com.dsliusar.persistence.dao.jdbc.builder.SortingPaginationQueryBuilder;
+import com.dsliusar.persistence.dao.jdbc.mapper.AllSieMovieMapper;
 import com.dsliusar.persistence.dao.jdbc.mapper.MovieMapper;
 import com.dsliusar.persistence.entity.Country;
 import com.dsliusar.persistence.entity.Genre;
 import com.dsliusar.persistence.entity.Movie;
-import com.dsliusar.tools.http.entities.MovieSearchRequest;
+import com.dsliusar.tools.entities.http.AllMoviesRequestDto;
+import com.dsliusar.tools.entities.http.MovieSearchRequest;
+import com.dsliusar.tools.entities.report.AllSiteMovies;
+import com.dsliusar.tools.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @Repository
 public class JdbcMovieDao implements MovieDao {
@@ -53,6 +54,9 @@ public class JdbcMovieDao implements MovieDao {
     private MovieMapper movieMapper;
 
     @Autowired
+    private AllSieMovieMapper allSiteMovieMapper;
+
+    @Autowired
     private SortingPaginationQueryBuilder sortingQueryBuilder;
 
     @Autowired
@@ -75,6 +79,9 @@ public class JdbcMovieDao implements MovieDao {
 
     @Autowired
     private String getMoviePoster;
+
+    @Autowired
+    private String getAllSiteMovies;
 
     /**
      * Adding new movies to movie table
@@ -229,6 +236,15 @@ public class JdbcMovieDao implements MovieDao {
         return posterByteArr;
     }
 
+    @Override
+    public List<AllSiteMovies> getAllSiteMovies() {
+        LOGGER.info("Start getting all site movies from DB");
+        long startTime = System.currentTimeMillis();
+        List<AllSiteMovies> allSiteMovieList = jdbcTemplate.query(getAllSiteMovies, allSiteMovieMapper);
+        LOGGER.info("Finish getting all Movie on Site, it took {} ms ", System.currentTimeMillis() - startTime);
+        return allSiteMovieList;
+    }
+
     /**
      * Audit all not valid movies to movie_audit table
      *
@@ -273,6 +289,15 @@ public class JdbcMovieDao implements MovieDao {
         long startTime = System.currentTimeMillis();
         List<Movie> allMovieList = jdbcTemplate.query(sortingQueryBuilder.movieSortingPaginationQueryBuilder
                 (getAllMoviesSQL, movieSortRequest), movieMapper);
+        LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
+        return allMovieList;
+    }
+
+    @Override
+    public List<Movie> getAllMovies() {
+        LOGGER.info("Start getting all movies from DB");
+        long startTime = System.currentTimeMillis();
+        List<Movie> allMovieList = jdbcTemplate.query(getAllMoviesSQL, movieMapper);
         LOGGER.info("Finish getting all rows from Movie, it took {} ms ", System.currentTimeMillis() - startTime);
         return allMovieList;
     }

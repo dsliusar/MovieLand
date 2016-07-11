@@ -1,8 +1,7 @@
 package com.dsliusar.persistence.entity;
 
-import com.dsliusar.tools.http.entities.MovieAddRequest;
+import com.dsliusar.tools.entities.http.MovieAddRequest;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 

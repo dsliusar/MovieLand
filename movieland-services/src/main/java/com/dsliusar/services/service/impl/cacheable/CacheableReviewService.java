@@ -6,9 +6,9 @@ import com.dsliusar.services.service.ReviewService;
 import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.tools.exceptions.NotFoundException;
 import com.dsliusar.tools.exceptions.RequestException;
-import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
-import com.dsliusar.tools.http.entities.MovieRatingOnChangeResponse;
-import com.dsliusar.tools.http.entities.ReviewAddRequest;
+import com.dsliusar.tools.entities.http.MovieRatingChangeRequest;
+import com.dsliusar.tools.entities.http.MovieRatingOnChangeResponse;
+import com.dsliusar.tools.entities.http.ReviewAddRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

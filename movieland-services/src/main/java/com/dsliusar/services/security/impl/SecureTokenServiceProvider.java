@@ -4,7 +4,7 @@ import com.dsliusar.persistence.entity.User;
 import com.dsliusar.services.security.SecureTokenService;
 import com.dsliusar.tools.enums.Roles;
 import com.dsliusar.tools.exceptions.MovieLandSecurityException;
-import com.dsliusar.tools.http.entities.UserSecureTokenEntity;
+import com.dsliusar.tools.entities.http.UserSecureTokenEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

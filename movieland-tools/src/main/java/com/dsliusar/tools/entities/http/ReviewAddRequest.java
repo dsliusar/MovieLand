@@ -1,4 +1,4 @@
-package com.dsliusar.tools.http.entities;
+package com.dsliusar.tools.entities.http;
 
 /**
  * Created by DSliusar on 21.06.2016.

@@ -1,6 +1,6 @@
 package com.dsliusar.services.service;
 
-import com.dsliusar.tools.http.entities.UserCredentialsRequest;
+import com.dsliusar.tools.entities.http.UserCredentialsRequest;
 import com.dsliusar.persistence.entity.User;
 
 import java.util.Map;

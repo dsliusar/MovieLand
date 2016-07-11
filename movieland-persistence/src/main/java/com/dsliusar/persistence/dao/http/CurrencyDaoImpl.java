@@ -2,7 +2,7 @@ package com.dsliusar.persistence.dao.http;
 
 import com.dsliusar.persistence.dao.CurrencyDao;
 import com.dsliusar.tools.exceptions.NotFoundException;
-import com.dsliusar.tools.http.entities.CurrencyEntity;
+import com.dsliusar.tools.entities.http.CurrencyEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.fluent.Request;
 import org.slf4j.Logger;

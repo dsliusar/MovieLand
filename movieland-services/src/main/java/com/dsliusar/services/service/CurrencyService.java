@@ -2,7 +2,6 @@ package com.dsliusar.services.service;
 
 
 import com.dsliusar.persistence.entity.Movie;
-import com.dsliusar.tools.http.entities.CurrencyEntity;
 
 import java.util.List;
 

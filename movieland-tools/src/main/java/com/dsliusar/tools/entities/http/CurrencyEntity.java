@@ -1,4 +1,4 @@
-package com.dsliusar.tools.http.entities;
+package com.dsliusar.tools.entities.http;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

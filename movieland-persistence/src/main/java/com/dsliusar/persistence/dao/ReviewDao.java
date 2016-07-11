@@ -1,7 +1,7 @@
 package com.dsliusar.persistence.dao;
 
-import com.dsliusar.tools.http.entities.MovieRatingChangeRequest;
-import com.dsliusar.tools.http.entities.ReviewAddRequest;
+import com.dsliusar.tools.entities.http.MovieRatingChangeRequest;
+import com.dsliusar.tools.entities.http.ReviewAddRequest;
 import com.dsliusar.persistence.entity.Review;
 
 import java.util.List;

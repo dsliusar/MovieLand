@@ -50,6 +50,30 @@
         <constructor-arg value=" SELECT poster FROM movie WHERE movie_id = ? AND current_flag = 'Y'"/>
     </bean>
 
+    <bean id="getAllSiteMovies" class="java.lang.String">
+        <constructor-arg value="  SELECT  q.movie_id,
+                                          q.movie_name_rus,
+                                          q.movie_name_eng,
+                                          q.description,
+                                          GROUP_CONCAT(DISTINCT q2.description) as genre_list,
+                                          q.price,
+                                          COALESCE(q3.last_upd_ts,q.last_upd_ts) as add_time,
+                                          q.last_upd_ts as update_time,
+                                          q.rating,
+                                          COUNT( q4.review_id) as review_count
+                                        FROM movie q
+                                          LEFT JOIN genre_movies q1
+                                            ON q.movie_id = q1.movie_id
+                                          LEFT JOIN genre q2
+                                            ON q2.genre_id = q1.genre_id
+                                          LEFT JOIN movie_audit q3
+                                          on q3.movie_id = q.movie_id
+                                          LEFT JOIN review q4
+                                          on q4.movie_id = q.movie_id
+                                        WHERE q.current_flag = 'Y'
+                                        GROUP BY q.movie_id;"/>
+                                            </bean>
+
 
     <!-- Reviews -->
     <bean id="getReviewById" class="java.lang.String">
