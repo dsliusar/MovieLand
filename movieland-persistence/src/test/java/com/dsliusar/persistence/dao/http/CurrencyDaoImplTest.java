@@ -22,10 +22,12 @@ public class CurrencyDaoImplTest {
     @Value("${url.nbu.http}")
     private String nbuHttpUrl;
 
+    private CurrencyDaoImpl currencyDao;
+
     @Test
     public void getCurrencyTest(){
         ApplicationContext ctx = new ClassPathXmlApplicationContext("test-persistence-config.xml");
-        CurrencyDaoImpl currencyDao = ctx.getBean(CurrencyDaoImpl.class);
+        currencyDao = ctx.getBean(CurrencyDaoImpl.class);
         try {
             currencyDao.setNbuCurrencyHttpUrl(nbuHttpUrl);
             currencyDao.getNbuRates();

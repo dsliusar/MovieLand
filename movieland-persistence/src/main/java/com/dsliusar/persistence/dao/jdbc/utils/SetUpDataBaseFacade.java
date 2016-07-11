@@ -1,12 +1,11 @@
 package com.dsliusar.persistence.dao.jdbc.utils;
 
-import com.dsliusar.tools.constants.Constant;
 import com.dsliusar.persistence.dao.*;
 import com.dsliusar.persistence.dao.files.facade.FileParserFacade;
 import com.dsliusar.persistence.entity.*;
+import com.dsliusar.tools.constants.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public class SetUpDataBaseFacade{
     private CountryDao jdbcCountryDao;
 
     @SuppressWarnings(value = "unchecked")
-    @PostConstruct
+   // @PostConstruct
     public void init() throws Exception {
         createTablesDB.initialize();
         fileParserFacade.fillMapOfFiles();
