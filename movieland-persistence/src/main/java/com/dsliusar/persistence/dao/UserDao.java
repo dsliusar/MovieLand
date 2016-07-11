@@ -11,4 +11,5 @@ public interface UserDao{
      User checkUserByCredentials(UserCredentialsRequest userCredentials);
      Map<Integer,User> getAllUsersMap();
      List<User> getAllUsers();
+     User getUserById(int userId);
 }

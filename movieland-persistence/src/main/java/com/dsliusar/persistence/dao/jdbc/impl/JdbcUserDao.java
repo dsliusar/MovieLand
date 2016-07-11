@@ -75,7 +75,6 @@ public class JdbcUserDao implements UserDao {
         return userMap;
     }
 
-
     @Override
     public List<User> getAllUsers() {
         LOGGER.info("Get all users from database");
@@ -84,5 +83,15 @@ public class JdbcUserDao implements UserDao {
         LOGGER.info("Finished getting all users, it took {}", System.currentTimeMillis() - startTime);
         return usersList;
     }
+
+    @Override
+    public User getUserById(int userId) {
+        LOGGER.info("Start getting userById");
+        long startTime = System.currentTimeMillis();
+        User user = jdbcTemplate.queryForObject("select * from user where user_id = ?", new Object[]{userId}, usersRowMapper);
+        LOGGER.info("User Retreived from DB, it took {}", System.currentTimeMillis() - startTime);
+        return user;
+    }
+
 
 }
